@@ -52,7 +52,7 @@
     .tab-content.active { display: block; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Pull-to-refresh */
+    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giù la pagina */
     .ptr-indicator {
       position: fixed; top: 0; left: 50%;
       transform: translate(-50%, -64px);
@@ -82,6 +82,7 @@
 
     #tax-widget { display: flex; gap: 10px; margin-bottom: 12px; justify-content: center; }
     
+    /* Box Tasse con click */
     .widget-box { padding: 9px 8px 8px; border-radius: 12px; flex: 1; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--border); background: white; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .widget-box:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(92,61,153,0.15); }
     
@@ -273,7 +274,7 @@
   <div style="background:#fff; border:1px solid var(--border); border-radius:18px; overflow:hidden; width:100%; max-width:360px; box-shadow:0 8px 30px rgba(92,61,153,.12);">
     <div style="position:relative; height:140px; background:url('https://ollicozyhome-lgtm.github.io/Check-in-Ollis-Corner/banner-checkin.jpg') center/cover;">
       <div style="position:absolute; inset:0; background:linear-gradient(to top,rgba(30,27,46,.62),rgba(92,61,153,.08));"></div>
-      <div style="position:absolute; left:0; right:0; bottom:14px; text-align:center; color:#fff; font-size:21px; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,.45);">🏰 Olli's Corner</div>
+      <div style="position:absolute; left:0; right:0; bottom:14px; text-align:center; color:#fff; font-size:21px; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,.45);"></div>
     </div>
     <div style="padding:24px 22px 26px;">
       <p style="font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:20px;">Area riservata — accedi per continuare</p>
@@ -288,8 +289,7 @@
 </div>
 
 <script>
-  // 🔴 URL UFFICIALE DELLA WEB APP GOOGLE
-  const API_URL = "https://script.google.com/macros/s/AKfycbxiiWnOe9cjxiwLIGkhqRUMiPruu1XRGOcXw6yhMT0qw0kutEJN2qdTRqVXPF2wb3s/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec";
   var SESSION_TOKEN = null;
 
   // 🌐 FUNZIONE API CHE SOSTITUISCE "google.script.run"
@@ -301,7 +301,7 @@
       const response = await fetch(API_URL, {
         method: 'POST',
         mode: 'cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Bypassa preflight
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(params)
       });
       if (!response.ok) throw new Error('Risposta server non valida');
@@ -322,7 +322,7 @@
     chiamaAPI('login', { utente: u, password: p })
       .then(res => {
         if (res && res.ok && res.token) {
-          SESSION_TOKEN = res.token;                                 
+          SESSION_TOKEN = res.token;                                  
           document.getElementById('loginOverlay').style.display = 'none';
           b.disabled = false; b.textContent = 'Accedi';
           avviaApp();                                                 
@@ -653,9 +653,14 @@
         if(res.ok) { 
           mostraToast("✅ Blocco eliminato con successo!"); 
           setTimeout(ricaricaCalendario, 800);
-        } else { mostraToast("⚠️ Errore: " + res.errore); }
+        } else { 
+          mostraToast("⚠️ Errore: " + res.errore); 
+        }
       })
-      .catch(() => { chiudiModale('modalElimina'); mostraToast("⚠️ Errore di connessione a Google"); });
+      .catch(() => {
+        chiudiModale('modalElimina');
+        mostraToast("⚠️ Errore di connessione a Google");
+      });
   }
 
   function chiudiModale(id) { 
@@ -670,7 +675,9 @@
   }
 
   function chiudiModaleClickEsterno(e, id) { 
-    if (e.target === document.getElementById(id)) { chiudiModale(id); }
+    if (e.target === document.getElementById(id)) {
+      chiudiModale(id); 
+    }
   }
 
   function apriDocumento(url) {
@@ -700,7 +707,11 @@
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         mostraToast("✅ Numero ospiti aggiornato!");
         ricaricaCalendario();
-      }).catch(() => { chiudiModale('modalOspiti'); mostraToast("⚠️ Errore salvataggio"); });
+      })
+      .catch(() => {
+        chiudiModale('modalOspiti');
+        mostraToast("⚠️ Errore salvataggio");
+      });
   }
 
   function apriModaleNuovoBlocco() {
@@ -742,17 +753,26 @@
     }
 
     document.getElementById('btnSalvaNuovoBlocco').disabled = true;
-    document.getElementById('btnSalvaNuovoBlocco').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creo...';
+    document.getElementById('btnSalvaNuovoBlocco').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creo sul calendario...';
 
-    chiamaAPI('creaBloccoCalendario', { strIn: formattaDataPerGoogle(din), strOut: formattaDataPerGoogle(dout), nome: nome, osp: osp })
+    var strIn = formattaDataPerGoogle(din);
+    var strOut = formattaDataPerGoogle(dout);
+
+    chiamaAPI('creaBloccoCalendario', { strIn: strIn, strOut: strOut, nome: nome, osp: osp })
       .then(res => {
         chiudiModale('modalNuovoBlocco');
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         if(res.ok) {
           mostraToast("✅ Blocco aggiunto al Calendario!");
           setTimeout(ricaricaCalendario, 800);
-        } else { mostraToast("⚠️ Errore: " + res.errore); }
-      }).catch(() => { chiudiModale('modalNuovoBlocco'); mostraToast("⚠️ Errore di rete"); });
+        } else {
+          mostraToast("⚠️ Errore: " + res.errore);
+        }
+      })
+      .catch(() => {
+        chiudiModale('modalNuovoBlocco');
+        mostraToast("⚠️ Errore di connessione a Google");
+      });
   }
 
   function apriModaleNomeEsistente(checkIn, checkOut, notti) {
@@ -769,6 +789,7 @@
     if (!_bloccoAttivo) return;
     var nome = document.getElementById('modalInputNome').value.trim();
     if (!nome) { document.getElementById('modalInputNome').style.borderColor = 'var(--danger)'; setTimeout(function() { document.getElementById('modalInputNome').style.borderColor = ''; }, 1200); return; }
+    
     document.getElementById('btnSalvaNome').disabled = true; 
     document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvo…';
     
@@ -778,7 +799,11 @@
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         mostraToast(res.ok ? '✅ Salvato: ' + nome : '⚠️ Errore: ' + (res.errore || '')); 
         if (res.ok) setTimeout(ricaricaCalendario, 800); 
-      }).catch(() => { chiudiModale('modalNomeEsistente'); mostraToast('⚠️ Errore di rete'); });
+      })
+      .catch(() => { 
+        chiudiModale('modalNomeEsistente'); 
+        mostraToast('⚠️ Errore di rete'); 
+      });
   }
 
   var _questuraAttiva = null; 
@@ -786,9 +811,13 @@
   function awHtmlEsiti(res) {
     var righe = (res.dettagli || []).map(function(d) {
       if (d.ok) {
-        return '<div class="aw-riga ok"><i class="fa-solid fa-circle-check"></i><span class="aw-nome">' + esc(d.ospite) + '</span><span class="aw-stato">Valida</span></div>';
+        return '<div class="aw-riga ok"><i class="fa-solid fa-circle-check"></i>' +
+               '<span class="aw-nome">' + esc(d.ospite) + '</span>' +
+               '<span class="aw-stato">Valida</span></div>';
       }
-      return '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-nome">' + esc(d.ospite) + '</span><span class="aw-stato">' + esc(d.errore || 'Errore') + '</span></div>';
+      return '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i>' +
+             '<span class="aw-nome">' + esc(d.ospite) + '</span>' +
+             '<span class="aw-stato">' + esc(d.errore || 'Errore') + '</span></div>';
     }).join('');
     var clsHead = res.ok ? 'aw-head ok' : 'aw-head ko';
     var icoHead = res.ok ? 'fa-circle-check' : 'fa-triangle-exclamation';
@@ -800,14 +829,20 @@
     var boxEsiti = document.getElementById('aw-esiti-' + riga);
     var slotInvio = document.getElementById('aw-invio-' + riga);
 
-    if (btnCheck) { btnCheck.disabled = true; btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Controllo in corso…'; }
+    if (btnCheck) {
+      btnCheck.disabled = true;
+      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Controllo in corso…';
+    }
     if (slotInvio) slotInvio.innerHTML = ''; 
     if (boxEsiti) { boxEsiti.style.display = 'none'; boxEsiti.innerHTML = ''; }
 
     chiamaAPI('controllaRigaAlloggiati', { riga: riga })
       .then(res => {
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
-        if (btnCheck) { btnCheck.disabled = false; btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Ricontrolla schedine'; }
+        if (btnCheck) {
+          btnCheck.disabled = false;
+          btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Ricontrolla schedine';
+        }
         if (boxEsiti && res) {
           boxEsiti.className = 'aw-esiti ' + (res.ok ? 'tutto-ok' : 'con-errori');
           boxEsiti.innerHTML = awHtmlEsiti(res);
@@ -815,14 +850,23 @@
         }
         if (res && res.ok && slotInvio) {
           var nomeJs = (nome || '').replace(/'/g, "\\'");
-          slotInvio.innerHTML = '<button class="btn-questura" id="aw-btn-' + riga + '" onclick="inviaQuestura(' + riga + ', \'' + nomeJs + '\')"><i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>';
+          slotInvio.innerHTML =
+            '<button class="btn-questura" id="aw-btn-' + riga + '" onclick="inviaQuestura(' + riga + ', \'' + nomeJs + '\')">' +
+            '<i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>';
           mostraToast('✅ Schedine valide: puoi inviare');
-        } else { mostraToast('⚠️ Ci sono errori da correggere'); }
-      }).catch(err => {
-        if (btnCheck) { btnCheck.disabled = false; btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Riprova controllo'; }
+        } else {
+          mostraToast('⚠️ Ci sono errori da correggere');
+        }
+      })
+      .catch(err => {
+        if (btnCheck) {
+          btnCheck.disabled = false;
+          btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Riprova controllo';
+        }
         if (boxEsiti) {
           boxEsiti.className = 'aw-esiti con-errori';
-          boxEsiti.innerHTML = '<div class="aw-head ko"><i class="fa-solid fa-triangle-exclamation"></i> Errore di connessione</div><div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">' + esc(err && err.message || 'Rete assente') + '</span></div>';
+          boxEsiti.innerHTML = '<div class="aw-head ko"><i class="fa-solid fa-triangle-exclamation"></i> Errore di connessione</div>' +
+            '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">' + esc(err && err.message || 'Rete assente') + '</span></div>';
           boxEsiti.style.display = 'block';
         }
         mostraToast('⚠️ Errore di rete');
@@ -831,7 +875,9 @@
 
   function inviaQuestura(riga, nome) {
     _questuraAttiva = { riga: riga, nome: nome };
-    document.getElementById('testoQuestura').innerHTML = 'Le schedine di <b>' + esc(nome) + '</b> sono state verificate e risultano valide.<br><br>Confermi l\'<b>invio definitivo</b> alla Questura?';
+    document.getElementById('testoQuestura').innerHTML =
+      'Le schedine di <b>' + esc(nome) + '</b> sono state verificate e risultano valide.<br><br>' +
+      'Confermi l\'<b>invio definitivo</b> alla Questura? I dati verranno acquisiti ufficialmente.';
     document.getElementById('btnConfermaQuestura').disabled = false;
     document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia ora';
     document.getElementById('modalQuestura').classList.add('show');
@@ -839,14 +885,18 @@
 
   function confermaInvioQuestura() {
     if (!_questuraAttiva) return;
+    var riga = _questuraAttiva.riga;
     document.getElementById('btnConfermaQuestura').disabled = true;
     document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso…';
-    eseguiInvioQuestura(_questuraAttiva.riga, function() { chiudiModale('modalQuestura'); });
+    eseguiInvioQuestura(riga, function() { chiudiModale('modalQuestura'); });
   }
 
   function eseguiInvioQuestura(riga, onDone) {
     var btn = document.getElementById('aw-btn-' + riga);
-    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso…'; }
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso…';
+    }
 
     chiamaAPI('inviaRigaAdAlloggiati', { riga: riga })
       .then(res => {
@@ -855,7 +905,10 @@
         if (res && res.ok) {
           mostraToast('✅ ' + (res.messaggio || 'Schedine inviate alla Questura!'));
           var badge = document.getElementById('aw-badge-' + riga);
-          if (badge) { badge.className = 'badge badge-censito'; badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Censito'; }
+          if (badge) {
+            badge.className = 'badge badge-censito';
+            badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Censito';
+          }
           var box = document.getElementById('aw-box-' + riga);
           if (box) box.innerHTML = '<div class="aw-esiti tutto-ok"><div class="aw-head ok"><i class="fa-solid fa-circle-check"></i> ' + esc(res.messaggio || 'Censito con successo') + '</div></div>';
         } else {
@@ -869,7 +922,8 @@
             boxEsiti.style.display = 'block';
           }
         }
-      }).catch(err => {
+      })
+      .catch(err => {
         if (onDone) onDone();
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia a Questura'; }
         mostraToast('⚠️ Errore di rete');
@@ -917,7 +971,9 @@
     var mesePrec = meseCorr - 1; var annoPrec = annoCorr;
     if (mesePrec < 0) { mesePrec = 11; annoPrec--; }
 
-    _dettagliTassePrec = []; _dettagliTasseCorr = [];
+    _dettagliTassePrec = [];
+    _dettagliTasseCorr = [];
+
     var totCorr = 0; var totPrec = 0;
     var persCorr = 0; var nottiCorr = 0; var persPrec = 0; var nottiPrec = 0;
     var pernCorr = 0; var pernPrec = 0;
@@ -926,21 +982,33 @@
     var annoVersare = 0; var annoAirbnb = 0; var annoPers = 0; var annoNotti = 0;
 
     function fmtEuro(n) { return '€ ' + n.toFixed(2).replace('.', ','); }
-    function rigaSub(pern, pers, notti) { return '<div class="widget-sub"><span><i class="fa-solid fa-bed"></i> ' + pern + (pern === 1 ? ' pernottamento' : ' pernottamenti') + ' tassabili</span></div><div class="widget-sub" style="margin-top:3px;"><span><i class="fa-solid fa-user"></i> ' + pers + (pers === 1 ? ' ospite' : ' ospiti') + '</span><span><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span></div>'; }
+    function rigaSub(pern, pers, notti) {
+      return '<div class="widget-sub"><span><i class="fa-solid fa-bed"></i> ' + pern + (pern === 1 ? ' pernottamento' : ' pernottamenti') + ' tassabili</span></div>' +
+             '<div class="widget-sub" style="margin-top:3px;"><span><i class="fa-solid fa-user"></i> ' + pers + (pers === 1 ? ' ospite' : ' ospiti') + '</span><span><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span></div>';
+    }
+
     function rigaAirbnb(dati) {
       if (!dati || (dati.tassa === 0 && dati.pers === 0 && dati.notti === 0)) return '';
-      return '<div class="widget-airbnb"><span><i class="fa-brands fa-airbnb"></i> ' + fmtEuro(dati.tassa) + '</span><span><i class="fa-solid fa-user"></i> ' + dati.pers + '</span><span><i class="fa-solid fa-moon"></i> ' + dati.notti + '</span></div>';
+      return '<div class="widget-airbnb"><span><i class="fa-brands fa-airbnb"></i> ' + fmtEuro(dati.tassa) + '</span>' +
+             '<span><i class="fa-solid fa-user"></i> ' + dati.pers + '</span>' +
+             '<span><i class="fa-solid fa-moon"></i> ' + dati.notti + '</span></div>';
     }
     function aggiornaPillAnnuale(anno, versare, airbnb, pers, notti) {
       document.getElementById('lblTotale').textContent = 'Tasse annuali ' + anno;
       document.getElementById('valTotale').textContent = fmtEuro(versare + airbnb);
-      document.getElementById('pillSplit').innerHTML = '<span class="pill-chip chip-booking"><i class="fa-solid fa-hotel"></i> Booking ' + fmtEuro(versare) + '</span><span class="pill-chip chip-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb ' + fmtEuro(airbnb) + '</span><span class="pill-chip"><i class="fa-solid fa-user"></i> ' + pers + '</span><span class="pill-chip"><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span>';
+      document.getElementById('pillSplit').innerHTML =
+        '<span class="pill-chip chip-booking"><i class="fa-solid fa-hotel"></i> Booking ' + fmtEuro(versare) + '</span>' +
+        '<span class="pill-chip chip-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb ' + fmtEuro(airbnb) + '</span>' +
+        '<span class="pill-chip"><i class="fa-solid fa-user"></i> ' + pers + '</span>' +
+        '<span class="pill-chip"><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span>';
     }
 
     if (!presenze || presenze.length === 0) {
       el.innerHTML = '<div class="empty"><i class="fa-solid fa-inbox"></i><p>Nessun check-in trovato.</p></div>';
       aggiornaPillAnnuale(annoCorr, 0, 0, 0, 0);
-      document.getElementById('tax-widget').innerHTML = '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">€ 0,00</div></div><div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">€ 0,00</div></div>';
+      document.getElementById('tax-widget').innerHTML =
+        '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">€ 0,00</div></div>' +
+        '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">€ 0,00</div></div>';
       return;
     }
 
@@ -960,6 +1028,7 @@
       var dataInizio = parsingData(p.data);
       if (dataInizio) {
         var m = dataInizio.getMonth(); var a = dataInizio.getFullYear();
+        
         var dettaglioObj = { nome: nomeCapo, portale: p.portale, isAirbnb: isAirbnb, paganti: pagantiCard, notti: nNotti, pernottamenti: pernCard, tassa: (p.tassa || 0), tassaTeorica: (p.tassaTeorica || 0) };
 
         if (a === annoCorr) {
@@ -999,20 +1068,36 @@
       var ospitiHtml = ospiti.map(function(o, gi) { return renderOspite(o, gi + 1, gi === 0); }).join('');
       var docCounterHtml = totOspiti > 0 ? ' <span style="' + docColor + ';font-size:11px;margin-left:4px;">(' + docLabel + ')</span>' : '';
 
-      html.push('<div class="card' + (passato ? ' is-passato' : '') + '"><div class="card-top"><div class="guest-name">' + esc(nomeCapo) + '</div><div class="badges">' + badgePass + badgeAlloggiati + '<span class="badge ' + bc + '">' + esc(p.portale) + '</span></div></div><div class="details-grid"><div class="detail-item"><i class="fa-solid fa-calendar-day"></i>' + esc(p.data) + '</div><div class="detail-item"><i class="fa-solid fa-moon"></i>' + p.notti + ' notti</div><div class="detail-item"><i class="fa-solid fa-user-plus"></i>' + (p.ospitiConteggio || totOspiti) + ' ospiti</div><div class="detail-item red"><i class="fa-solid fa-coins"></i>€ ' + (p.tassa||0).toFixed(2) + '</div></div><button class="btn-dettagli" id="btn-det-' + idx + '"onclick="toggleDettagli(' + idx + ')"><span><i class="fa-solid fa-users" style="margin-right:6px;"></i>' + esc(labelBtn) + docCounterHtml + '</span><i class="fa-solid fa-chevron-down arrow"></i></button><div class="ospiti-panel" id="panel-' + idx + '"><div class="ospiti-lista">' + ospitiHtml + '</div></div>' + awBlocco + '</div>');
+      var calcTassaHtml = '';
+
+      html.push('<div class="card' + (passato ? ' is-passato' : '') + '"><div class="card-top"><div class="guest-name">' + esc(nomeCapo) + '</div><div class="badges">' + badgePass + badgeAlloggiati + '<span class="badge ' + bc + '">' + esc(p.portale) + '</span></div></div><div class="details-grid"><div class="detail-item"><i class="fa-solid fa-calendar-day"></i>' + esc(p.data) + '</div><div class="detail-item"><i class="fa-solid fa-moon"></i>' + p.notti + ' notti</div><div class="detail-item"><i class="fa-solid fa-user-plus"></i>' + (p.ospitiConteggio || totOspiti) + ' ospiti</div><div class="detail-item red"><i class="fa-solid fa-coins"></i>€ ' + (p.tassa||0).toFixed(2) + '</div></div>' + calcTassaHtml + '<button class="btn-dettagli" id="btn-det-' + idx + '"onclick="toggleDettagli(' + idx + ')"><span><i class="fa-solid fa-users" style="margin-right:6px;"></i>' + esc(labelBtn) + docCounterHtml + '</span><i class="fa-solid fa-chevron-down arrow"></i></button><div class="ospiti-panel" id="panel-' + idx + '"><div class="ospiti-lista">' + ospitiHtml + '</div></div>' + awBlocco + '</div>');
     });
 
     el.innerHTML = html.join('');
+
     aggiornaPillAnnuale(annoCorr, annoVersare, annoAirbnb, annoPers, annoNotti);
     
     document.getElementById('tax-widget').innerHTML =
-      '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">' + fmtEuro(totPrec) + '</div>' + rigaSub(pernPrec, persPrec, nottiPrec) + rigaAirbnb(abbPrec) + '</div>' +
-      '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">' + fmtEuro(totCorr) + '</div>' + rigaSub(pernCorr, persCorr, nottiCorr) + rigaAirbnb(abbCorr) + '</div>';
+      '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')">' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div>' +
+        '<div class="widget-value">' + fmtEuro(totPrec) + '</div>' +
+        rigaSub(pernPrec, persPrec, nottiPrec) +
+        rigaAirbnb(abbPrec) +
+      '</div>' +
+      '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')">' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div>' +
+        '<div class="widget-value">' + fmtEuro(totCorr) + '</div>' +
+        rigaSub(pernCorr, persCorr, nottiCorr) +
+        rigaAirbnb(abbCorr) +
+      '</div>';
   }
 
   function renderCalendario(calendario) {
     var el = document.getElementById('listaCalendario');
-    if (!calendario || calendario.length === 0) { el.innerHTML = '<div class="empty"><i class="fa-solid fa-calendar-xmark"></i><p>Nessuna prenotazione futura.</p></div>'; return; }
+    if (!calendario || calendario.length === 0) {
+      el.innerHTML = '<div class="empty"><i class="fa-solid fa-calendar-xmark"></i><p>Nessuna prenotazione futura.</p></div>';
+      return;
+    }
 
     var html = [];
     var ultimoMese = null;
@@ -1030,26 +1115,47 @@
       var mIdxOut = partiOut[1] ? parseInt(partiOut[1]) - 1 : mIdx;
       var rangeGg = giorno + '→' + giornoOut;
 
-      var dateHtml = (mIdx === mIdxOut) ? '<div class="cal-day">' + esc(rangeGg) + '</div><div class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</div>' : '<div class="cal-dline"><span class="cal-day">' + giorno + '</span><span class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</span></div><div class="cal-arrow-v">↓</div><div class="cal-dline"><span class="cal-day cal-day-out">' + giornoOut + '</span><span class="cal-month cal-month-out">' + (MESI_BREVI[mIdxOut]||'') + '</span></div>';
+      var dateHtml;
+      if (mIdx === mIdxOut) {
+        dateHtml = '<div class="cal-day">' + esc(rangeGg) + '</div><div class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</div>';
+      } else {
+        dateHtml = '<div class="cal-dline"><span class="cal-day">' + giorno + '</span><span class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</span></div>' +
+                   '<div class="cal-arrow-v">↓</div>' +
+                   '<div class="cal-dline"><span class="cal-day cal-day-out">' + giornoOut + '</span><span class="cal-month cal-month-out">' + (MESI_BREVI[mIdxOut]||'') + '</span></div>';
+      }
 
-      if (chiave !== ultimoMese) { html.push('<div class="month-sep">' + (MESI_LUNGHI[mIdx]||'') + ' ' + anno + '</div>'); ultimoMese = chiave; }
+      if (chiave !== ultimoMese) {
+        html.push('<div class="month-sep">' + (MESI_LUNGHI[mIdx]||'') + ' ' + anno + '</div>');
+        ultimoMese = chiave;
+      }
 
       var titolo = esc(c.titolo || '');
-      if (!isPriv) { var tUp = (c.titolo || '').toUpperCase().trim(); if (tUp === '' || tUp === 'RESERVED') titolo = 'Prenotazione ' + esc(c.portale); }
+      if (!isPriv) {
+        var tUp = (c.titolo || '').toUpperCase().trim();
+        if (tUp === '' || tUp === 'RESERVED') titolo = 'Prenotazione ' + esc(c.portale);
+      }
 
       var portalLabel = isPriv ? 'Blocco privato' : esc(c.portale);
       var chipCls = 'chip-' + tipo;
       var iconCls = isPriv ? 'fa-solid fa-lock' : tipo === 'airbnb' ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel';
 
-      var btnNome = (isPriv && !c.haNome) ? '<button class="btn-nome" onclick="apriModaleNomeEsistente(\'' + esc(c.checkIn) + '\',\'' + esc(c.checkOut) + '\',' + (c.notti||0) + ')"><i class="fa-solid fa-tag"></i> Dai un nome…</button>' : '';
-      var btnLink = (c.url) ? '<a href="' + esc(c.url) + '" target="_blank" class="btn-link-portale"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>' : '';
+      var btnNome = '';
+      if (isPriv && !c.haNome) {
+        btnNome = '<button class="btn-nome" onclick="apriModaleNomeEsistente(\'' + esc(c.checkIn) + '\',\'' + esc(c.checkOut) + '\',' + (c.notti||0) + ')"><i class="fa-solid fa-tag"></i> Dai un nome…</button>';
+      }
+
+      var btnLink = '';
+      if (c.url) btnLink = '<a href="' + esc(c.url) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
 
       var numOspitiText = c.ospiti ? c.ospiti : '?';
-      var ospitiBadge = '<span class="ospiti-badge" onclick="apriModaleOspiti(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(numOspitiText) + '\')"><i class="fa-solid fa-users"></i> ' + esc(numOspitiText) + '</span>';
+      var ospitiBadge = '<span class="ospiti-badge" onclick="apriModaleOspiti(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(numOspitiText) + '\')" title="Modifica ospiti"><i class="fa-solid fa-users"></i> ' + esc(numOspitiText) + '</span>';
 
       var statoPulizia = 'none';
       for (var pz = 0; pz < window._pulizieConfermate.length; pz++) {
-        if (window._pulizieConfermate[pz].data === c.checkOut) { statoPulizia = window._pulizieConfermate[pz].stato || 'none'; break; }
+        if (window._pulizieConfermate[pz].data === c.checkOut) {
+          statoPulizia = window._pulizieConfermate[pz].stato || 'none';
+          break;
+        }
       }
 
       var pulClass = 'ko'; var pulIcon = 'fa-solid fa-broom'; var pulText = 'Fissa Pulizia';
@@ -1057,7 +1163,8 @@
       else if (statoPulizia === 'Olli') { pulClass = 'olli'; pulIcon = 'fa-solid fa-hand-sparkles'; pulText = 'Tocca a te'; }
 
       var btnPulizia = '<button class="btn-pulizia ' + pulClass + '" onclick="clickPulizia(\'' + esc(c.checkOut) + '\', \'' + statoPulizia + '\', \'' + esc(numOspitiText) + '\', this)"><i class="' + pulIcon + '"></i> ' + pulText + '</button>';
-      var btnElimina = isPriv ? '<button class="btn-trash" onclick="chiediEliminaBlocco(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(c.titolo) + '\')"><i class="fa-solid fa-trash-can"></i></button>' : '';
+
+      var btnElimina = isPriv ? '<button class="btn-trash" onclick="chiediEliminaBlocco(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(c.titolo) + '\')" title="Elimina blocco"><i class="fa-solid fa-trash-can"></i></button>' : '';
 
       html.push('<div class="cal-card type-' + tipo + '"><div class="cal-date">' + dateHtml + '</div><div class="cal-divider"></div><div class="cal-body"><span class="cal-chip ' + chipCls + '"><i class="' + iconCls + '"></i> ' + portalLabel + '</span><div class="cal-title">' + titolo + btnLink + ospitiBadge + '</div><div class="cal-footer"><span><i class="fa-solid fa-moon"></i>' + (c.notti||0) + ' notti</span><span><i class="fa-solid fa-right-from-bracket"></i>Out: ' + esc(c.checkOut) + '</span>' + btnPulizia + btnElimina + '</div>' + btnNome + '</div></div>');
     });
@@ -1067,7 +1174,8 @@
 
   function mostraToast(msg) { 
     var t = document.getElementById('toast'); 
-    t.textContent = msg; t.classList.add('show'); 
+    t.textContent = msg; 
+    t.classList.add('show'); 
     setTimeout(function() { t.classList.remove('show'); }, 2800); 
   }
 
@@ -1078,56 +1186,89 @@
         if (data.errore) { mostraToast("⚠️ Errore: " + data.errore); return; }
         window._pulizieConfermate = data.pulizie || [];
         renderCalendario(data.calendario);
-      }).catch(err => mostraToast("⚠️ Errore di rete: " + (err.message || "")));
+      })
+      .catch(err => mostraToast("⚠️ Errore di rete: " + (err.message || "")));
   }
 
-  window.onload = function() { document.getElementById('loading').style.display = 'none'; };
+  window.onload = function() {
+    document.getElementById('loading').style.display = 'none';
+  };
 
   function avviaApp() {
     document.getElementById('loading').style.display = 'flex';
+    
     chiamaAPI('getAppData')
       .then(data => {
         document.getElementById('loading').style.display = 'none';
         if (data && data.sessioneScaduta) { mostraLogin(); return; }
         if (data.errore) {
-          var msg = '<div class="error-box"><b>⚠️ Errore</b>' + esc(data.errore) + '</div>';
-          document.getElementById('listaPresenze').innerHTML = msg; document.getElementById('listaCalendario').innerHTML = msg; return;
+          var msg = '<div class="error-box"><b>⚠️ Errore di sistema</b>' + esc(data.errore) + '</div>';
+          document.getElementById('listaPresenze').innerHTML = msg; document.getElementById('listaCalendario').innerHTML = msg;
+          return;
         }
         window._pulizieConfermate = data.pulizie || [];
         renderPresenze(data.presenze);
         renderCalendario(data.calendario);
-      }).catch(err => {
+      })
+      .catch(err => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('listaPresenze').innerHTML = '<div class="error-box"><b>⚠️ Errore di connessione</b>' + esc(err.message) + '</div>';
       });
   }
 
-  function apriDettaglioTasse(tipoMese) {
-    var lista = (tipoMese === 'prec') ? _dettagliTassePrec : _dettagliTasseCorr;
-    document.getElementById('titoloModalTasse').innerHTML = (tipoMese === 'prec') ? '<i class="fa-solid fa-calendar-minus" style="color:var(--danger)"></i> Mese Scorso' : '<i class="fa-solid fa-calendar-day" style="color:var(--lilla)"></i> Mese Corrente';
-    var html = ''; var booking = { ospiti: 0, pern: 0, totale: 0 }; var airbnb = { ospiti: 0, pern: 0, totale: 0 };
+ function apriDettaglioTasse(tipoMese) {
+  var lista = (tipoMese === 'prec') ? _dettagliTassePrec : _dettagliTasseCorr;
+  document.getElementById('titoloModalTasse').innerHTML = (tipoMese === 'prec') ? '<i class="fa-solid fa-calendar-minus" style="color:var(--danger)"></i> Mese Scorso' : '<i class="fa-solid fa-calendar-day" style="color:var(--lilla)"></i> Mese Corrente';
 
-    if (lista.length === 0) { html = '<div class="empty" style="padding: 30px;"><p>Nessun check-in in questo mese.</p></div>'; } 
-    else {
-      html += '<table style="width:100%; border-collapse: collapse; font-size: 13px;">';
-      lista.forEach(function(item) {
-        var isAbnb = item.isAirbnb;
-        if (isAbnb) { airbnb.ospiti += item.paganti; airbnb.pern += item.pernottamenti; airbnb.totale += (item.tassaTeorica || 0); } 
-        else { booking.ospiti += item.paganti; booking.pern += item.pernottamenti; booking.totale += item.tassa; }
-        var tassaRiga = isAbnb ? (item.tassaTeorica || 0) : (item.tassa || 0);
-        html += '<tr style="border-bottom: 1px solid var(--border);' + (isAbnb ? ' background: #faf9fe;' : '') + '"><td style="padding: 12px 10px;"><b>' + esc(item.nome) + '</b><br><span style="font-size:11px; font-weight:600;"><i class="' + (isAbnb ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel') + '"></i> ' + esc(item.portale) + '</span></td><td style="padding: 12px 10px; text-align:center;">' + item.paganti + ' paganti<br>× ' + item.notti + ' notti<br><b>=' + item.pernottamenti + ' pern.</b></td><td style="padding: 12px 10px; text-align:right; font-weight:bold;">€ ' + tassaRiga.toFixed(2) + '</td></tr>';
-      });
-      html += '</table>';
+  var html = '';
+  var booking = { ospiti: 0, pern: 0, totale: 0 };
+  var airbnb = { ospiti: 0, pern: 0, totale: 0 };
 
-      function creaBox(titolo, dati, colore, labelTotale) {
-        return '<div style="margin: 15px 0; padding: 15px; border-radius: 12px; border: 1.5px dashed ' + colore + '; color: ' + colore + '; background: #fffcfc;"><div style="font-size:11px; font-weight:800; margin-bottom:8px; text-transform:uppercase;">' + titolo + '</div><div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Totale Ospiti Paganti:</span> <b>' + dati.ospiti + '</b></div><div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Pernottamenti Tassabili:</span> <b>' + dati.pern + '</b></div><div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Tariffa applicata:</span> <b>€ 6,00</b></div><div style="display:flex; justify-content:space-between; border-top:1px solid ' + colore + '; padding-top:8px; margin-top:8px;"><span>' + (labelTotale || 'Totale da versare:') + '</span> <b style="font-size: 18px;">€ ' + dati.totale.toFixed(2).replace('.', ',') + '</b></div></div>';
+  if (lista.length === 0) {
+    html = '<div class="empty" style="padding: 30px;"><p>Nessun check-in in questo mese.</p></div>';
+  } else {
+    html += '<table style="width:100%; border-collapse: collapse; font-size: 13px;">';
+    lista.forEach(function(item) {
+      var isAbnb = item.isAirbnb;
+
+      if (isAbnb) {
+        airbnb.ospiti += item.paganti;
+        airbnb.pern += item.pernottamenti;
+        airbnb.totale += (item.tassaTeorica || 0);
+      } else {
+        booking.ospiti += item.paganti;
+        booking.pern += item.pernottamenti;
+        booking.totale += item.tassa;
       }
-      html += creaBox('Dati per il Portale: BOOKING', booking, '#003580');
-      html += creaBox('Dati per il Portale: AIRBNB', airbnb, '#ff5a5f', 'Già pagato da Airbnb:');
+
+      var tassaRiga = isAbnb ? (item.tassaTeorica || 0) : (item.tassa || 0);
+
+      html += '<tr style="border-bottom: 1px solid var(--border);' + (isAbnb ? ' background: #faf9fe;' : '') + '">';
+      html += '<td style="padding: 12px 10px;"><b>' + esc(item.nome) + '</b><br><span style="font-size:11px; font-weight:600;"><i class="' + (isAbnb ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel') + '"></i> ' + esc(item.portale) + '</span></td>';
+      html += '<td style="padding: 12px 10px; text-align:center;">' + item.paganti + ' paganti<br>× ' + item.notti + ' notti<br><b>=' + item.pernottamenti + ' pern.</b></td>';
+      html += '<td style="padding: 12px 10px; text-align:right; font-weight:bold;">€ ' + tassaRiga.toFixed(2) + '</td>';
+      html += '</tr>';
+    });
+    html += '</table>';
+
+    function creaBox(titolo, dati, colore, labelTotale) {
+      var s = '<div style="margin: 15px 0; padding: 15px; border-radius: 12px; border: 1.5px dashed ' + colore + '; color: ' + colore + '; background: #fffcfc;">';
+      s += '<div style="font-size:11px; font-weight:800; margin-bottom:8px; text-transform:uppercase;">' + titolo + '</div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Totale Ospiti Paganti:</span> <b>' + dati.ospiti + '</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Pernottamenti Tassabili:</span> <b>' + dati.pern + '</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Tariffa applicata:</span> <b>€ 6,00</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; border-top:1px solid ' + colore + '; padding-top:8px; margin-top:8px;"><span>' + (labelTotale || 'Totale da versare:') + '</span> <b style="font-size: 18px;">€ ' + dati.totale.toFixed(2).replace('.', ',') + '</b></div>';
+      s += '</div>';
+      return s;
     }
-    document.getElementById('listaDettaglioTasse').innerHTML = html;
-    document.getElementById('modalDettaglioTasse').classList.add('show');
+
+    html += creaBox('Dati per il Portale: BOOKING', booking, '#003580');
+    html += creaBox('Dati per il Portale: AIRBNB', airbnb, '#ff5a5f', 'Già pagato da Airbnb:');
   }
+
+  document.getElementById('listaDettaglioTasse').innerHTML = html;
+  document.getElementById('modalDettaglioTasse').classList.add('show');
+}
 
   function eseguiRefresh(onComplete) {
     chiamaAPI('getAppData')
