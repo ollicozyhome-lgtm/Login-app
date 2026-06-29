@@ -1,303 +1,934 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Olli's Corner — Accesso (anteprima)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-  :root {
-    --lilla:       #7c5cbf;
-    --lilla-dark:  #5a3d99;
-    --lilla-light: #f0ecfa;
-    --lilla-mid:   #c4b3e8;
-    --bg:          #f7f5fc;
-    --border:      #ede8f7;
-    --ink:         #1e1b2e;
-    --muted:       #8b84a3;
-    --danger:      #d6455d;
-  }
+<head>  
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --lilla:       #7c5cbf;
+      --lilla-dark:  #5a3d99;
+      --lilla-light: #f0ecfa;
+      --lilla-mid:   #c4b3e8;
+      --danger:      #e05252;
+      --success:     #2d9e6b;
+      --text:        #1e1b2e;
+      --text-muted:  #7a7490;
+      --bg:          #f7f5fc;
+      --card:        #ffffff;
+      --border:      #ede8f7;
+      --nav-h:       72px;
+      --header-h:    160px;
+      --radius:      16px;
+      --radius-sm:   10px;
+      --airbnb:      #ff5a5f;
+      --airbnb-bg:   #fff5f5;
+      --booking:     #003580;
+      --booking-bg:  #f0f4ff;
+      --privato:     #2d9e6b;
+      --privato-bg:  #f0faf5;
+    }
+    .btn-link-portale { color: var(--lilla); font-size: 16px; margin-left: 8px; transition: 0.2s; text-decoration: none; }
+    .btn-link-portale:hover { opacity: 0.6; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding-bottom: calc(var(--nav-h) + 20px); }
 
-  * { box-sizing: border-box; }
-  html, body { height: 100%; margin: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    display: flex; align-items: center; justify-content: center;
-    padding: 22px;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+    header {
+      background-image: url('https://ollicozyhome-lgtm.github.io/Check-in-Ollis-Corner/banner-checkin.jpg');
+      background-size: cover; background-position: center;
+      height: var(--header-h); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(92,61,153,.22);
+    }
 
-  /* ---- Sfondo: bagliori lilla in lento movimento (atmosfera) ---- */
-  .bg-glow { position: fixed; border-radius: 50%; filter: blur(60px); opacity: .55; z-index: 0; pointer-events: none; }
-  .bg-glow.g1 { width: 320px; height: 320px; background: var(--lilla-mid);  top: -80px;  left: -60px; }
-  .bg-glow.g2 { width: 280px; height: 280px; background: #d9b8ec;           bottom: -90px; right: -70px; }
-  .bg-glow.g3 { width: 200px; height: 200px; background: var(--lilla-light); top: 40%; right: 10%; opacity: .7; }
+    #loading { position: fixed; inset: 0; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; gap: 14px; }
+    .loader-ring { width: 46px; height: 46px; border: 3px solid var(--lilla-light); border-top-color: var(--lilla); border-radius: 50%; animation: spin .85s linear infinite; }
+    .loader-text { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ---- Skyline di Firenze sfumata in basso (firma del luogo) ---- */
-  .skyline { position: fixed; left: 0; bottom: 0; width: 100%; height: auto; aspect-ratio: 400 / 150; z-index: 0; pointer-events: none; display: block; }
+    .container { max-width: 600px; margin: 0 auto; padding: 0 14px 16px; }
+    .tab-content { display: none; animation: fadeUp .22s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-  /* ---- Uccellini che planano nel cielo sopra la card ---- */
-  .bird { position: fixed; left: 0; z-index: 0; color: var(--lilla-dark); pointer-events: none; will-change: transform; opacity: .7; }
-  .bird svg { display: block; width: 100%; height: auto; }
-  .bird-1 { top: 11%; width: 40px; }
-  .bird-2 { top: 6%;  width: 30px; }
-  .bird-3 { top: 18%; width: 34px; }
-  @media (prefers-reduced-motion: reduce) { .bird { display: none; } }
+    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giù la pagina */
+    .ptr-indicator {
+      position: fixed; top: 0; left: 50%;
+      transform: translate(-50%, -64px);
+      width: 46px; height: 46px; border-radius: 50%;
+      background: #fff; box-shadow: 0 6px 20px rgba(92,61,153,.30);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 150; opacity: 0; pointer-events: none;
+    }
+    .ptr-indicator i { font-size: 19px; color: var(--lilla); transition: color .2s; }
+    .ptr-indicator.ready { box-shadow: 0 8px 24px rgba(92,61,153,.50); }
+    .ptr-indicator.ready i { color: var(--lilla-dark); }
+    .ptr-indicator.spinning i { animation: spin .7s linear infinite; }
 
-  /* ---- Card ---- */
-  .login-card {
-    position: relative; z-index: 1;
-    width: 100%; max-width: 372px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 18px 50px rgba(92,61,153,.18), 0 2px 8px rgba(92,61,153,.06);
-  }
+    .sticky-taxes  { position: sticky; top: var(--header-h); background: var(--bg); padding: 14px 0 0 0; z-index: 90; }
+    .sticky-legend { position: sticky; top: var(--header-h); background: var(--bg); padding: 14px 0; z-index: 90; display: flex; flex-direction: column; gap: 10px; }
 
-  /* ---- Banner ---- */
-  .login-banner {
-    position: relative; height: 152px;
-    background: url('https://ollicozyhome-lgtm.github.io/Check-in-Ollis-Corner/banner-checkin.jpg') center/cover, var(--lilla-dark);
-  }
-  .login-banner .bann-img {
-    position: absolute; inset: 0;
-    background: inherit;
-    transform-origin: center;
-  }
-  .login-banner .veil {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(30,27,46,.78) 0%, rgba(46,38,73,.30) 55%, rgba(124,92,191,.10) 100%);
-  }
+    .pill-totale { background: linear-gradient(135deg, var(--lilla), var(--lilla-dark)); color: white; border-radius: 12px; padding: 9px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 3px 10px rgba(92,61,153,.15); margin-bottom: 10px;}
+    .pill-icon  { font-size: 21px; opacity: .8; }
+    .pill-label { font-size: 10.5px; opacity: .8; font-weight: 400; }
+    .pill-value { font-size: 20px; font-weight: 700; line-height: 1; }
+    .pill-split { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+    .pill-chip  { justify-self: start; max-width: 100%; display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.16); padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+    .pill-chip i { font-size: 9px; opacity: .85; }
+    .pill-chip.chip-airbnb { background: rgba(255,90,95,.38); }
+    .pill-chip.chip-booking { background: #dbe6fb; color: var(--booking); }
+    .pill-chip.chip-booking i { opacity: 1; }
 
-  /* ---- Corpo ---- */
-  .login-body { padding: 26px 24px 28px; }
-  .login-lead { font-size: 13.5px; color: var(--muted); text-align: center; margin: 0 0 20px; }
+    #tax-widget { display: flex; gap: 10px; margin-bottom: 12px; justify-content: center; }
+    
+    /* Box Tasse con click */
+    .widget-box { padding: 9px 8px 8px; border-radius: 12px; flex: 1; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--border); background: white; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .widget-box:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(92,61,153,0.15); }
+    
+    .widget-box.alert { background: #fff5f5; border-color: #ffcccc; color: var(--danger); }
+    .widget-label { font-size: 9.5px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 3px; color: var(--text-muted); }
+    .widget-box.alert .widget-label { color: #d64545; }
+    .widget-value { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+    .widget-box.alert .widget-value { color: var(--danger); }
+    .widget-sub { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 9px; }
+    .widget-sub i { font-size: 9px; opacity: .85; }
+    .widget-box.alert .widget-sub { color: #c98a8a; }
+    .widget-airbnb { margin-top: 6px; padding-top: 5px; border-top: 1px dashed var(--border); font-size: 10px; font-weight: 700; color: var(--airbnb); display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
+    .widget-airbnb i { font-size: 9px; opacity: .9; }
+    .widget-box.alert .widget-airbnb { border-top-color: #ffd6d6; }
 
-  .login-err {
-    display: none;
-    background: #fdf0f2; color: var(--danger);
-    border: 1px solid #f6cdd5; border-radius: 11px;
-    padding: 11px 12px; font-size: 13px; font-weight: 600;
-    text-align: center; margin-bottom: 16px;
-    align-items: center; justify-content: center; gap: 8px;
-  }
-  .login-err.show { display: flex; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(92,61,153,.07); border: 1px solid var(--border); }
+    .card.is-passato { opacity: .6; background: #faf9fe; border-color: #e6e1f2; }
+    .card.is-passato .guest-name { color: var(--text-muted); }
 
-  .field { margin-bottom: 15px; }
-  .field label {
-    display: block; font-size: 11.5px; font-weight: 700;
-    color: var(--muted); letter-spacing: .3px;
-    margin-bottom: 6px; padding-left: 2px;
-  }
-  .input-wrap { position: relative; }
-  .input-wrap > i.lead {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    color: var(--lilla-mid); font-size: 15px; transition: color .2s;
-    pointer-events: none;
-  }
-  .input-wrap input {
-    width: 100%; padding: 14px 14px 14px 42px;
-    border: 1.6px solid var(--border); border-radius: 12px;
-    font-size: 15px; font-family: inherit; color: var(--ink);
-    background: #fcfbfe; outline: none;
-    transition: border-color .18s, box-shadow .18s, background .18s;
-  }
-  .input-wrap input::placeholder { color: #c3bdd2; }
-  .input-wrap input:focus {
-    border-color: var(--lilla);
-    background: #fff;
-    box-shadow: 0 0 0 4px var(--lilla-light);
-  }
-  .input-wrap input:focus ~ i.lead { color: var(--lilla); }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .guest-name { font-size: 17px; font-weight: 700; color: var(--lilla-dark); flex: 1; padding-right: 8px; line-height: 1.25; }
+    .badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
+    .badge-airbnb  { background: var(--airbnb-bg);  color: var(--airbnb);  border: 1px solid #ff5a5f30; }
+    .badge-booking { background: var(--booking-bg); color: var(--booking); border: 1px solid #00358030; }
+    .badge-altro   { background: var(--lilla-light); color: var(--lilla-dark); border: 1px solid var(--lilla-mid); }
+    .badge-passato { background: #e9e6f2; color: #7a7490; border: 1px solid rgba(122,116,144,.25); }
+    .badge-censito   { background: #e8f8ef; color: var(--success); border: 1px solid #bbf0d4; }
+    .badge-dainviare { background: #fff8e6; color: #d97706; border: 1px solid #fde68a; }
 
-  .toggle-eye {
-    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    width: 38px; height: 38px; border: none; background: transparent;
-    color: var(--lilla-mid); cursor: pointer; font-size: 15px;
-    display: flex; align-items: center; justify-content: center; border-radius: 9px;
-  }
-  .toggle-eye:active { color: var(--lilla-dark); }
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13.5px; margin-bottom: 14px; }
+    .detail-item { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+    .detail-item i { color: var(--lilla); width: 14px; text-align: center; flex-shrink: 0; }
+    .detail-item.red { color: var(--danger); font-weight: 700; }
+    .detail-item.red i { color: var(--danger); }
 
-  .login-btn {
-    width: 100%; margin-top: 6px; padding: 15px;
-    border: none; border-radius: 12px;
-    background: linear-gradient(135deg, var(--lilla) 0%, var(--lilla-dark) 100%);
-    color: #fff; font-size: 15.5px; font-weight: 700; font-family: inherit;
-    letter-spacing: .2px; cursor: pointer;
-    box-shadow: 0 8px 20px rgba(92,61,153,.30);
-    display: flex; align-items: center; justify-content: center; gap: 9px;
-    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
-  }
-  .login-btn:hover { box-shadow: 0 10px 26px rgba(92,61,153,.40); }
-  .login-btn:active { transform: scale(.985); }
-  .login-btn:disabled { cursor: default; filter: saturate(.9); }
-  .login-btn.ok { background: linear-gradient(135deg, #34b27b 0%, #1f8a5e 100%); box-shadow: 0 8px 20px rgba(31,138,94,.32); }
+    .btn-dettagli { width: 100%; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; background: var(--lilla-light); border: 1.5px solid var(--lilla-mid); border-radius: var(--radius-sm); cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--lilla-dark); transition: background .2s; -webkit-tap-highlight-color: transparent; }
+    .btn-dettagli:hover { background: #e4dcf5; }
+    .btn-dettagli .arrow { transition: transform .25s; font-size: 11px; }
+    .btn-dettagli.open .arrow { transform: rotate(180deg); }
 
-  .spinner { width: 17px; height: 17px; border: 2.5px solid rgba(255,255,255,.45); border-top-color: #fff; border-radius: 50%; }
+    .aw-azioni { margin-top: 12px; }
+    .btn-controlla { width: 100%; padding: 11px 14px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--lilla-light); color: var(--lilla-dark); border: 1.5px solid var(--lilla-mid); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s; -webkit-tap-highlight-color: transparent; }
+    .btn-controlla:hover { background: #e4dcf5; }
+    .btn-controlla:disabled { opacity: .7; cursor: wait; }
+    .btn-controlla:active { transform: scale(.98); }
 
-  .login-foot { text-align: center; margin-top: 16px; font-size: 11.5px; color: var(--muted); }
-  .login-foot i { color: var(--lilla-mid); }
+    .aw-esiti { margin-top: 10px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+    .aw-esiti.tutto-ok  { border-color: #bbf0d4; }
+    .aw-esiti.con-errori { border-color: #ffcccc; }
+    .aw-head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-size: 12.5px; font-weight: 700; }
+    .aw-head.ok { background: #e8f8ef; color: var(--success); }
+    .aw-head.ko { background: #fff0f0; color: var(--danger); }
+    .aw-riga { display: flex; align-items: center; gap: 9px; padding: 9px 12px; font-size: 12.5px; border-top: 1px solid var(--border); background: white; }
+    .aw-riga i { font-size: 13px; flex-shrink: 0; }
+    .aw-riga.ok i { color: var(--success); }
+    .aw-riga.ko i { color: var(--danger); }
+    .aw-riga .aw-nome { font-weight: 700; color: var(--text); }
+    .aw-riga .aw-stato { margin-left: auto; text-align: right; color: var(--text-muted); font-weight: 600; font-size: 11.5px; }
+    .aw-riga.ko .aw-stato { color: var(--danger); }
 
-  /* nota anteprima (solo in questa demo) */
-  .demo-note {
-    position: fixed; bottom: 14px; left: 0; right: 0; z-index: 3;
-    text-align: center; font-size: 11px; color: var(--muted);
-  }
-  .demo-note button { background: none; border: none; color: var(--lilla); font-weight: 700; text-decoration: underline; cursor: pointer; font-size: 11px; font-family: inherit; }
+    .btn-questura { width: 100%; margin-top: 10px; padding: 11px 14px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--success); color: white; border: none; border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s; -webkit-tap-highlight-color: transparent; box-shadow: 0 3px 10px rgba(45,158,107,.2); }
+    .btn-questura:hover { background: #238558; }
+    .btn-questura:disabled { background: var(--lilla-mid); cursor: wait; box-shadow: none; }
+    .btn-questura:active { transform: scale(.98); }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+    .ospiti-panel { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s; opacity: 0; }
+    .ospiti-panel.open { max-height: 3000px; opacity: 1; }
+    .ospiti-lista { padding-top: 12px; display: flex; flex-direction: column; gap: 10px; }
 
-  /* ---- Animazioni (disattivate se l'utente preferisce poco movimento) ---- */
-  @media (prefers-reduced-motion: no-preference) {
-    .bg-glow.g1 { animation: drift1 24s ease-in-out infinite; }
-    .bg-glow.g2 { animation: drift2 30s ease-in-out infinite; }
-    .bg-glow.g3 { animation: drift3 20s ease-in-out infinite; }
-    .login-card  { animation: cardIn .62s cubic-bezier(.22,1,.36,1) both; }
-    .login-banner .bann-img { animation: kenburns 18s ease-in-out infinite alternate; }
-    .login-lead  { animation: fieldIn .5s ease both .22s; }
-    .field.f1    { animation: fieldIn .5s ease both .30s; }
-    .field.f2    { animation: fieldIn .5s ease both .38s; }
-    .login-btn   { animation: fieldIn .5s ease both .46s; }
+    .ospite-card { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .ospite-header { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--lilla-light); }
+    .ospite-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--lilla); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .ospite-nome  { font-weight: 700; font-size: 14px; color: var(--text); flex: 1; }
+    .ospite-ruolo { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
 
-    @keyframes drift1 { 50% { transform: translate(40px, 30px) scale(1.12); } }
-    @keyframes drift2 { 50% { transform: translate(-34px, -26px) scale(1.1); } }
-    @keyframes drift3 { 50% { transform: translate(-30px, 24px) scale(1.18); } }
-    @keyframes cardIn { from { opacity: 0; transform: translateY(26px) scale(.965); } to { opacity: 1; transform: none; } }
-    @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.12) translateY(-6px); } }
-    @keyframes fieldIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .doc-status { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .doc-ok      { background: #e8f8ef; color: var(--success); }
+    .doc-missing { background: #fff0f0; color: var(--danger); }
 
-    .bird-1 { animation: fly1 20s linear 0s   infinite; }
-    .bird-2 { animation: fly2 26s linear -9s  infinite; }
-    .bird-3 { animation: fly3 17s linear -14s infinite; }
-    @keyframes fly1 { from { transform: translate(-16vw, 0); } 50% { transform: translate(48vw, -16px); } to { transform: translate(116vw, 0); } }
-    @keyframes fly2 { from { transform: translate(-16vw, 0); } 50% { transform: translate(50vw,  12px); } to { transform: translate(116vw, 0); } }
-    @keyframes fly3 { from { transform: translate(-16vw, 0); } 50% { transform: translate(52vw, -10px); } to { transform: translate(116vw, 0); } }
-  }
-</style>
+    .ospite-info { padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12.5px; background: white; }
+    .ospite-field { display: flex; flex-direction: column; gap: 2px; }
+    .ospite-field .label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-muted); font-weight: 600; }
+    .ospite-field .value { font-weight: 600; color: var(--text); font-size: 13px; }
+    .ospite-field .value.empty { color: var(--text-muted); font-style: italic; font-weight: 400; }
+    .btn-doc-mini { display: flex; align-items: center; gap: 6px; background: var(--lilla); color: white; text-decoration: none; padding: 8px 12px; border-radius: var(--radius-sm); font-weight: 600; font-size: 12.5px; margin: 0 12px 12px; width: calc(100% - 24px); justify-content: center; }
+    .btn-doc-mini.no-doc { background: #f0ede8; color: var(--text-muted); pointer-events: none; cursor: default; }
+
+    .cal-card { background: var(--card); border-radius: var(--radius); padding: 14px 14px 14px 18px; margin-bottom: 10px; display: flex; align-items: stretch; gap: 14px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(92,61,153,.05); position: relative; overflow: hidden; }
+    .cal-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; }
+    .cal-card.type-airbnb::before  { background: var(--airbnb); }
+    .cal-card.type-booking::before { background: var(--booking); }
+    .cal-card.type-privato::before { background: var(--privato); }
+
+    .cal-date { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 75px; flex-shrink: 0; }
+    .cal-day   { font-size: 19px; font-weight: 700; line-height: 1; color: var(--text); white-space: nowrap; }
+    .cal-month { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+    .cal-dline { display: flex; align-items: baseline; gap: 4px; justify-content: center; }
+    .cal-dline .cal-month { margin-top: 0; }
+    .cal-arrow-v { font-size: 11px; color: var(--lilla-mid); line-height: 1; margin: 2px 0; }
+    .cal-day-out, .cal-month-out { color: var(--lilla-dark); font-weight: 800; }
+    .cal-divider { width: 1px; background: var(--border); flex-shrink: 0; margin: 2px 0; }
+    .cal-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; }
+    .cal-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; width: fit-content; }
+    .chip-airbnb  { background: var(--airbnb-bg);  color: var(--airbnb);  }
+    .chip-booking { background: var(--booking-bg); color: var(--booking); }
+    .chip-privato { background: var(--privato-bg); color: var(--privato); }
+
+    .cal-title  { font-size: 14.5px; font-weight: 700; line-height: 1.25; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; }
+    .cal-footer { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--text-muted); margin-top: 4px;}
+    .cal-footer span { display: flex; align-items: center; gap: 4px; }
+    .cal-footer i { font-size: 10px; }
+
+    .btn-add-block { width: 100%; background: var(--privato); color: white; padding: 14px; border-radius: var(--radius-sm); border: none; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(45,158,107,.2); display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; transition: 0.2s; -webkit-tap-highlight-color: transparent;}
+    .btn-add-block:hover { background: #238558; }
+
+    .btn-trash { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #fff0f0; color: var(--danger); border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; margin-left: auto; }
+    .btn-trash:hover { background: #ffd6d6; }
+
+    .ospiti-badge { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #e4dcf5; color: var(--lilla-dark); border-radius: 50%; font-size: 10px; font-weight: 800; cursor: pointer; margin-left: 6px; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+    .ospiti-badge:hover { background: var(--lilla); color: white; transform: scale(1.1); }
+    
+    .btn-pulizia { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; font-family: inherit; -webkit-tap-highlight-color: transparent;}
+    .btn-pulizia.ko { background: #fff0f0; color: var(--danger); border-color: #ffcccc; }
+    .btn-pulizia.staff { background: #e8f8ef; color: var(--success); border-color: #bbf0d4; }
+    .btn-pulizia.host { background: #e4f0fe; color: #2b6cb0; border-color: #bee3f8; }
+
+    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: var(--nav-h); background: white; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,.05); z-index: 100; border-top: 1px solid var(--border); padding-bottom: env(safe-area-inset-bottom); }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; transition: color .2s; -webkit-tap-highlight-color: transparent; }
+    .nav-item i { font-size: 20px; }
+    .nav-item.active { color: var(--lilla); }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .empty-state i { font-size: 40px; color: var(--border); margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; font-weight: 500; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(30,27,46,.4); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: flex-end; justify-content: center; opacity: 0; transition: opacity .3s; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-box { background: white; border-radius: 24px 24px 0 0; padding: 28px 24px 36px; width: 100%; max-width: 600px; transform: translateY(100%); transition: transform .3s cubic-bezier(.32,1,.6,1); }
+    .modal-overlay.show .modal-box { transform: translateY(0); }
+    .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 20px; }
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+    .form-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; outline: none; transition: border-color .2s; }
+    .form-input:focus { border-color: var(--lilla); }
+
+    .btn-save { width: 100%; padding: 14px; background: var(--lilla); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(124,92,191,.3); }
+    .btn-save:active { transform: scale(.98); }
+
+    .toast { position: fixed; bottom: calc(var(--nav-h) + 20px); left: 50%; transform: translateX(-50%) translateY(100px); background: #323232; color: white; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.15); transition: transform .3s cubic-bezier(.32,1,.6,1); z-index: 300; pointer-events: none; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    .legenda-box { display: flex; flex-wrap: wrap; gap: 12px; background: white; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: center; }
+    .legenda-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    .legenda-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-airbnb { background: var(--airbnb); }
+    .dot-booking { background: var(--booking); }
+    .dot-privato { background: var(--privato); }
+  </style>
 </head>
 <body>
 
-  <div class="bg-glow g1"></div>
-  <div class="bg-glow g2"></div>
-  <div class="bg-glow g3"></div>
+  <div id="ptr-indicator" class="ptr-indicator"><i class="fa-solid fa-rotate-right"></i></div>
 
-  <svg class="skyline" viewBox="0 0 400 150" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-    <defs>
-      <linearGradient id="skyfade" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0"    stop-color="#7c5cbf" stop-opacity="0.85"/>
-        <stop offset="0.55" stop-color="#7c5cbf" stop-opacity="0.30"/>
-        <stop offset="1"    stop-color="#7c5cbf" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    <g fill="url(#skyfade)">
-      <rect x="0" y="120" width="34" height="30"/><rect x="30" y="110" width="26" height="40"/><rect x="52" y="124" width="30" height="26"/>
-      <rect x="98" y="60" width="22" height="90"/><rect x="90" y="48" width="38" height="13"/>
-      <rect x="91" y="43" width="5" height="6"/><rect x="100" y="43" width="5" height="6"/><rect x="109" y="43" width="5" height="6"/><rect x="118" y="43" width="5" height="6"/>
-      <rect x="103" y="26" width="12" height="20"/><rect x="104" y="21" width="4" height="6"/><rect x="110" y="21" width="4" height="6"/>
-      <rect x="130" y="112" width="24" height="38"/><rect x="152" y="122" width="28" height="28"/><rect x="174" y="106" width="20" height="44"/>
-      <rect x="198" y="40" width="22" height="110"/><rect x="195" y="35" width="28" height="6"/>
-      <rect x="238" y="88" width="62" height="62"/><path d="M238 88 C236 56 250 33 268 29 C286 33 300 56 300 88 Z"/>
-      <rect x="262" y="16" width="12" height="14"/><circle cx="268" cy="12" r="3.4"/>
-      <rect x="300" y="116" width="22" height="34"/><rect x="320" y="108" width="26" height="42"/><rect x="344" y="122" width="30" height="28"/>
-      <path d="M372 150 C368 108 372 94 376 90 C380 94 384 108 379 150 Z"/><path d="M385 150 C381 116 384 104 387 101 C390 104 393 116 390 150 Z"/>
-    </g>
-  </svg>
+  <header></header>
 
-  <div class="bird bird-1"><svg viewBox="0 0 32 14"><path d="M2 12 Q10 2 16 10 Q22 2 30 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>
-  <div class="bird bird-2"><svg viewBox="0 0 32 14"><path d="M2 12 Q10 2 16 10 Q22 2 30 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>
-  <div class="bird bird-3"><svg viewBox="0 0 32 14"><path d="M2 12 Q10 2 16 10 Q22 2 30 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+  <div id="loading">
+    <div class="loader-ring"></div>
+    <div class="loader-text">Caricamento dati...</div>
+  </div>
 
-  <div class="login-card">
-    <div class="login-banner">
-      <div class="bann-img"></div>
-      <div class="veil"></div>
-    </div>
+  <div id="toast" class="toast"></div>
 
-    <div class="login-body">
-      <p class="login-lead">Bentornato — accedi per continuare.</p>
-
-      <div class="login-err" id="loginErr"><i class="fa-solid fa-circle-exclamation"></i><span id="loginErrTxt">Utente o password non corretti.</span></div>
-
-      <div class="field f1">
-        <label for="loginUser">Utente</label>
-        <div class="input-wrap">
-          <i class="fa-solid fa-user lead"></i>
-          <input id="loginUser" type="text" autocomplete="username" autocapitalize="none" placeholder="Il tuo utente">
-        </div>
+  <div id="loginOverlay" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:1000; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:white; padding:30px 24px; border-radius:var(--radius); box-shadow:0 10px 40px rgba(92,61,153,.15); width:100%; max-width:340px; text-align:center; border:1px solid var(--border);">
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">Inserisci la password per accedere.</p>
+      <div id="loginErr" style="display:none; color:var(--danger); font-size:12.5px; font-weight:600; margin-bottom:14px; background:#fff0f0; padding:10px; border-radius:8px;">Password errata.</div>
+      <div style="text-align:left; margin-bottom:20px;">
+        <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Password</label>
+        <input id="loginPass" type="password" autocomplete="current-password" style="width:100%; padding:13px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; outline:none; margin-bottom:14px;">
+        <button id="loginBtn" onclick="entra()" style="width:100%; padding:14px; border:none; border-radius:10px; background:var(--lilla); color:white; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 4px 15px rgba(124,92,191,.3); transition:background 0.2s;">Accedi</button>
       </div>
-
-      <div class="field f2">
-        <label for="loginPass">Password</label>
-        <div class="input-wrap">
-          <i class="fa-solid fa-lock lead"></i>
-          <input id="loginPass" type="password" autocomplete="current-password" placeholder="La tua password">
-          <button class="toggle-eye" type="button" id="eyeBtn" aria-label="Mostra password"><i class="fa-solid fa-eye" id="eyeIcon"></i></button>
-        </div>
-      </div>
-
-      <button class="login-btn" id="loginBtn"><span id="btnLabel">Accedi</span></button>
-
-      <div class="login-foot"><i class="fa-solid fa-shield-halved"></i> Connessione protetta</div>
     </div>
   </div>
 
-  <div class="demo-note">
-    Anteprima dimostrativa · <button onclick="provaErrore()">mostra stato errore</button>
+  <div class="container">
+    <div id="tab-presenze" class="tab-content active">
+      <div class="sticky-taxes">
+        <div id="tasse-box"></div>
+      </div>
+      <div id="listaPresenze"></div>
+    </div>
+
+    <div id="tab-calendario" class="tab-content">
+      <div class="sticky-legend">
+        <button class="btn-add-block" onclick="apriModaleBlocco()"><i class="fa-solid fa-plus"></i> Aggiungi Blocco Privato</button>
+        <div class="legenda-box">
+          <div class="legenda-item"><div class="legenda-dot dot-airbnb"></div>Airbnb</div>
+          <div class="legenda-item"><div class="legenda-dot dot-booking"></div>Booking.com</div>
+          <div class="legenda-item"><div class="legenda-dot dot-privato"></div>Blocco privato</div>
+        </div>
+      </div>
+      <div id="listaCalendario"></div>
+    </div>
   </div>
 
-<script>
-  // --- mostra/nascondi password ---
-  var eyeBtn = document.getElementById('eyeBtn');
-  var eyeIcon = document.getElementById('eyeIcon');
-  var pass = document.getElementById('loginPass');
-  eyeBtn.addEventListener('click', function() {
-    var show = pass.type === 'password';
-    pass.type = show ? 'text' : 'password';
-    eyeIcon.className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-    eyeBtn.setAttribute('aria-label', show ? 'Nascondi password' : 'Mostra password');
-  });
+  <nav class="nav-bar">
+    <div class="nav-item active" onclick="switchTab('tab-presenze', this)">
+      <i class="fa-solid fa-user-group"></i>
+      <span>Check-in</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('tab-calendario', this)">
+      <i class="fa-regular fa-calendar-days"></i>
+      <span>Calendario</span>
+    </div>
+  </nav>
 
-  // --- Funzionamento del pulsante: caricamento -> successo -> reindirizzamento ---
-  var btn = document.getElementById('loginBtn');
-  var label = document.getElementById('btnLabel');
-  var err = document.getElementById('loginErr');
-  
-  btn.addEventListener('click', function() {
-    if (btn.disabled) return;
-    err.classList.remove('show');
-    
-    // 1. Disabilita il pulsante e mostra il caricamento
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner" style="animation:spin .7s linear infinite"></span><span>Accesso in corso…</span>';
-    
-    setTimeout(function() {
-      // 2. Mostra la spunta verde di successo
-      btn.classList.add('ok');
-      btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Accesso eseguito</span>';
+  <div id="modalBlocco" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalBlocco')">
+    <div class="modal-box">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nuovo Blocco Privato</div>
+      <div class="form-group">
+        <label>Data Inizio</label>
+        <input type="date" id="bloccoInizio" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Data Fine</label>
+        <input type="date" id="bloccoFine" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Note (opzionale)</label>
+        <input type="text" id="bloccoNote" class="form-input" placeholder="Es. Manutenzione, Amici...">
+      </div>
+      <button class="btn-save" id="btnSalvaBlocco" onclick="salvaBlocco()">Salva Blocco</button>
+    </div>
+  </div>
+
+  <div id="modalOspiti" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalOspiti')">
+    <div class="modal-box">
+      <div class="modal-handle"></div>
+      <div class="modal-title" style="margin-bottom:10px;">Dettaglio Ospiti</div>
+      <p id="moSoggiorno" style="text-align:center; font-size:14px; font-weight:700; color:var(--lilla-dark); margin-bottom:20px;"></p>
       
-            setTimeout(function() {
-        // AZIONE REALE: Apre Google Apps Script in una nuova scheda pulita
-        window.open('https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec', '_blank');
-        
-        // Riporta il pulsante allo stato iniziale
-        btn.classList.remove('ok');
-        btn.disabled = false;
-        btn.innerHTML = '<span id="btnLabel">Accedi</span>';
-    }, 1000);       
-    }, 1500); // Finge un caricamento di 1.5 secondi
-  });
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <label style="margin:0;">Ospiti dichiarati:</label>
+        <div id="moDichiarati" style="font-size:16px; font-weight:800; color:var(--text); background:var(--bg); padding:4px 12px; border-radius:12px;"></div>
+      </div>
+      
+      <div class="form-group" style="margin-top:20px;">
+        <label>Aggiorna numero effettivo:</label>
+        <div style="display:flex; gap:10px;">
+          <input type="number" id="moEffettivi" class="form-input" min="1" max="10" style="width:80px; text-align:center;">
+          <button class="btn-save" style="margin:0; flex:1;" onclick="salvaOspiti()">Aggiorna</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  // Funzione per testare l'errore (solo per la demo)
-  function provaErrore() {
-    err.classList.add('show');
-    document.getElementById('loginPass').focus();
-  }
-</script>
+  <div id="modalDocumento" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalDocumento')" style="align-items: center; padding: 20px;">
+    <div class="modal-box" style="border-radius: 16px; padding: 20px; height: 80vh; max-height: 800px; display: flex; flex-direction: column; transform: scale(0.95); transition: transform .3s cubic-bezier(.32,1,.6,1);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <div class="modal-title" style="margin: 0; text-align: left; font-size: 16px;">Anteprima Documento</div>
+        <i class="fa-solid fa-xmark" onclick="chiudiModale('modalDocumento')" style="color:var(--text-muted); cursor:pointer; font-size:22px; padding:5px;"></i>
+      </div>
+      <div style="flex: 1; margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #f7f5fc;">
+        <iframe id="iframeDocumento" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    </div>
+  </div>
+  <style>
+    .modal-overlay.show #modalDocumento .modal-box { transform: scale(1); }
+  </style>
+
+  <script>
+    window._pulizieConfermate = []; // Cache pulizie
+
+    // --- PULL TO REFRESH ---
+    var startY = 0, dist = 0, pulling = false, refreshing = false;
+    var indicator = document.getElementById('ptr-indicator');
+    var icon = indicator.querySelector('i');
+    
+    function inCima() { return window.scrollY <= 0; }
+    function bloccato() { return document.querySelector('.modal-overlay.show') !== null || document.getElementById('loginOverlay').style.display === 'flex'; }
+    
+    function disegna(d) {
+      var y = Math.min(d / 2.5 - 64, 42);
+      indicator.style.transform = 'translate(-50%, ' + y + 'px)';
+      var op = Math.min(d / 150, 1);
+      indicator.style.opacity = op;
+      icon.style.transform = 'rotate(' + (d * 1.5) + 'deg)';
+      if (d > 180) indicator.classList.add('ready'); else indicator.classList.remove('ready');
+    }
+    function nascondi(animato) {
+      indicator.style.transition = animato ? 'transform .3s ease, opacity .3s ease' : 'none';
+      indicator.style.transform = 'translate(-50%,-64px)';
+      indicator.style.opacity = '0';
+      indicator.classList.remove('ready', 'spinning');
+      icon.style.transform = '';
+    }
+    function aggiorna() {
+      refreshing = true;
+      indicator.style.transition = 'transform .3s ease, opacity .3s ease';
+      indicator.style.transform = 'translate(-50%,42px)';
+      indicator.style.opacity = '1';
+      indicator.classList.remove('ready');
+      indicator.classList.add('spinning');
+      eseguiRefresh(function() { refreshing = false; nascondi(true); });
+    }
+
+    document.addEventListener('touchstart', function(e) {
+      if (refreshing) return;
+      if (!inCima() || bloccato()) { pulling = false; return; }
+      startY = e.touches[0].clientY;
+      dist = 0; pulling = true;
+      indicator.style.transition = 'none';
+    }, { passive: true });
+    
+    document.addEventListener('touchmove', function(e) {
+      if (refreshing || !pulling) return;
+      if (!inCima()) { pulling = false; nascondi(false); return; }
+      dist = e.touches[0].clientY - startY;
+      if (dist > 0) { e.preventDefault(); disegna(dist); } else { dist = 0; indicator.style.opacity = '0'; }
+    }, { passive: false });
+    
+    function fine() {
+      if (refreshing || !pulling) return;
+      pulling = false;
+      if (dist >= 180) aggiorna(); else nascondi(true);
+    }
+    document.addEventListener('touchend', fine);
+    document.addEventListener('touchcancel', fine);
+
+    function eseguiRefresh(cb) {
+      google.script.run.withSuccessHandler(function(d) {
+        if(d && d.sessioneScaduta) { mostraLogin(); if(cb) cb(); return; }
+        if(d) {
+          window._pulizieConfermate = d.pulizie || [];
+          renderPresenze(d.presenze);
+          renderCalendario(d.calendario);
+        }
+        if(cb) cb();
+      }).withFailureHandler(function(err){
+        mostraToast('Errore agg: ' + err);
+        if(cb) cb();
+      }).getDati();
+    }
+    // ----------------------
+
+    var tabCorrente = 'tab-presenze';
+    const MESI_CORTI = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+    const MESI_LUNGHI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+    function switchTab(id, el) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      el.classList.add('active');
+      tabCorrente = id;
+      window.scrollTo({top:0});
+    }
+
+    function apriModale(id) {
+      var m = document.getElementById(id);
+      m.style.display = 'flex';
+      m.offsetHeight; 
+      m.classList.add('show');
+    }
+    function chiudiModale(id) {
+      var m = document.getElementById(id);
+      m.classList.remove('show');
+      setTimeout(() => m.style.display = 'none', 300);
+    }
+    function apriDocumento(url) {
+      document.getElementById('iframeDocumento').src = url;
+      apriModale('modalDocumento');
+    }
+    
+    var tempCheckIn='', tempCheckOut='';
+    function apriModaleOspiti(ci, co, dich) {
+      tempCheckIn = ci; tempCheckOut = co;
+      var sogg = formattaData(ci) + ' – ' + formattaData(co);
+      document.getElementById('moSoggiorno').innerText = sogg;
+      document.getElementById('moDichiarati').innerText = dich;
+      document.getElementById('moEffettivi').value = dich !== '?' ? dich : '';
+      apriModale('modalOspiti');
+    }
+    
+    function salvaOspiti() {
+      var eff = document.getElementById('moEffettivi').value;
+      if(!eff) return;
+      chiudiModale('modalOspiti');
+      mostraToast('Salvataggio numero ospiti...');
+      google.script.run.withSuccessHandler(function(res) {
+        if(res && res.sessioneScaduta) { mostraLogin(); return; }
+        if(res && res.ok) { mostraToast('Numero ospiti aggiornato!'); eseguiRefresh(); }
+        else mostraToast('Errore: ' + (res ? res.messaggio : 'Sconosciuto'));
+      }).aggiornaOspiti(tempCheckIn, tempCheckOut, eff);
+    }
+
+    function togglePulizia(dataOut, idStato, ospitiAttesi, btnEl) {
+      var stati = ['ko', 'staff', 'host'];
+      var idx = stati.indexOf(idStato);
+      var nuovoStato = stati[(idx + 1) % stati.length];
+      btnEl.className = 'btn-pulizia ' + nuovoStato;
+      var lbls = {'ko':'Da pulire', 'staff':'Fatta Staff', 'host':'Fatta Host'};
+      btnEl.innerText = lbls[nuovoStato];
+      btnEl.setAttribute('onclick', "togglePulizia('" + dataOut + "', '" + nuovoStato + "', '" + ospitiAttesi + "', this)");
+
+      var trovato = false;
+      for (var p = 0; p < window._pulizieConfermate.length; p++) {
+        if (window._pulizieConfermate[p].data === dataOut) {
+          window._pulizieConfermate[p].stato = nuovoStato;
+          trovato = true; break;
+        }
+      }
+      if (!trovato) window._pulizieConfermate.push({data: dataOut, stato: nuovoStato});
+
+      google.script.run.withSuccessHandler(function(res) {
+        if(res && res.sessioneScaduta) { mostraLogin(); return; }
+      }).impostaPulizia(dataOut, nuovoStato, ospitiAttesi);
+    }
+
+    function mostraToast(msg) {
+      var t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function mostraLogin() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('loginOverlay').style.display = 'flex';
+      document.getElementById('loginPass').focus();
+    }
+    function entra() {
+      var btn = document.getElementById('loginBtn');
+      var p = document.getElementById('loginPass').value;
+      if (!p) return;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+      btn.disabled = true;
+      document.getElementById('loginErr').style.display = 'none';
+      google.script.run.withSuccessHandler(function(ok) {
+        if (ok) {
+          document.getElementById('loginOverlay').style.display = 'none';
+          document.getElementById('loading').style.display = 'flex';
+          google.script.run.withSuccessHandler(datiIniziali).getDati();
+        } else {
+          document.getElementById('loginErr').style.display = 'block';
+          btn.innerHTML = 'Accedi';
+          btn.disabled = false;
+        }
+      }).loginApp(p);
+    }
+
+    function toggleDettagli(id, btn) {
+      var p = document.getElementById(id);
+      var isOp = p.classList.contains('open');
+      if (isOp) {
+        p.classList.remove('open'); btn.classList.remove('open');
+        btn.querySelector('span').innerText = 'Mostra ospiti e documenti';
+      } else {
+        p.classList.add('open'); btn.classList.add('open');
+        btn.querySelector('span').innerText = 'Nascondi dettagli';
+      }
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      return s.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    
+    function formattaData(str) {
+      if (!str) return '';
+      var p = str.split('-');
+      if (p.length!==3) return str;
+      return p[2] + ' ' + MESI_CORTI[parseInt(p[1],10)-1] + ' ' + p[0];
+    }
+    function formattaMese(str) {
+      if (!str) return '';
+      var p = str.split('-');
+      if (p.length!==3) return str;
+      return MESI_LUNGHI[parseInt(p[1],10)-1] + ' ' + p[0];
+    }
+    function giorniDiff(d1, d2) {
+      var ms = new Date(d2).getTime() - new Date(d1).getTime();
+      return Math.round(ms / (1000*60*60*24));
+    }
+    function isPassato(co) {
+      return new Date(co).getTime() < new Date().setHours(0,0,0,0);
+    }
+    function fmtEuro(num) {
+      return '€ ' + parseFloat(num).toFixed(2).replace('.', ',');
+    }
+
+    function htmlEsiti(res) {
+      if (!res.dettagli || res.dettagli.length === 0) return '';
+      var righe = res.dettagli.map(d => {
+        var ico = d.ok ? 'fa-check' : 'fa-xmark';
+        var cls = d.ok ? 'ok' : 'ko';
+        return '<div class="aw-riga ' + cls + '"><i class="fa-solid ' + ico + '"></i><div class="aw-nome">' + esc(d.nome) + '</div><div class="aw-stato">' + esc(d.messaggio) + '</div></div>';
+      }).join('');
+      var clsHead = res.ok ? 'aw-head ok' : 'aw-head ko';
+      var icoHead = res.ok ? 'fa-circle-check' : 'fa-triangle-exclamation';
+      return '<div class="' + clsHead + '"><i class="fa-solid ' + icoHead + '"></i> ' + esc(res.messaggio || '') + '</div>' + righe;
+    }
+
+    function controllaQuestura(riga, nome) {
+      var btnCheck = document.getElementById('aw-check-' + riga);
+      var boxEsiti = document.getElementById('aw-esiti-' + riga);
+      btnCheck.disabled = true;
+      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifica...';
+      boxEsiti.innerHTML = ''; boxEsiti.className = 'aw-esiti';
+      google.script.run.withSuccessHandler(function(res) {
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        btnCheck.innerHTML = '<i class="fa-solid fa-rotate"></i> Ricontrolla';
+        btnCheck.disabled = false;
+        if (res) {
+          boxEsiti.innerHTML = htmlEsiti(res);
+          boxEsiti.className = 'aw-esiti ' + (res.ok ? 'tutto-ok' : 'con-errori');
+          var btnInvio = document.getElementById('aw-invio-' + riga);
+          if (btnInvio) btnInvio.disabled = !res.ok;
+        }
+      }).controllaAlloggiatiWebRiga(riga, nome);
+    }
+
+    function inviaQuestura(riga, ci, onDone) {
+      var btnInvio = document.getElementById('aw-invio-' + riga);
+      if (btnInvio) { btnInvio.disabled = true; btnInvio.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso...'; }
+      mostraToast('Invio a AlloggiatiWeb in corso...');
+      google.script.run.withSuccessHandler(function(res) {
+        if (onDone) onDone();
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        if (res && res.ok) {
+          mostraToast('✅ ' + (res.messaggio || 'Schedine inviate alla Questura!'));
+          var badge = document.getElementById('aw-badge-' + riga);
+          if (badge) { badge.className = 'badge badge-censito'; badge.innerText = 'CENSITO AW'; }
+          if (btnInvio) btnInvio.style.display = 'none';
+          var btnCheck = document.getElementById('aw-check-' + riga);
+          if (btnCheck) btnCheck.style.display = 'none';
+          var boxEsiti = document.getElementById('aw-esiti-' + riga);
+          if (boxEsiti) { boxEsiti.innerHTML = '<div class="aw-head ok"><i class="fa-solid fa-check-double"></i> Inviato il ' + esc(res.dataInvio) + '</div>'; boxEsiti.className = 'aw-esiti tutto-ok'; }
+        } else {
+          mostraToast('❌ Errore invio: ' + (res ? res.messaggio : 'Sconosciuto'));
+          if (btnInvio) { btnInvio.disabled = false; btnInvio.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Ritenta Invio Questura'; }
+        }
+      }).inviaAlloggiatiWebRiga(riga, ci);
+    }
+
+    function rigaSub(pern, pers, notti) {
+      if(!pern || pern==='0.00') return '';
+      return '<div class="widget-sub"><i class="fa-solid fa-bed"></i> ' + fmtEuro(pern) + ' pernott. &middot; <i class="fa-solid fa-users"></i> ' + pers + ' pax &middot; <i class="fa-solid fa-moon"></i> ' + notti + ' notti</div>';
+    }
+    function rigaAirbnb(abb) {
+      if(!abb || abb==='0.00') return '';
+      return '<div class="widget-airbnb"><i class="fa-brands fa-airbnb"></i> ' + fmtEuro(abb) + ' già trattenuti</div>';
+    }
+
+    function calcolaTasse(pres) {
+      var box = document.getElementById('tasse-box');
+      if (!pres || pres.length === 0) { box.innerHTML=''; return; }
+
+      var oggi = new Date();
+      var meseCorr = oggi.getMonth() + 1;
+      var mesePrec = meseCorr - 1; if (mesePrec === 0) mesePrec = 12;
+
+      var totCorr = 0, pernCorr = 0, persCorr = 0, nottiCorr = 0, abbCorr = 0;
+      var totPrec = 0, pernPrec = 0, persPrec = 0, nottiPrec = 0, abbPrec = 0;
+
+      pres.forEach(function(c) {
+        if(c.tipo === 'Blocco privato') return;
+        var mCI = parseInt(c.checkIn.split('-')[1], 10);
+        var tn = parseFloat(c.tassaSoggiorno || 0);
+        var tp = parseFloat(c.costoPernottamento || 0);
+        var px = parseInt(c.ospiti || 0, 10);
+        var nt = giorniDiff(c.checkIn, c.checkOut);
+        var ta = parseFloat(c.tassaAirbnb || 0);
+
+        if (mCI === meseCorr) {
+          totCorr += tn; pernCorr += tp; persCorr += px; nottiCorr += nt; abbCorr += ta;
+        } else if (mCI === mesePrec) {
+          totPrec += tn; pernPrec += tp; persPrec += px; nottiPrec += nt; abbPrec += ta;
+        }
+      });
+
+      var h = '';
+      if (totPrec > 0) {
+        var alertClass = (oggi.getDate() >= 15) ? 'alert' : '';
+        h += '<div class="widget-box ' + alertClass + '" onclick="google.script.host.open(\'https://sit.comune.fi.it/bess_fi/default.aspx\')">'
+           + '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking &middot; Da pagare ' + MESI_LUNGHI[mesePrec-1] + '</div>'
+           + '<div class="widget-value">' + fmtEuro(totPrec) + '</div>'
+           + rigaSub(pernPrec, persPrec, nottiPrec)
+           + rigaAirbnb(abbPrec)
+           + '</div>';
+      }
+      if (totCorr > 0 || (totPrec === 0 && totCorr === 0)) {
+        h += '<div class="widget-box">'
+           + '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking &middot; Provvisorio ' + MESI_LUNGHI[meseCorr-1] + '</div>'
+           + '<div class="widget-value">' + fmtEuro(totCorr) + '</div>'
+           + rigaSub(pernCorr, persCorr, nottiCorr)
+           + rigaAirbnb(abbCorr)
+           + '</div>';
+      }
+      box.innerHTML = '<div id="tax-widget">' + h + '</div>';
+    }
+
+    function renderPresenze(pres) {
+      calcolaTasse(pres);
+      var wrap = document.getElementById('listaPresenze');
+      wrap.innerHTML = '';
+      if (!pres || pres.length === 0) {
+        wrap.innerHTML = '<div class="empty-state"><i class="fa-regular fa-folder-open"></i><p>Nessun ospite trovato.</p></div>';
+        return;
+      }
+      
+      pres.forEach(function(c, idx) {
+        if (c.tipo === 'Blocco privato') return;
+        var p = isPassato(c.checkOut);
+        var card = document.createElement('div');
+        card.className = 'card' + (p ? ' is-passato' : '');
+
+        var bdg = '';
+        if (c.tipo === 'Airbnb') bdg += '<span class="badge badge-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb</span>';
+        else if (c.tipo.indexOf('Booking') !== -1) bdg += '<span class="badge badge-booking"><i class="fa-solid fa-hotel"></i> Booking</span>';
+        else bdg += '<span class="badge badge-altro">' + esc(c.tipo) + '</span>';
+
+        if (p) bdg += '<span class="badge badge-passato">Passato</span>';
+        else if (c.awStatus === 'CENSITO') bdg += '<span class="badge badge-censito" id="aw-badge-'+c.riga+'">Censito AW</span>';
+        else bdg += '<span class="badge badge-dainviare" id="aw-badge-'+c.riga+'">Da Inviare AW</span>';
+
+        var nNotti = giorniDiff(c.checkIn, c.checkOut);
+        var lnkPort = '';
+        if (c.codicePrenotazione) {
+          if (c.tipo === 'Airbnb') lnkPort = '<a href="https://www.airbnb.it/hosting/reservations/details/' + esc(c.codicePrenotazione) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
+          else if (c.tipo.indexOf('Booking') !== -1) lnkPort = '<a href="https://admin.booking.com/hotel/hoteladmin/extranet_ng/manage/booking.html?res_id=' + esc(c.codicePrenotazione) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
+        }
+
+        var numOspitiText = c.ospiti ? c.ospiti : '?';
+        var ospitiBadge = '<span class="ospiti-badge" onclick="apriModaleOspiti(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(numOspitiText) + '\')"><i class="fa-solid fa-pen"></i></span>';
+
+        var hd = '<div class="card-top">'
+               + '<div class="guest-name">' + esc(c.ospitePrincipale) + lnkPort + '</div>'
+               + '<div class="badges">' + bdg + '</div>'
+               + '</div>';
+
+        var dt = '<div class="details-grid">'
+               + '<div class="detail-item"><i class="fa-solid fa-calendar-check"></i> <b>In:</b> ' + formattaData(c.checkIn) + '</div>'
+               + '<div class="detail-item"><i class="fa-solid fa-calendar-xmark"></i> <b>Out:</b> ' + formattaData(c.checkOut) + ' (' + nNotti + ' notti)</div>'
+               + '<div class="detail-item"><i class="fa-solid fa-users"></i> <b>Ospiti:</b> ' + numOspitiText + ospitiBadge + '</div>'
+               + '<div class="detail-item ' + (c.tassaSoggiorno > 0 ? '' : 'red') + '"><i class="fa-solid fa-coins"></i> <b>Tassa:</b> ' + (c.tassaSoggiorno ? fmtEuro(c.tassaSoggiorno) : 'Manca') + '</div>'
+               + '<div class="detail-item" style="grid-column:1/-1;"><i class="fa-solid fa-bed"></i> <b>Pernottamento:</b> ' + (c.costoPernottamento ? fmtEuro(c.costoPernottamento) : 'Manca') + '</div>'
+               + '</div>';
+
+        var idPan = 'ospiti-' + idx;
+        var pan = '<div id="' + idPan + '" class="ospiti-panel">';
+
+        // CONTROLLI QUESTURA
+        if (!p && c.awStatus !== 'CENSITO') {
+          pan += '<div class="aw-azioni">'
+               + '<button class="btn-controlla" id="aw-check-'+c.riga+'" onclick="controllaQuestura('+c.riga+', \''+esc(c.ospitePrincipale)+'\')"><i class="fa-solid fa-shield-halved"></i> Controlla Documenti x Questura</button>'
+               + '<div id="aw-esiti-'+c.riga+'" class="aw-esiti"></div>'
+               + '<button class="btn-questura" id="aw-invio-'+c.riga+'" style="display:none" onclick="inviaQuestura('+c.riga+', \''+esc(c.checkIn)+'\')"><i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>'
+               + '</div>';
+        }
+
+        pan += '<div class="ospiti-lista">';
+        if (c.dettaglioOspiti && c.dettaglioOspiti.length > 0) {
+          c.dettaglioOspiti.forEach(function(o) {
+            var iconDoc = o.haDoc ? '<i class="fa-solid fa-check"></i> Doc OK' : '<i class="fa-solid fa-xmark"></i> No Doc';
+            var clsDoc = o.haDoc ? 'doc-ok' : 'doc-missing';
+            
+            var linkPrev = o.linkDoc ? esc(o.linkDoc).replace(/\/view.*/, '/preview') : '';
+            var btnDoc = o.linkDoc 
+              ? '<button onclick="apriDocumento(\'' + linkPrev + '\')" class="btn-doc-mini"><i class="fa-solid fa-id-card"></i> Vedi Documento</button>'
+              : '<div class="btn-doc-mini no-doc"><i class="fa-solid fa-id-card"></i> Doc Assente</div>';
+
+            pan += '<div class="ospite-card">'
+                 + '<div class="ospite-header">'
+                 + '<div class="ospite-avatar">' + esc(o.nome.charAt(0).toUpperCase()) + '</div>'
+                 + '<div class="ospite-nome">' + esc(o.nome) + ' <span class="ospite-ruolo">(' + esc(o.ruolo) + ')</span></div>'
+                 + '<div class="doc-status ' + clsDoc + '">' + iconDoc + '</div>'
+                 + '</div>'
+                 + '<div class="ospite-info">'
+                 + '<div class="ospite-field"><span class="label">Nato il</span><span class="value ' + (o.dataNascita ? '' : 'empty') + '">' + (o.dataNascita ? esc(o.dataNascita) : 'Manca') + '</span></div>'
+                 + '<div class="ospite-field"><span class="label">A</span><span class="value ' + (o.luogoNascita ? '' : 'empty') + '">' + (o.luogoNascita ? esc(o.luogoNascita) : 'Manca') + '</span></div>'
+                 + '<div class="ospite-field"><span class="label">Residenza</span><span class="value ' + (o.residenza ? '' : 'empty') + '">' + (o.residenza ? esc(o.residenza) : 'Manca') + '</span></div>'
+                 + '<div class="ospite-field"><span class="label">Cittadinanza</span><span class="value ' + (o.cittadinanza ? '' : 'empty') + '">' + (o.cittadinanza ? esc(o.cittadinanza) : 'Manca') + '</span></div>'
+                 + '<div class="ospite-field"><span class="label">Tipo Doc</span><span class="value ' + (o.tipoDoc ? '' : 'empty') + '">' + (o.tipoDoc ? esc(o.tipoDoc) : 'Manca') + '</span></div>'
+                 + '<div class="ospite-field"><span class="label">Numero Doc</span><span class="value ' + (o.numDoc ? '' : 'empty') + '">' + (o.numDoc ? esc(o.numDoc) : 'Manca') + '</span></div>'
+                 + '</div>'
+                 + btnDoc
+                 + '</div>';
+          });
+        } else {
+          pan += '<div style="font-size:12.5px; color:var(--text-muted); text-align:center; padding:10px;">Nessun ospite compilato nel check-in online.</div>';
+        }
+        pan += '</div></div>'; // chiude panel
+
+        var btnToggle = '<button class="btn-dettagli" onclick="toggleDettagli(\'' + idPan + '\', this)">'
+                      + '<span>Mostra ospiti e documenti</span>'
+                      + '<i class="fa-solid fa-chevron-down arrow"></i>'
+                      + '</button>';
+
+        card.innerHTML = hd + dt + btnToggle + pan;
+        wrap.appendChild(card);
+      });
+    }
+
+    function apriModaleBlocco() {
+      document.getElementById('bloccoInizio').value = '';
+      document.getElementById('bloccoFine').value = '';
+      document.getElementById('bloccoNote').value = '';
+      apriModale('modalBlocco');
+    }
+    
+    function salvaBlocco() {
+      var i = document.getElementById('bloccoInizio').value;
+      var f = document.getElementById('bloccoFine').value;
+      var n = document.getElementById('bloccoNote').value;
+      if (!i || !f) { alert('Inserisci data inizio e fine.'); return; }
+      if (new Date(f) <= new Date(i)) { alert('La fine deve essere dopo l\'inizio.'); return; }
+
+      var btn = document.getElementById('btnSalvaBlocco');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+      btn.disabled = true;
+
+      google.script.run.withSuccessHandler(function(res) {
+        btn.innerHTML = 'Salva Blocco'; btn.disabled = false;
+        if (res && res.sessioneScaduta) { chiudiModale('modalBlocco'); mostraLogin(); return; }
+        chiudiModale('modalBlocco');
+        mostraToast('Blocco aggiunto con successo!');
+        eseguiRefresh();
+      }).aggiungiBloccoPrivato(i, f, n);
+    }
+
+    function eliminaBlocco(riga) {
+      if (!confirm('Eliminare questo blocco privato?')) return;
+      mostraToast('Eliminazione in corso...');
+      google.script.run.withSuccessHandler(function(res) {
+        if(res && res.sessioneScaduta) { mostraLogin(); return; }
+        mostraToast('Blocco eliminato!');
+        eseguiRefresh();
+      }).eliminaBloccoPrivato(riga);
+    }
+
+    function renderCalendario(cal) {
+      var wrap = document.getElementById('listaCalendario');
+      wrap.innerHTML = '';
+      if (!cal || cal.length === 0) {
+        wrap.innerHTML = '<div class="empty-state"><i class="fa-regular fa-calendar-xmark"></i><p>Nessun evento futuro.</p></div>';
+        return;
+      }
+      
+      cal.forEach(function(c) {
+        var clsType = 'type-altro';
+        var chip = '';
+        if (c.tipo === 'Airbnb') { clsType = 'type-airbnb'; chip = '<span class="cal-chip chip-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb</span>'; }
+        else if (c.tipo.indexOf('Booking') !== -1) { clsType = 'type-booking'; chip = '<span class="cal-chip chip-booking"><i class="fa-solid fa-hotel"></i> Booking</span>'; }
+        else if (c.tipo === 'Blocco privato') { clsType = 'type-privato'; chip = '<span class="cal-chip chip-privato"><i class="fa-solid fa-lock"></i> Privato</span>'; }
+
+        var inP = c.checkIn.split('-');
+        var outP = c.checkOut.split('-');
+        
+        var mCI = MESI_CORTI[parseInt(inP[1],10)-1];
+        var mCO = MESI_CORTI[parseInt(outP[1],10)-1];
+        
+        var sameMonth = (mCI === mCO);
+
+        var dataHtml = '';
+        if (sameMonth) {
+          dataHtml = '<div class="cal-dline"><span class="cal-day">' + parseInt(inP[2],10) + '</span><span class="cal-arrow-v"><i class="fa-solid fa-arrow-right-long"></i></span><span class="cal-day cal-day-out">' + parseInt(outP[2],10) + '</span></div>'
+                   + '<div class="cal-month">' + mCI + '</div>';
+        } else {
+          dataHtml = '<div class="cal-dline"><span class="cal-day">' + parseInt(inP[2],10) + '</span> <span class="cal-month">' + mCI + '</span></div>'
+                   + '<div class="cal-arrow-v"><i class="fa-solid fa-arrow-down"></i></div>'
+                   + '<div class="cal-dline"><span class="cal-day cal-day-out">' + parseInt(outP[2],10) + '</span> <span class="cal-month cal-month-out">' + mCO + '</span></div>';
+        }
+
+        var ttl = c.tipo === 'Blocco privato' 
+          ? (c.ospitePrincipale || 'Blocco Host') 
+          : esc(c.ospitePrincipale);
+
+        var foot = '';
+        if (c.tipo !== 'Blocco privato') {
+          var nNotti = giorniDiff(c.checkIn, c.checkOut);
+          var numOspitiText = c.ospiti ? c.ospiti : '?';
+          foot = '<span><i class="fa-solid fa-moon"></i> ' + nNotti + ' notti</span>'
+               + '<span class="cal-divider"></span>'
+               + '<span><i class="fa-solid fa-users"></i> ' + numOspitiText + ' pax</span>';
+               
+          var btnLabel = 'Da pulire', btnCls = 'ko';
+          for (var p = 0; p < window._pulizieConfermate.length; p++) {
+            if (window._pulizieConfermate[p].data === c.checkOut) {
+              btnCls = window._pulizieConfermate[p].stato;
+              if (btnCls === 'staff') btnLabel = 'Fatta Staff';
+              else if (btnCls === 'host') btnLabel = 'Fatta Host';
+              break;
+            }
+          }
+          var btnClick = "togglePulizia('" + c.checkOut + "', '" + btnCls + "', '" + numOspitiText + "', this)";
+          foot += '<span class="cal-divider"></span><span><button class="btn-pulizia ' + btnCls + '" onclick="' + btnClick + '">' + btnLabel + '</button></span>';
+
+        } else {
+          if (c.note) foot = '<span><i class="fa-solid fa-circle-info"></i> ' + esc(c.note) + '</span>';
+        }
+
+        var trash = '';
+        if (c.tipo === 'Blocco privato') {
+          trash = '<button class="btn-trash" onclick="eliminaBlocco('+c.riga+')"><i class="fa-solid fa-trash-can"></i></button>';
+        }
+
+        var card = document.createElement('div');
+        card.className = 'cal-card ' + clsType;
+        card.innerHTML = '<div class="cal-date">' + dataHtml + '</div>'
+                       + '<div class="cal-body">'
+                       + '<div>' + chip + '</div>'
+                       + '<div class="cal-title">' + ttl + '</div>'
+                       + (foot ? '<div class="cal-footer">' + foot + '</div>' : '')
+                       + '</div>'
+                       + trash;
+        wrap.appendChild(card);
+      });
+    }
+
+    function datiIniziali(data) {
+      document.getElementById('loading').style.display = 'none';
+      if (data && data.sessioneScaduta) {
+        mostraLogin();
+        return;
+      }
+      if (data && data.errore) {
+        document.getElementById('listaPresenze').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><p>' + data.errore + '</p></div>';
+        return;
+      }
+      window._pulizieConfermate = data.pulizie || [];
+      renderPresenze(data.presenze);
+      renderCalendario(data.calendario);
+    }
+
+    // AVVIO
+    google.script.run.withSuccessHandler(datiIniziali).withFailureHandler(function(err){
+      document.getElementById('loading').style.display = 'none';
+      mostraToast('Errore connessione server.');
+    }).getDati();
+
+  </script>
 </body>
 </html>
