@@ -281,11 +281,15 @@
       btn.classList.add('ok');
       btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Accesso eseguito</span>';
       
-      setTimeout(function() {
-        // 3. REINDIRIZZAMENTO AL TUO LINK GOOGLE APPS SCRIPT
-        window.location.href = 'https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec';
+            setTimeout(function() {
+        // AZIONE REALE: Apre Google Apps Script in una nuova scheda pulita
+        window.open('https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec', '_blank');
         
-      }, 1000); // Attende 1 secondo per far leggere "Accesso eseguito"
+        // Riporta il pulsante allo stato iniziale
+        btn.classList.remove('ok');
+        btn.disabled = false;
+        btn.innerHTML = '<span id="btnLabel">Accedi</span>';
+    }, 1000);       
     }, 1500); // Finge un caricamento di 1.5 secondi
   });
 
