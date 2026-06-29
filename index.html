@@ -187,7 +187,6 @@
   <div class="bg-glow g2"></div>
   <div class="bg-glow g3"></div>
 
-  <!-- Skyline di Firenze: cupola del Brunelleschi, Campanile di Giotto, torre di Palazzo Vecchio -->
   <svg class="skyline" viewBox="0 0 400 150" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
     <defs>
       <linearGradient id="skyfade" x1="0" y1="1" x2="0" y2="0">
@@ -264,26 +263,33 @@
     eyeBtn.setAttribute('aria-label', show ? 'Nascondi password' : 'Mostra password');
   });
 
-  // --- demo del pulsante: caricamento -> successo -> reset ---
+  // --- Funzionamento del pulsante: caricamento -> successo -> reindirizzamento ---
   var btn = document.getElementById('loginBtn');
   var label = document.getElementById('btnLabel');
   var err = document.getElementById('loginErr');
+  
   btn.addEventListener('click', function() {
     if (btn.disabled) return;
     err.classList.remove('show');
+    
+    // 1. Disabilita il pulsante e mostra il caricamento
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" style="animation:spin .7s linear infinite"></span><span>Accesso in corso…</span>';
+    
     setTimeout(function() {
+      // 2. Mostra la spunta verde di successo
       btn.classList.add('ok');
       btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Accesso eseguito</span>';
+      
       setTimeout(function() {
-        btn.classList.remove('ok');
-        btn.disabled = false;
-        btn.innerHTML = '<span id="btnLabel">Accedi</span>';
-      }, 1100);
-    }, 1500);
+        // 3. REINDIRIZZAMENTO AL TUO LINK GOOGLE APPS SCRIPT
+        window.location.href = 'https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec';
+        
+      }, 1000); // Attende 1 secondo per far leggere "Accesso eseguito"
+    }, 1500); // Finge un caricamento di 1.5 secondi
   });
 
+  // Funzione per testare l'errore (solo per la demo)
   function provaErrore() {
     err.classList.add('show');
     document.getElementById('loginPass').focus();
