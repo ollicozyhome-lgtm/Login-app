@@ -52,7 +52,7 @@
     .tab-content.active { display: block; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giÃ¹ la pagina */
+    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giù la pagina */
     .ptr-indicator {
       position: fixed; top: 0; left: 50%;
       transform: translate(-50%, -64px);
@@ -236,7 +236,7 @@
     .nav-item.active { color: var(--lilla); }
     .nav-item.active i { transform: translateY(-2px); }
 
-    /* ââ STILI MODALI (POPUPS) ââ */
+    /* ── STILI MODALI (POPUPS) ── */
     .modal-overlay { position: fixed; inset: 0; background: rgba(30,27,46,.55); display: flex; align-items: flex-end; justify-content: center; z-index: 500; opacity: 0; pointer-events: none; transition: opacity .25s; }
     .modal-overlay.show { opacity: 1; pointer-events: all; }
     .modal-box { background: white; border-radius: 24px 24px 0 0; padding: 28px 24px 36px; width: 100%; max-width: 600px; transform: translateY(100%); transition: transform .3s cubic-bezier(.32,1,.6,1); }
@@ -265,7 +265,7 @@
 
 <div id="loading">
   <div class="loader-ring"></div>
-  <div class="loader-text">Caricamento in corsoâ¦</div>
+  <div class="loader-text">Caricamento in corso…</div>
 </div>
 
 <header></header>
@@ -277,7 +277,7 @@
       <div style="position:absolute; left:0; right:0; bottom:14px; text-align:center; color:#fff; font-size:21px; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,.45);"></div>
     </div>
     <div style="padding:24px 22px 26px;">
-      <p style="font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:20px;">Area riservata â accedi per continuare</p>
+      <p style="font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:20px;">Area riservata — accedi per continuare</p>
       <div id="loginErr" style="display:none; background:#fff0f0; color:var(--danger); border:1px solid #ffcccc; border-radius:10px; padding:10px; font-size:13px; text-align:center; margin-bottom:14px;"></div>
       <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Utente</label>
       <input id="loginUser" type="text" autocomplete="username" autocapitalize="none" style="width:100%; padding:13px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; outline:none; margin-bottom:14px;">
@@ -289,10 +289,11 @@
 </div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec";
+  // 🔴 INSERISCI QUI IL LINK DEL TUO SCRIPT GOOGLE
+  const API_URL = "https://script.google.com/macros/s/AKfycbxiiWnOe9cjxiwLIGkhqRUMiPruu1XRGOcXw6yhMT0qw0kutEJN2qdTRqVXPF2wb3s/exec";
   var SESSION_TOKEN = null;
 
-  // ð FUNZIONE API CHE SOSTITUISCE "google.script.run"
+  // 🌐 FUNZIONE API CHE SOSTITUISCE "google.script.run"
   async function chiamaAPI(action, params = {}) {
     params.action = action;
     if (SESSION_TOKEN) params.token = SESSION_TOKEN;
@@ -317,7 +318,7 @@
     var e = document.getElementById('loginErr');
     var u = document.getElementById('loginUser').value;
     var p = document.getElementById('loginPass').value;
-    e.style.display = 'none'; b.disabled = true; b.textContent = 'Accesso in corsoâ¦';
+    e.style.display = 'none'; b.disabled = true; b.textContent = 'Accesso in corso…';
     
     chiamaAPI('login', { utente: u, password: p })
       .then(res => {
@@ -363,18 +364,18 @@
         <i class="fa-solid fa-piggy-bank pill-icon"></i>
         <div style="flex:1;">
           <div class="pill-label" id="lblTotale">Tasse annuali</div>
-          <div class="pill-value" id="valTotale">â</div>
+          <div class="pill-value" id="valTotale">—</div>
           <div class="pill-split" id="pillSplit"></div>
         </div>
       </div>
       <div id="tax-widget">
         <div class="widget-box alert" id="boxMesePrec" onclick="apriDettaglioTasse('prec')">
           <div class="widget-label" id="lblMesePrec">Da pagare Mese Scorso</div>
-          <div class="widget-value" id="valMesePrec">â</div>
+          <div class="widget-value" id="valMesePrec">—</div>
         </div>
         <div class="widget-box" id="boxMeseCorr" onclick="apriDettaglioTasse('corr')">
           <div class="widget-label" id="lblMeseCorr">Accumulo Mese Corrente</div>
-          <div class="widget-value" id="valMeseCorr">â</div>
+          <div class="widget-value" id="valMeseCorr">—</div>
         </div>
       </div>
     </div>
@@ -409,9 +410,9 @@
 <div class="modal-overlay" id="modalNomeEsistente" onclick="chiudiModaleClickEsterno(event, 'modalNomeEsistente')">
   <div class="modal-box">
     <div class="modal-handle"></div>
-    <div class="modal-title">Chi ci sarÃ ?</div>
+    <div class="modal-title">Chi ci sarà?</div>
     <div class="modal-sub" id="modalSubEsistente">Dai un nome a questo blocco</div>
-    <input class="modal-input" id="modalInputNome" type="text" placeholder="es. Famiglia Rossi, Weekend amiciâ¦" maxlength="60">
+    <input class="modal-input" id="modalInputNome" type="text" placeholder="es. Famiglia Rossi, Weekend amici…" maxlength="60">
     <div class="modal-actions">
       <button class="btn-annulla" onclick="chiudiModale('modalNomeEsistente')">Annulla</button>
       <button class="btn-salva" id="btnSalvaNome" onclick="salvaNameEsistente()"><i class="fa-solid fa-floppy-disk"></i> Salva</button>
@@ -627,13 +628,13 @@
 
     chiamaAPI('impostaPuliziaFissata', { dataStr: dataOut, stato: nuovoStato, ospitiAttesi: ospitiAttesi })
       .then(res => { if (res && res.sessioneScaduta) mostraLogin(); })
-      .catch(err => { mostraToast("â ï¸ Errore salvataggio rete"); });
+      .catch(err => { mostraToast("⚠️ Errore salvataggio rete"); });
   }
 
   function chiediEliminaBlocco(checkIn, checkOut, titolo) {
     _bloccoDaEliminare = { checkIn: checkIn, checkOut: checkOut, titolo: titolo };
     
-    document.getElementById('testoElimina').innerHTML = "Vuoi eliminare il blocco <b>" + esc(titolo) + "</b>?<br>VerrÃ  rimosso anche dal calendario Google.";
+    document.getElementById('testoElimina').innerHTML = "Vuoi eliminare il blocco <b>" + esc(titolo) + "</b>?<br>Verrà rimosso anche dal calendario Google.";
     document.getElementById('btnConfermaElimina').disabled = false;
     document.getElementById('btnConfermaElimina').innerHTML = '<i class="fa-solid fa-trash-can"></i> Elimina';
     
@@ -651,15 +652,15 @@
         chiudiModale('modalElimina');
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         if(res.ok) { 
-          mostraToast("â Blocco eliminato con successo!"); 
+          mostraToast("✅ Blocco eliminato con successo!"); 
           setTimeout(ricaricaCalendario, 800);
         } else { 
-          mostraToast("â ï¸ Errore: " + res.errore); 
+          mostraToast("⚠️ Errore: " + res.errore); 
         }
       })
       .catch(() => {
         chiudiModale('modalElimina');
-        mostraToast("â ï¸ Errore di connessione a Google");
+        mostraToast("⚠️ Errore di connessione a Google");
       });
   }
 
@@ -705,12 +706,12 @@
       .then(res => {
         chiudiModale('modalOspiti');
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
-        mostraToast("â Numero ospiti aggiornato!");
+        mostraToast("✅ Numero ospiti aggiornato!");
         ricaricaCalendario();
       })
       .catch(() => {
         chiudiModale('modalOspiti');
-        mostraToast("â ï¸ Errore salvataggio");
+        mostraToast("⚠️ Errore salvataggio");
       });
   }
 
@@ -748,7 +749,7 @@
     }
 
     if (new Date(din) >= new Date(dout)) {
-      mostraToast("â ï¸ Il Check-out deve essere dopo il Check-in!");
+      mostraToast("⚠️ Il Check-out deve essere dopo il Check-in!");
       return;
     }
 
@@ -763,21 +764,21 @@
         chiudiModale('modalNuovoBlocco');
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         if(res.ok) {
-          mostraToast("â Blocco aggiunto al Calendario!");
+          mostraToast("✅ Blocco aggiunto al Calendario!");
           setTimeout(ricaricaCalendario, 800);
         } else {
-          mostraToast("â ï¸ Errore: " + res.errore);
+          mostraToast("⚠️ Errore: " + res.errore);
         }
       })
       .catch(() => {
         chiudiModale('modalNuovoBlocco');
-        mostraToast("â ï¸ Errore di connessione a Google");
+        mostraToast("⚠️ Errore di connessione a Google");
       });
   }
 
   function apriModaleNomeEsistente(checkIn, checkOut, notti) {
     _bloccoAttivo = { checkIn: checkIn, checkOut: checkOut };
-    document.getElementById('modalSubEsistente').textContent = checkIn + ' â ' + checkOut + '  Â·  ' + notti + ' notti';
+    document.getElementById('modalSubEsistente').textContent = checkIn + ' → ' + checkOut + '  ·  ' + notti + ' notti';
     document.getElementById('modalInputNome').value = '';
     document.getElementById('btnSalvaNome').disabled = false;
     document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salva';
@@ -791,18 +792,18 @@
     if (!nome) { document.getElementById('modalInputNome').style.borderColor = 'var(--danger)'; setTimeout(function() { document.getElementById('modalInputNome').style.borderColor = ''; }, 1200); return; }
     
     document.getElementById('btnSalvaNome').disabled = true; 
-    document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvoâ¦';
+    document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvo…';
     
     chiamaAPI('salvaNomeBlocco', { checkIn: _bloccoAttivo.checkIn, checkOut: _bloccoAttivo.checkOut, nome: nome })
       .then(res => { 
         chiudiModale('modalNomeEsistente'); 
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
-        mostraToast(res.ok ? 'â Salvato: ' + nome : 'â ï¸ Errore: ' + (res.errore || '')); 
+        mostraToast(res.ok ? '✅ Salvato: ' + nome : '⚠️ Errore: ' + (res.errore || '')); 
         if (res.ok) setTimeout(ricaricaCalendario, 800); 
       })
       .catch(() => { 
         chiudiModale('modalNomeEsistente'); 
-        mostraToast('â ï¸ Errore di rete'); 
+        mostraToast('⚠️ Errore di rete'); 
       });
   }
 
@@ -831,7 +832,7 @@
 
     if (btnCheck) {
       btnCheck.disabled = true;
-      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Controllo in corsoâ¦';
+      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Controllo in corso…';
     }
     if (slotInvio) slotInvio.innerHTML = ''; 
     if (boxEsiti) { boxEsiti.style.display = 'none'; boxEsiti.innerHTML = ''; }
@@ -853,9 +854,9 @@
           slotInvio.innerHTML =
             '<button class="btn-questura" id="aw-btn-' + riga + '" onclick="inviaQuestura(' + riga + ', \'' + nomeJs + '\')">' +
             '<i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>';
-          mostraToast('â Schedine valide: puoi inviare');
+          mostraToast('✅ Schedine valide: puoi inviare');
         } else {
-          mostraToast('â ï¸ Ci sono errori da correggere');
+          mostraToast('⚠️ Ci sono errori da correggere');
         }
       })
       .catch(err => {
@@ -869,7 +870,7 @@
             '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">' + esc(err && err.message || 'Rete assente') + '</span></div>';
           boxEsiti.style.display = 'block';
         }
-        mostraToast('â ï¸ Errore di rete');
+        mostraToast('⚠️ Errore di rete');
       });
   }
 
@@ -887,7 +888,7 @@
     if (!_questuraAttiva) return;
     var riga = _questuraAttiva.riga;
     document.getElementById('btnConfermaQuestura').disabled = true;
-    document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corsoâ¦';
+    document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso…';
     eseguiInvioQuestura(riga, function() { chiudiModale('modalQuestura'); });
   }
 
@@ -895,7 +896,7 @@
     var btn = document.getElementById('aw-btn-' + riga);
     if (btn) {
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corsoâ¦';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso…';
     }
 
     chiamaAPI('inviaRigaAdAlloggiati', { riga: riga })
@@ -903,7 +904,7 @@
         if (onDone) onDone();
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         if (res && res.ok) {
-          mostraToast('â ' + (res.messaggio || 'Schedine inviate alla Questura!'));
+          mostraToast('✅ ' + (res.messaggio || 'Schedine inviate alla Questura!'));
           var badge = document.getElementById('aw-badge-' + riga);
           if (badge) {
             badge.className = 'badge badge-censito';
@@ -913,7 +914,7 @@
           if (box) box.innerHTML = '<div class="aw-esiti tutto-ok"><div class="aw-head ok"><i class="fa-solid fa-circle-check"></i> ' + esc(res.messaggio || 'Censito con successo') + '</div></div>';
         } else {
           if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia a Questura'; }
-          mostraToast('â ï¸ Invio non riuscito');
+          mostraToast('⚠️ Invio non riuscito');
           var boxEsiti = document.getElementById('aw-esiti-' + riga);
           if (boxEsiti && res) {
             var lista = (res.errori || []).map(function(e) { return '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">Ospite ' + e.riga + ': ' + esc(e.errore || '') + '</span></div>'; }).join('');
@@ -926,7 +927,7 @@
       .catch(err => {
         if (onDone) onDone();
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia a Questura'; }
-        mostraToast('â ï¸ Errore di rete');
+        mostraToast('⚠️ Errore di rete');
       });
   }
 
@@ -946,13 +947,13 @@
       { label: 'Residenza',       value: stringaResidenza },
       { label: 'Sesso',           value: o.sesso        },
       { label: 'Tipo doc.',       value: o.tipoDoc      },
-      { label: 'NÂ° documento',    value: o.numeroDoc    },
+      { label: 'N° documento',    value: o.numeroDoc    },
       { label: 'Rilascio doc.',   value: stringaRilascio }
     ];
 
     var fieldsHtml = campi.map(function(c) {
       var v = c.value || '';
-      return '<div class="ospite-field"><span class="label">' + esc(c.label) + '</span><span class="value' + (!v ? ' empty' : '') + '">' + (v ? esc(v) : 'â') + '</span></div>';
+      return '<div class="ospite-field"><span class="label">' + esc(c.label) + '</span><span class="value' + (!v ? ' empty' : '') + '">' + (v ? esc(v) : '—') + '</span></div>';
     }).join('');
 
     var linkPrev = o.linkDoc ? esc(o.linkDoc).replace(/\/view.*/, '/preview') : '';
@@ -981,7 +982,7 @@
     var abbPrec = { tassa: 0, pers: 0, notti: 0 };
     var annoVersare = 0; var annoAirbnb = 0; var annoPers = 0; var annoNotti = 0;
 
-    function fmtEuro(n) { return 'â¬ ' + n.toFixed(2).replace('.', ','); }
+    function fmtEuro(n) { return '€ ' + n.toFixed(2).replace('.', ','); }
     function rigaSub(pern, pers, notti) {
       return '<div class="widget-sub"><span><i class="fa-solid fa-bed"></i> ' + pern + (pern === 1 ? ' pernottamento' : ' pernottamenti') + ' tassabili</span></div>' +
              '<div class="widget-sub" style="margin-top:3px;"><span><i class="fa-solid fa-user"></i> ' + pers + (pers === 1 ? ' ospite' : ' ospiti') + '</span><span><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span></div>';
@@ -1007,8 +1008,8 @@
       el.innerHTML = '<div class="empty"><i class="fa-solid fa-inbox"></i><p>Nessun check-in trovato.</p></div>';
       aggiornaPillAnnuale(annoCorr, 0, 0, 0, 0);
       document.getElementById('tax-widget').innerHTML =
-        '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">â¬ 0,00</div></div>' +
-        '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">â¬ 0,00</div></div>';
+        '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">€ 0,00</div></div>' +
+        '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">€ 0,00</div></div>';
       return;
     }
 
@@ -1070,7 +1071,7 @@
 
       var calcTassaHtml = '';
 
-      html.push('<div class="card' + (passato ? ' is-passato' : '') + '"><div class="card-top"><div class="guest-name">' + esc(nomeCapo) + '</div><div class="badges">' + badgePass + badgeAlloggiati + '<span class="badge ' + bc + '">' + esc(p.portale) + '</span></div></div><div class="details-grid"><div class="detail-item"><i class="fa-solid fa-calendar-day"></i>' + esc(p.data) + '</div><div class="detail-item"><i class="fa-solid fa-moon"></i>' + p.notti + ' notti</div><div class="detail-item"><i class="fa-solid fa-user-plus"></i>' + (p.ospitiConteggio || totOspiti) + ' ospiti</div><div class="detail-item red"><i class="fa-solid fa-coins"></i>â¬ ' + (p.tassa||0).toFixed(2) + '</div></div>' + calcTassaHtml + '<button class="btn-dettagli" id="btn-det-' + idx + '"onclick="toggleDettagli(' + idx + ')"><span><i class="fa-solid fa-users" style="margin-right:6px;"></i>' + esc(labelBtn) + docCounterHtml + '</span><i class="fa-solid fa-chevron-down arrow"></i></button><div class="ospiti-panel" id="panel-' + idx + '"><div class="ospiti-lista">' + ospitiHtml + '</div></div>' + awBlocco + '</div>');
+      html.push('<div class="card' + (passato ? ' is-passato' : '') + '"><div class="card-top"><div class="guest-name">' + esc(nomeCapo) + '</div><div class="badges">' + badgePass + badgeAlloggiati + '<span class="badge ' + bc + '">' + esc(p.portale) + '</span></div></div><div class="details-grid"><div class="detail-item"><i class="fa-solid fa-calendar-day"></i>' + esc(p.data) + '</div><div class="detail-item"><i class="fa-solid fa-moon"></i>' + p.notti + ' notti</div><div class="detail-item"><i class="fa-solid fa-user-plus"></i>' + (p.ospitiConteggio || totOspiti) + ' ospiti</div><div class="detail-item red"><i class="fa-solid fa-coins"></i>€ ' + (p.tassa||0).toFixed(2) + '</div></div>' + calcTassaHtml + '<button class="btn-dettagli" id="btn-det-' + idx + '"onclick="toggleDettagli(' + idx + ')"><span><i class="fa-solid fa-users" style="margin-right:6px;"></i>' + esc(labelBtn) + docCounterHtml + '</span><i class="fa-solid fa-chevron-down arrow"></i></button><div class="ospiti-panel" id="panel-' + idx + '"><div class="ospiti-lista">' + ospitiHtml + '</div></div>' + awBlocco + '</div>');
     });
 
     el.innerHTML = html.join('');
@@ -1079,13 +1080,13 @@
     
     document.getElementById('tax-widget').innerHTML =
       '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')">' +
-        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Da pagare ' + MESI_LUNGHI[mesePrec] + '</div>' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Da pagare ' + MESI_LUNGHI[mesePrec] + '</div>' +
         '<div class="widget-value">' + fmtEuro(totPrec) + '</div>' +
         rigaSub(pernPrec, persPrec, nottiPrec) +
         rigaAirbnb(abbPrec) +
       '</div>' +
       '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')">' +
-        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Accumulo ' + MESI_LUNGHI[meseCorr] + '</div>' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking · Accumulo ' + MESI_LUNGHI[meseCorr] + '</div>' +
         '<div class="widget-value">' + fmtEuro(totCorr) + '</div>' +
         rigaSub(pernCorr, persCorr, nottiCorr) +
         rigaAirbnb(abbCorr) +
@@ -1113,14 +1114,14 @@
       var partiOut = (c.checkOut || '').split('/');
       var giornoOut = partiOut[0] || '??';
       var mIdxOut = partiOut[1] ? parseInt(partiOut[1]) - 1 : mIdx;
-      var rangeGg = giorno + 'â' + giornoOut;
+      var rangeGg = giorno + '→' + giornoOut;
 
       var dateHtml;
       if (mIdx === mIdxOut) {
         dateHtml = '<div class="cal-day">' + esc(rangeGg) + '</div><div class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</div>';
       } else {
         dateHtml = '<div class="cal-dline"><span class="cal-day">' + giorno + '</span><span class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</span></div>' +
-                   '<div class="cal-arrow-v">â</div>' +
+                   '<div class="cal-arrow-v">↓</div>' +
                    '<div class="cal-dline"><span class="cal-day cal-day-out">' + giornoOut + '</span><span class="cal-month cal-month-out">' + (MESI_BREVI[mIdxOut]||'') + '</span></div>';
       }
 
@@ -1141,7 +1142,7 @@
 
       var btnNome = '';
       if (isPriv && !c.haNome) {
-        btnNome = '<button class="btn-nome" onclick="apriModaleNomeEsistente(\'' + esc(c.checkIn) + '\',\'' + esc(c.checkOut) + '\',' + (c.notti||0) + ')"><i class="fa-solid fa-tag"></i> Dai un nomeâ¦</button>';
+        btnNome = '<button class="btn-nome" onclick="apriModaleNomeEsistente(\'' + esc(c.checkIn) + '\',\'' + esc(c.checkOut) + '\',' + (c.notti||0) + ')"><i class="fa-solid fa-tag"></i> Dai un nome…</button>';
       }
 
       var btnLink = '';
@@ -1183,11 +1184,11 @@
     chiamaAPI('getAppData')
       .then(data => {
         if (data && data.sessioneScaduta) { mostraLogin(); return; }
-        if (data.errore) { mostraToast("â ï¸ Errore: " + data.errore); return; }
+        if (data.errore) { mostraToast("⚠️ Errore: " + data.errore); return; }
         window._pulizieConfermate = data.pulizie || [];
         renderCalendario(data.calendario);
       })
-      .catch(err => mostraToast("â ï¸ Errore di rete: " + (err.message || "")));
+      .catch(err => mostraToast("⚠️ Errore di rete: " + (err.message || "")));
   }
 
   window.onload = function() {
@@ -1202,7 +1203,7 @@
         document.getElementById('loading').style.display = 'none';
         if (data && data.sessioneScaduta) { mostraLogin(); return; }
         if (data.errore) {
-          var msg = '<div class="error-box"><b>â ï¸ Errore di sistema</b>' + esc(data.errore) + '</div>';
+          var msg = '<div class="error-box"><b>⚠️ Errore di sistema</b>' + esc(data.errore) + '</div>';
           document.getElementById('listaPresenze').innerHTML = msg; document.getElementById('listaCalendario').innerHTML = msg;
           return;
         }
@@ -1212,7 +1213,7 @@
       })
       .catch(err => {
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('listaPresenze').innerHTML = '<div class="error-box"><b>â ï¸ Errore di connessione</b>' + esc(err.message) + '</div>';
+        document.getElementById('listaPresenze').innerHTML = '<div class="error-box"><b>⚠️ Errore di connessione</b>' + esc(err.message) + '</div>';
       });
   }
 
@@ -1245,8 +1246,8 @@
 
       html += '<tr style="border-bottom: 1px solid var(--border);' + (isAbnb ? ' background: #faf9fe;' : '') + '">';
       html += '<td style="padding: 12px 10px;"><b>' + esc(item.nome) + '</b><br><span style="font-size:11px; font-weight:600;"><i class="' + (isAbnb ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel') + '"></i> ' + esc(item.portale) + '</span></td>';
-      html += '<td style="padding: 12px 10px; text-align:center;">' + item.paganti + ' paganti<br>Ã ' + item.notti + ' notti<br><b>=' + item.pernottamenti + ' pern.</b></td>';
-      html += '<td style="padding: 12px 10px; text-align:right; font-weight:bold;">â¬ ' + tassaRiga.toFixed(2) + '</td>';
+      html += '<td style="padding: 12px 10px; text-align:center;">' + item.paganti + ' paganti<br>× ' + item.notti + ' notti<br><b>=' + item.pernottamenti + ' pern.</b></td>';
+      html += '<td style="padding: 12px 10px; text-align:right; font-weight:bold;">€ ' + tassaRiga.toFixed(2) + '</td>';
       html += '</tr>';
     });
     html += '</table>';
@@ -1256,14 +1257,14 @@
       s += '<div style="font-size:11px; font-weight:800; margin-bottom:8px; text-transform:uppercase;">' + titolo + '</div>';
       s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Totale Ospiti Paganti:</span> <b>' + dati.ospiti + '</b></div>';
       s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Pernottamenti Tassabili:</span> <b>' + dati.pern + '</b></div>';
-      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Tariffa applicata:</span> <b>â¬ 6,00</b></div>';
-      s += '<div style="display:flex; justify-content:space-between; border-top:1px solid ' + colore + '; padding-top:8px; margin-top:8px;"><span>' + (labelTotale || 'Totale da versare:') + '</span> <b style="font-size: 18px;">â¬ ' + dati.totale.toFixed(2).replace('.', ',') + '</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Tariffa applicata:</span> <b>€ 6,00</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; border-top:1px solid ' + colore + '; padding-top:8px; margin-top:8px;"><span>' + (labelTotale || 'Totale da versare:') + '</span> <b style="font-size: 18px;">€ ' + dati.totale.toFixed(2).replace('.', ',') + '</b></div>';
       s += '</div>';
       return s;
     }
 
     html += creaBox('Dati per il Portale: BOOKING', booking, '#003580');
-    html += creaBox('Dati per il Portale: AIRBNB', airbnb, '#ff5a5f', 'GiÃ  pagato da Airbnb:');
+    html += creaBox('Dati per il Portale: AIRBNB', airbnb, '#ff5a5f', 'Già pagato da Airbnb:');
   }
 
   document.getElementById('listaDettaglioTasse').innerHTML = html;
@@ -1278,11 +1279,11 @@
           window._pulizieConfermate = data.pulizie || [];
           renderPresenze(data.presenze);
           renderCalendario(data.calendario);
-          mostraToast('â Aggiornato');
-        } else if (data && data.errore) { mostraToast('â ï¸ ' + data.errore); }
+          mostraToast('✅ Aggiornato');
+        } else if (data && data.errore) { mostraToast('⚠️ ' + data.errore); }
         if (onComplete) onComplete();
       }).catch(err => {
-        mostraToast('â ï¸ Errore di rete');
+        mostraToast('⚠️ Errore di rete');
         if (onComplete) onComplete();
       });
   }
@@ -1304,6 +1305,5 @@
     document.addEventListener('touchend', fine); document.addEventListener('touchcancel', fine);
   })();
 </script>
-
 </body>
-</html> 
+</html>
