@@ -95,7 +95,7 @@
       var fbLink   = document.getElementById('fallbackLink');
 
       // Controllo: l'URL è stato impostato?
-      if (!URL_APP || URL_APP.indexOf('INCOLLA_QUI') !== -1 || URL_APP.indexOf('/exec') === -1) {
+      if (!URL_APP || URL_APP.indexOf('https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec') !== -1 || URL_APP.indexOf('/exec') === -1) {
         splash.style.display = 'none';
         fallback.style.display = 'flex';
         document.querySelector('#fallback h2').textContent = 'Manca l\u2019indirizzo dell\u2019app';
