@@ -52,7 +52,7 @@
     .tab-content.active { display: block; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giù la pagina */
+    /* Pull-to-refresh: indicatore che scende dall'alto quando si tira giÃ¹ la pagina */
     .ptr-indicator {
       position: fixed; top: 0; left: 50%;
       transform: translate(-50%, -64px);
@@ -202,733 +202,1108 @@
     .btn-trash { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #fff0f0; color: var(--danger); border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; margin-left: auto; }
     .btn-trash:hover { background: #ffd6d6; }
 
-    .ospiti-badge { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #e4dcf5; color: var(--lilla-dark); border-radius: 50%; font-size: 10px; font-weight: 800; cursor: pointer; margin-left: 6px; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
-    .ospiti-badge:hover { background: var(--lilla); color: white; transform: scale(1.1); }
-    
-    .btn-pulizia { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; font-family: inherit; -webkit-tap-highlight-color: transparent;}
+    .ospiti-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--lilla-light); color: var(--lilla-dark); padding: 2px 8px; border-radius: 12px; font-size: 11.5px; font-weight: 700; cursor: pointer; border: 1px solid var(--lilla-mid); transition: background 0.2s; -webkit-tap-highlight-color: transparent;}
+    .ospiti-badge:hover { background: #e4dcf5; }
+
+    .btn-pulizia { display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; font-family: inherit; -webkit-tap-highlight-color: transparent;}
     .btn-pulizia.ko { background: #fff0f0; color: var(--danger); border-color: #ffcccc; }
     .btn-pulizia.staff { background: #e8f8ef; color: var(--success); border-color: #bbf0d4; }
-    .btn-pulizia.host { background: #e4f0fe; color: #2b6cb0; border-color: #bee3f8; }
+    .btn-pulizia.olli { background: #fff8e6; color: #f59e0b; border-color: #fde68a; }
+    .btn-pulizia:active { filter: brightness(0.9); transform: scale(0.95); }
 
-    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: var(--nav-h); background: white; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,.05); z-index: 100; border-top: 1px solid var(--border); padding-bottom: env(safe-area-inset-bottom); }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; transition: color .2s; -webkit-tap-highlight-color: transparent; }
-    .nav-item i { font-size: 20px; }
+    .btn-nome { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 7px 12px; background: var(--privato-bg); color: var(--privato); border: 1.5px dashed var(--privato); border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+    .btn-nome:hover { background: #ddf4eb; border-style: solid; }
+
+    .legenda { display: flex; gap: 14px; flex-wrap: wrap; padding: 11px 14px; background: var(--card); border-radius: var(--radius-sm); border: 1px solid var(--border); width: 100%;}
+    .legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    .legenda-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-airbnb  { background: var(--airbnb); }
+    .dot-booking { background: var(--booking); }
+    .dot-privato { background: var(--privato); }
+
+    .month-sep { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); padding: 10px 2px 6px; display: flex; align-items: center; gap: 8px; }
+    .month-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .empty i { font-size: 36px; opacity: .3; display: block; margin-bottom: 12px; }
+    .error-box { background: #fff0f0; border: 1px solid var(--danger); border-radius: var(--radius); padding: 18px; color: var(--danger); font-size: 14px; line-height: 1.6; }
+    .error-box b { display: block; font-size: 15px; margin-bottom: 6px; }
+
+    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: var(--nav-h); background: white; display: flex; border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(92,61,153,.08); z-index: 100; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-muted); cursor: pointer; transition: color .2s; -webkit-tap-highlight-color: transparent; user-select: none; }
+    .nav-item i    { font-size: 20px; transition: transform .2s; }
+    .nav-item span { font-size: 11.5px; font-weight: 600; }
     .nav-item.active { color: var(--lilla); }
+    .nav-item.active i { transform: translateY(-2px); }
 
-    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
-    .empty-state i { font-size: 40px; color: var(--border); margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; font-weight: 500; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(30,27,46,.4); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: flex-end; justify-content: center; opacity: 0; transition: opacity .3s; }
-    .modal-overlay.show { display: flex; opacity: 1; }
+    /* ââ STILI MODALI (POPUPS) ââ */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(30,27,46,.55); display: flex; align-items: flex-end; justify-content: center; z-index: 500; opacity: 0; pointer-events: none; transition: opacity .25s; }
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
     .modal-box { background: white; border-radius: 24px 24px 0 0; padding: 28px 24px 36px; width: 100%; max-width: 600px; transform: translateY(100%); transition: transform .3s cubic-bezier(.32,1,.6,1); }
     .modal-overlay.show .modal-box { transform: translateY(0); }
     .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 20px; }
-    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+    .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .modal-sub   { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    
+    .input-group { margin-bottom: 12px; }
+    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
+    .modal-input { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: inherit; color: var(--text); outline: none; transition: border-color .2s; background: white; }
+    .modal-input:focus { border-color: var(--privato); }
+    .modal-input::placeholder { color: var(--text-muted); }
+    select.modal-input { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%237a7490%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right .9rem top 50%; background-size: .65rem auto; }
+    
+    .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .btn-annulla { flex: 1; padding: 13px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: white; font-size: 14px; font-weight: 600; font-family: inherit; color: var(--text-muted); cursor: pointer; }
+    .btn-salva { flex: 2; padding: 13px; border: none; border-radius: var(--radius-sm); background: var(--privato); font-size: 14px; font-weight: 700; font-family: inherit; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-salva:disabled { background: var(--lilla-mid); cursor: not-allowed; }
 
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
-    .form-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; outline: none; transition: border-color .2s; }
-    .form-input:focus { border-color: var(--lilla); }
-
-    .btn-save { width: 100%; padding: 14px; background: var(--lilla); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(124,92,191,.3); }
-    .btn-save:active { transform: scale(.98); }
-
-    .toast { position: fixed; bottom: calc(var(--nav-h) + 20px); left: 50%; transform: translateX(-50%) translateY(100px); background: #323232; color: white; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.15); transition: transform .3s cubic-bezier(.32,1,.6,1); z-index: 300; pointer-events: none; }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    .legenda-box { display: flex; flex-wrap: wrap; gap: 12px; background: white; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: center; }
-    .legenda-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-    .legenda-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-airbnb { background: var(--airbnb); }
-    .dot-booking { background: var(--booking); }
-    .dot-privato { background: var(--privato); }
+    .toast { position: fixed; bottom: calc(var(--nav-h) + 16px); left: 50%; transform: translateX(-50%) translateY(20px); background: #1e1b2e; color: white; padding: 12px 20px; border-radius: 30px; font-size: 13.5px; font-weight: 600; z-index: 600; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
 
-  <div id="ptr-indicator" class="ptr-indicator"><i class="fa-solid fa-rotate-right"></i></div>
+<div id="loading">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Caricamento in corsoâ¦</div>
+</div>
 
-  <header></header>
+<header></header>
 
-  <div id="loading">
-    <div class="loader-ring"></div>
-    <div class="loader-text">Caricamento dati...</div>
-  </div>
-
-  <div id="toast" class="toast"></div>
-
-  <div id="loginOverlay" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:1000; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-    <div style="background:white; padding:30px 24px; border-radius:var(--radius); box-shadow:0 10px 40px rgba(92,61,153,.15); width:100%; max-width:340px; text-align:center; border:1px solid var(--border);">
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">Inserisci la password per accedere.</p>
-      <div id="loginErr" style="display:none; color:var(--danger); font-size:12.5px; font-weight:600; margin-bottom:14px; background:#fff0f0; padding:10px; border-radius:8px;">Password errata.</div>
-      <div style="text-align:left; margin-bottom:20px;">
-        <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Password</label>
-        <input id="loginPass" type="password" autocomplete="current-password" style="width:100%; padding:13px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; outline:none; margin-bottom:14px;">
-        <button id="loginBtn" onclick="entra()" style="width:100%; padding:14px; border:none; border-radius:10px; background:var(--lilla); color:white; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 4px 15px rgba(124,92,191,.3); transition:background 0.2s;">Accedi</button>
-      </div>
+<div id="loginOverlay" style="position:fixed; inset:0; z-index:2000; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:#fff; border:1px solid var(--border); border-radius:18px; overflow:hidden; width:100%; max-width:360px; box-shadow:0 8px 30px rgba(92,61,153,.12);">
+    <div style="position:relative; height:140px; background:url('https://ollicozyhome-lgtm.github.io/Check-in-Ollis-Corner/banner-checkin.jpg') center/cover;">
+      <div style="position:absolute; inset:0; background:linear-gradient(to top,rgba(30,27,46,.62),rgba(92,61,153,.08));"></div>
+      <div style="position:absolute; left:0; right:0; bottom:14px; text-align:center; color:#fff; font-size:21px; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,.45);"></div>
+    </div>
+    <div style="padding:24px 22px 26px;">
+      <p style="font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:20px;">Area riservata â accedi per continuare</p>
+      <div id="loginErr" style="display:none; background:#fff0f0; color:var(--danger); border:1px solid #ffcccc; border-radius:10px; padding:10px; font-size:13px; text-align:center; margin-bottom:14px;"></div>
+      <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Utente</label>
+      <input id="loginUser" type="text" autocomplete="username" autocapitalize="none" style="width:100%; padding:13px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; outline:none; margin-bottom:14px;">
+      <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password" style="width:100%; padding:13px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; outline:none; margin-bottom:14px;">
+      <button id="loginBtn" onclick="entra()" style="width:100%; padding:14px; border:none; border-radius:10px; background:var(--lilla); color:#fff; font-size:15px; font-weight:700; cursor:pointer;">Accedi</button>
     </div>
   </div>
+</div>
 
-  <div class="container">
-    <div id="tab-presenze" class="tab-content active">
-      <div class="sticky-taxes">
-        <div id="tasse-box"></div>
-      </div>
-      <div id="listaPresenze"></div>
-    </div>
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbwRaKhhaV6CohXtrDJAxKm4DfmZ4F1KLajFyz_Slzc5axY8arSkj_rueQ4AmdzW1P4xJg/exec";
+  var SESSION_TOKEN = null;
 
-    <div id="tab-calendario" class="tab-content">
-      <div class="sticky-legend">
-        <button class="btn-add-block" onclick="apriModaleBlocco()"><i class="fa-solid fa-plus"></i> Aggiungi Blocco Privato</button>
-        <div class="legenda-box">
-          <div class="legenda-item"><div class="legenda-dot dot-airbnb"></div>Airbnb</div>
-          <div class="legenda-item"><div class="legenda-dot dot-booking"></div>Booking.com</div>
-          <div class="legenda-item"><div class="legenda-dot dot-privato"></div>Blocco privato</div>
-        </div>
-      </div>
-      <div id="listaCalendario"></div>
-    </div>
-  </div>
+  // ð FUNZIONE API CHE SOSTITUISCE "google.script.run"
+  async function chiamaAPI(action, params = {}) {
+    params.action = action;
+    if (SESSION_TOKEN) params.token = SESSION_TOKEN;
 
-  <nav class="nav-bar">
-    <div class="nav-item active" onclick="switchTab('tab-presenze', this)">
-      <i class="fa-solid fa-user-group"></i>
-      <span>Check-in</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('tab-calendario', this)">
-      <i class="fa-regular fa-calendar-days"></i>
-      <span>Calendario</span>
-    </div>
-  </nav>
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(params)
+      });
+      if (!response.ok) throw new Error('Risposta server non valida');
+      return await response.json();
+    } catch (error) {
+      console.error("Errore API:", error);
+      throw error;
+    }
+  }
 
-  <div id="modalBlocco" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalBlocco')">
-    <div class="modal-box">
-      <div class="modal-handle"></div>
-      <div class="modal-title">Nuovo Blocco Privato</div>
-      <div class="form-group">
-        <label>Data Inizio</label>
-        <input type="date" id="bloccoInizio" class="form-input">
-      </div>
-      <div class="form-group">
-        <label>Data Fine</label>
-        <input type="date" id="bloccoFine" class="form-input">
-      </div>
-      <div class="form-group">
-        <label>Note (opzionale)</label>
-        <input type="text" id="bloccoNote" class="form-input" placeholder="Es. Manutenzione, Amici...">
-      </div>
-      <button class="btn-save" id="btnSalvaBlocco" onclick="salvaBlocco()">Salva Blocco</button>
-    </div>
-  </div>
-
-  <div id="modalOspiti" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalOspiti')">
-    <div class="modal-box">
-      <div class="modal-handle"></div>
-      <div class="modal-title" style="margin-bottom:10px;">Dettaglio Ospiti</div>
-      <p id="moSoggiorno" style="text-align:center; font-size:14px; font-weight:700; color:var(--lilla-dark); margin-bottom:20px;"></p>
-      
-      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
-        <label style="margin:0;">Ospiti dichiarati:</label>
-        <div id="moDichiarati" style="font-size:16px; font-weight:800; color:var(--text); background:var(--bg); padding:4px 12px; border-radius:12px;"></div>
-      </div>
-      
-      <div class="form-group" style="margin-top:20px;">
-        <label>Aggiorna numero effettivo:</label>
-        <div style="display:flex; gap:10px;">
-          <input type="number" id="moEffettivi" class="form-input" min="1" max="10" style="width:80px; text-align:center;">
-          <button class="btn-save" style="margin:0; flex:1;" onclick="salvaOspiti()">Aggiorna</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="modalDocumento" class="modal-overlay" onclick="if(event.target===this) chiudiModale('modalDocumento')" style="align-items: center; padding: 20px;">
-    <div class="modal-box" style="border-radius: 16px; padding: 20px; height: 80vh; max-height: 800px; display: flex; flex-direction: column; transform: scale(0.95); transition: transform .3s cubic-bezier(.32,1,.6,1);">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
-        <div class="modal-title" style="margin: 0; text-align: left; font-size: 16px;">Anteprima Documento</div>
-        <i class="fa-solid fa-xmark" onclick="chiudiModale('modalDocumento')" style="color:var(--text-muted); cursor:pointer; font-size:22px; padding:5px;"></i>
-      </div>
-      <div style="flex: 1; margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #f7f5fc;">
-        <iframe id="iframeDocumento" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-      </div>
-    </div>
-  </div>
-  <style>
-    .modal-overlay.show #modalDocumento .modal-box { transform: scale(1); }
-  </style>
-
-  <script>
-    window._pulizieConfermate = []; // Cache pulizie
-
-    // --- PULL TO REFRESH ---
-    var startY = 0, dist = 0, pulling = false, refreshing = false;
-    var indicator = document.getElementById('ptr-indicator');
-    var icon = indicator.querySelector('i');
+  function entra() {
+    var b = document.getElementById('loginBtn');
+    var e = document.getElementById('loginErr');
+    var u = document.getElementById('loginUser').value;
+    var p = document.getElementById('loginPass').value;
+    e.style.display = 'none'; b.disabled = true; b.textContent = 'Accesso in corsoâ¦';
     
-    function inCima() { return window.scrollY <= 0; }
-    function bloccato() { return document.querySelector('.modal-overlay.show') !== null || document.getElementById('loginOverlay').style.display === 'flex'; }
-    
-    function disegna(d) {
-      var y = Math.min(d / 2.5 - 64, 42);
-      indicator.style.transform = 'translate(-50%, ' + y + 'px)';
-      var op = Math.min(d / 150, 1);
-      indicator.style.opacity = op;
-      icon.style.transform = 'rotate(' + (d * 1.5) + 'deg)';
-      if (d > 180) indicator.classList.add('ready'); else indicator.classList.remove('ready');
-    }
-    function nascondi(animato) {
-      indicator.style.transition = animato ? 'transform .3s ease, opacity .3s ease' : 'none';
-      indicator.style.transform = 'translate(-50%,-64px)';
-      indicator.style.opacity = '0';
-      indicator.classList.remove('ready', 'spinning');
-      icon.style.transform = '';
-    }
-    function aggiorna() {
-      refreshing = true;
-      indicator.style.transition = 'transform .3s ease, opacity .3s ease';
-      indicator.style.transform = 'translate(-50%,42px)';
-      indicator.style.opacity = '1';
-      indicator.classList.remove('ready');
-      indicator.classList.add('spinning');
-      eseguiRefresh(function() { refreshing = false; nascondi(true); });
-    }
-
-    document.addEventListener('touchstart', function(e) {
-      if (refreshing) return;
-      if (!inCima() || bloccato()) { pulling = false; return; }
-      startY = e.touches[0].clientY;
-      dist = 0; pulling = true;
-      indicator.style.transition = 'none';
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', function(e) {
-      if (refreshing || !pulling) return;
-      if (!inCima()) { pulling = false; nascondi(false); return; }
-      dist = e.touches[0].clientY - startY;
-      if (dist > 0) { e.preventDefault(); disegna(dist); } else { dist = 0; indicator.style.opacity = '0'; }
-    }, { passive: false });
-    
-    function fine() {
-      if (refreshing || !pulling) return;
-      pulling = false;
-      if (dist >= 180) aggiorna(); else nascondi(true);
-    }
-    document.addEventListener('touchend', fine);
-    document.addEventListener('touchcancel', fine);
-
-    function eseguiRefresh(cb) {
-      google.script.run.withSuccessHandler(function(d) {
-        if(d && d.sessioneScaduta) { mostraLogin(); if(cb) cb(); return; }
-        if(d) {
-          window._pulizieConfermate = d.pulizie || [];
-          renderPresenze(d.presenze);
-          renderCalendario(d.calendario);
-        }
-        if(cb) cb();
-      }).withFailureHandler(function(err){
-        mostraToast('Errore agg: ' + err);
-        if(cb) cb();
-      }).getDati();
-    }
-    // ----------------------
-
-    var tabCorrente = 'tab-presenze';
-    const MESI_CORTI = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-    const MESI_LUNGHI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-
-    function switchTab(id, el) {
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      el.classList.add('active');
-      tabCorrente = id;
-      window.scrollTo({top:0});
-    }
-
-    function apriModale(id) {
-      var m = document.getElementById(id);
-      m.style.display = 'flex';
-      m.offsetHeight; 
-      m.classList.add('show');
-    }
-    function chiudiModale(id) {
-      var m = document.getElementById(id);
-      m.classList.remove('show');
-      setTimeout(() => m.style.display = 'none', 300);
-    }
-    function apriDocumento(url) {
-      document.getElementById('iframeDocumento').src = url;
-      apriModale('modalDocumento');
-    }
-    
-    var tempCheckIn='', tempCheckOut='';
-    function apriModaleOspiti(ci, co, dich) {
-      tempCheckIn = ci; tempCheckOut = co;
-      var sogg = formattaData(ci) + ' – ' + formattaData(co);
-      document.getElementById('moSoggiorno').innerText = sogg;
-      document.getElementById('moDichiarati').innerText = dich;
-      document.getElementById('moEffettivi').value = dich !== '?' ? dich : '';
-      apriModale('modalOspiti');
-    }
-    
-    function salvaOspiti() {
-      var eff = document.getElementById('moEffettivi').value;
-      if(!eff) return;
-      chiudiModale('modalOspiti');
-      mostraToast('Salvataggio numero ospiti...');
-      google.script.run.withSuccessHandler(function(res) {
-        if(res && res.sessioneScaduta) { mostraLogin(); return; }
-        if(res && res.ok) { mostraToast('Numero ospiti aggiornato!'); eseguiRefresh(); }
-        else mostraToast('Errore: ' + (res ? res.messaggio : 'Sconosciuto'));
-      }).aggiornaOspiti(tempCheckIn, tempCheckOut, eff);
-    }
-
-    function togglePulizia(dataOut, idStato, ospitiAttesi, btnEl) {
-      var stati = ['ko', 'staff', 'host'];
-      var idx = stati.indexOf(idStato);
-      var nuovoStato = stati[(idx + 1) % stati.length];
-      btnEl.className = 'btn-pulizia ' + nuovoStato;
-      var lbls = {'ko':'Da pulire', 'staff':'Fatta Staff', 'host':'Fatta Host'};
-      btnEl.innerText = lbls[nuovoStato];
-      btnEl.setAttribute('onclick', "togglePulizia('" + dataOut + "', '" + nuovoStato + "', '" + ospitiAttesi + "', this)");
-
-      var trovato = false;
-      for (var p = 0; p < window._pulizieConfermate.length; p++) {
-        if (window._pulizieConfermate[p].data === dataOut) {
-          window._pulizieConfermate[p].stato = nuovoStato;
-          trovato = true; break;
-        }
-      }
-      if (!trovato) window._pulizieConfermate.push({data: dataOut, stato: nuovoStato});
-
-      google.script.run.withSuccessHandler(function(res) {
-        if(res && res.sessioneScaduta) { mostraLogin(); return; }
-      }).impostaPulizia(dataOut, nuovoStato, ospitiAttesi);
-    }
-
-    function mostraToast(msg) {
-      var t = document.getElementById('toast');
-      t.innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3000);
-    }
-
-    function mostraLogin() {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('loginOverlay').style.display = 'flex';
-      document.getElementById('loginPass').focus();
-    }
-    function entra() {
-      var btn = document.getElementById('loginBtn');
-      var p = document.getElementById('loginPass').value;
-      if (!p) return;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-      btn.disabled = true;
-      document.getElementById('loginErr').style.display = 'none';
-      google.script.run.withSuccessHandler(function(ok) {
-        if (ok) {
+    chiamaAPI('login', { utente: u, password: p })
+      .then(res => {
+        if (res && res.ok && res.token) {
+          SESSION_TOKEN = res.token;                                  
           document.getElementById('loginOverlay').style.display = 'none';
-          document.getElementById('loading').style.display = 'flex';
-          google.script.run.withSuccessHandler(datiIniziali).getDati();
+          b.disabled = false; b.textContent = 'Accedi';
+          avviaApp();                                                 
         } else {
-          document.getElementById('loginErr').style.display = 'block';
-          btn.innerHTML = 'Accedi';
-          btn.disabled = false;
+          e.textContent = 'Utente o password non corretti.'; e.style.display = 'block';
+          b.disabled = false; b.textContent = 'Accedi';
         }
-      }).loginApp(p);
-    }
+      })
+      .catch(err => {
+        e.textContent = 'Errore di connessione. Riprova.'; e.style.display = 'block';
+        b.disabled = false; b.textContent = 'Accedi';
+      });
+  }
 
-    function toggleDettagli(id, btn) {
-      var p = document.getElementById(id);
-      var isOp = p.classList.contains('open');
-      if (isOp) {
-        p.classList.remove('open'); btn.classList.remove('open');
-        btn.querySelector('span').innerText = 'Mostra ospiti e documenti';
-      } else {
-        p.classList.add('open'); btn.classList.add('open');
-        btn.querySelector('span').innerText = 'Nascondi dettagli';
-      }
-    }
+  function mostraLogin() {
+    SESSION_TOKEN = null;
+    var ov = document.getElementById('loginOverlay');
+    if (ov) ov.style.display = 'flex';
+    var lp = document.getElementById('loginPass'); if (lp) lp.value = '';
+    var b = document.getElementById('loginBtn'); if (b) { b.disabled = false; b.textContent = 'Accedi'; }
+  }
 
-    function esc(s) {
-      if (!s) return '';
-      return s.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  (function(){
+    var pp = document.getElementById('loginPass');
+    if (pp) pp.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') entra(); });
+    var up = document.getElementById('loginUser');
+    if (up) up.focus();
+  })();
+</script>
+
+<div class="ptr-indicator" id="ptrIndicator"><i class="fa-solid fa-rotate-right" id="ptrIcon"></i></div>
+
+<div class="container">
+
+  <div id="tab-presenze" class="tab-content active">
+    <div class="sticky-taxes">
+      <div class="pill-totale">
+        <i class="fa-solid fa-piggy-bank pill-icon"></i>
+        <div style="flex:1;">
+          <div class="pill-label" id="lblTotale">Tasse annuali</div>
+          <div class="pill-value" id="valTotale">â</div>
+          <div class="pill-split" id="pillSplit"></div>
+        </div>
+      </div>
+      <div id="tax-widget">
+        <div class="widget-box alert" id="boxMesePrec" onclick="apriDettaglioTasse('prec')">
+          <div class="widget-label" id="lblMesePrec">Da pagare Mese Scorso</div>
+          <div class="widget-value" id="valMesePrec">â</div>
+        </div>
+        <div class="widget-box" id="boxMeseCorr" onclick="apriDettaglioTasse('corr')">
+          <div class="widget-label" id="lblMeseCorr">Accumulo Mese Corrente</div>
+          <div class="widget-value" id="valMeseCorr">â</div>
+        </div>
+      </div>
+    </div>
+    <div id="listaPresenze"></div>
+  </div>
+
+  <div id="tab-calendario" class="tab-content">
+    <div class="sticky-legend">
+      <button class="btn-add-block" onclick="apriModaleNuovoBlocco()"><i class="fa-solid fa-plus"></i> Aggiungi Blocco Privato</button>
+      <div class="legenda">
+        <div class="legenda-item"><div class="legenda-dot dot-airbnb"></div>Airbnb</div>
+        <div class="legenda-item"><div class="legenda-dot dot-booking"></div>Booking.com</div>
+        <div class="legenda-item"><div class="legenda-dot dot-privato"></div>Blocco privato</div>
+      </div>
+    </div>
+    <div id="listaCalendario"></div>
+  </div>
+
+</div>
+
+<nav class="nav-bar">
+  <div class="nav-item active" onclick="switchTab('tab-presenze', this)">
+    <i class="fa-solid fa-user-group"></i>
+    <span>Check-in</span>
+  </div>
+  <div class="nav-item" onclick="switchTab('tab-calendario', this)">
+    <i class="fa-solid fa-calendar-alt"></i>
+    <span>Calendario</span>
+  </div>
+</nav>
+
+<div class="modal-overlay" id="modalNomeEsistente" onclick="chiudiModaleClickEsterno(event, 'modalNomeEsistente')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Chi ci sarÃ ?</div>
+    <div class="modal-sub" id="modalSubEsistente">Dai un nome a questo blocco</div>
+    <input class="modal-input" id="modalInputNome" type="text" placeholder="es. Famiglia Rossi, Weekend amiciâ¦" maxlength="60">
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalNomeEsistente')">Annulla</button>
+      <button class="btn-salva" id="btnSalvaNome" onclick="salvaNameEsistente()"><i class="fa-solid fa-floppy-disk"></i> Salva</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOspiti" onclick="chiudiModaleClickEsterno(event, 'modalOspiti')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Numero Ospiti</div>
+    <div class="modal-sub">Quante persone arriveranno?</div>
+    
+    <div class="input-group">
+      <label class="input-label">Seleziona numero ospiti</label>
+      <select id="selectCambiaOspiti" class="modal-input">
+        <option value="1">1 Ospite</option>
+        <option value="2">2 Ospiti</option>
+        <option value="3">3 Ospiti</option>
+        <option value="4">4 Ospiti</option>
+      </select>
+    </div>
+    
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalOspiti')">Annulla</button>
+      <button class="btn-salva" id="btnSalvaOspiti" onclick="salvaModificaOspiti()"><i class="fa-solid fa-floppy-disk"></i> Aggiorna</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalNuovoBlocco" onclick="chiudiModaleClickEsterno(event, 'modalNuovoBlocco')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Aggiungi Prenotazione</div>
+    <div class="modal-sub">Crea un nuovo blocco privato sul calendario</div>
+    
+    <div class="input-group">
+      <label class="input-label">Nome Prenotazione</label>
+      <input class="modal-input" id="nuovoNome" type="text" placeholder="es. Amici di Marco..." maxlength="60">
+    </div>
+    
+    <div style="display: flex; gap: 10px;">
+      <div class="input-group" style="flex: 1;">
+        <label class="input-label">Check-in</label>
+        <input class="modal-input" id="nuovoIn" type="date">
+      </div>
+      <div class="input-group" style="flex: 1;">
+        <label class="input-label">Check-out</label>
+        <input class="modal-input" id="nuovoOut" type="date">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Numero Ospiti</label>
+      <select id="nuovoOspiti" class="modal-input">
+        <option value="1">1 Ospite</option>
+        <option value="2" selected>2 Ospiti</option>
+        <option value="3">3 Ospiti</option>
+        <option value="4">4 Ospiti</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalNuovoBlocco')">Annulla</button>
+      <button class="btn-salva" id="btnSalvaNuovoBlocco" onclick="inviaNuovoBlocco()"><i class="fa-solid fa-calendar-plus"></i> Crea Blocco</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalElimina" onclick="chiudiModaleClickEsterno(event, 'modalElimina')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title" style="color: var(--danger);">Elimina Blocco</div>
+    <div class="modal-sub" id="testoElimina">Sei sicuro di voler eliminare questo blocco?</div>
+    
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalElimina')">Annulla</button>
+      <button class="btn-salva" id="btnConfermaElimina" style="background: var(--danger);" onclick="eseguiEliminazione()">
+        <i class="fa-solid fa-trash-can"></i> Elimina
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalQuestura" onclick="chiudiModaleClickEsterno(event, 'modalQuestura')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title"><i class="fa-solid fa-paper-plane" style="color:var(--lilla);margin-right:6px;"></i> Invio ad Alloggiati Web</div>
+    <div class="modal-sub" id="testoQuestura">Confermi l'invio delle schedine alla Questura?</div>
+
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalQuestura')">Annulla</button>
+      <button class="btn-salva" id="btnConfermaQuestura" style="background: var(--lilla);" onclick="confermaInvioQuestura()">
+        <i class="fa-solid fa-paper-plane"></i> Invia ora
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalDocumento" onclick="chiudiModaleClickEsterno(event, 'modalDocumento')">
+  <div class="modal-box" style="height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
+    <div class="modal-handle"></div>
+    <div class="modal-title" style="display: flex; justify-content: space-between; align-items: center;">
+      <span><i class="fa-solid fa-id-card" style="color:var(--lilla); margin-right:8px;"></i> Documento</span>
+      <i class="fa-solid fa-xmark" onclick="chiudiModale('modalDocumento')" style="color:var(--text-muted); cursor:pointer; font-size:22px; padding:5px;"></i>
+    </div>
+    <div style="flex: 1; margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #f7f5fc;">
+      <iframe id="iframeDocumento" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalDettaglioTasse" onclick="chiudiModaleClickEsterno(event, 'modalDettaglioTasse')">
+  <div class="modal-box" style="max-height: 85vh; display: flex; flex-direction: column;">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="titoloModalTasse">Dettaglio Tasse</div>
+    <div class="modal-sub">Riepilogo calcoli per portale Comune</div>
+    
+    <div id="listaDettaglioTasse" style="overflow-y: auto; flex: 1; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 8px; background: white;">
+      </div>
+    
+    <div class="modal-actions">
+      <button class="btn-annulla" onclick="chiudiModale('modalDettaglioTasse')" style="width: 100%;">Chiudi riepilogo</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  var MESI_BREVI  = ["GEN","FEB","MAR","APR","MAG","GIU","LUG","AGO","SET","OTT","NOV","DIC"];
+  var MESI_LUNGHI = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+  
+  var _bloccoAttivo = null; 
+  var _ospitiAttivi = null; 
+  var _dettagliTassePrec = [];
+  var _dettagliTasseCorr = [];
+  var _bloccoDaEliminare = null; 
+  window._pulizieConfermate = []; 
+
+  function switchTab(tabId, el) {
+    document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+    document.getElementById(tabId).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function tipoPortale(portale) {
+    var p = (portale || '').toLowerCase();
+    if (p === 'airbnb')  return 'airbnb';
+    if (p === 'booking') return 'booking';
+    return 'privato';
+  }
+
+  function parsingData(str) {
+    if (!str) return new Date();
+    var p = str.split('/');
+    if (p.length === 3) return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]), 10, 0, 0);
+    return new Date();
+  }
+
+  function formattaDataPerGoogle(dateStringInput) {
+    if (!dateStringInput) return "";
+    var p = dateStringInput.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  function iniziali(nome, cognome) {
+    return ((nome||'').trim().charAt(0) + (cognome||'').trim().charAt(0)).toUpperCase() || '?';
+  }
+
+  function toggleDettagli(idx) {
+    var btn   = document.getElementById('btn-det-' + idx);
+    var panel = document.getElementById('panel-' + idx);
+    var open  = panel.classList.contains('open');
+    panel.classList.toggle('open', !open);
+    btn.classList.toggle('open', !open);
+  }
+
+  function clickPulizia(dataOut, statoAttuale, ospitiAttesi, btnEl) {
+    var nuovoStato = '';
+    if (statoAttuale === 'none' || statoAttuale === '') nuovoStato = 'Staff';
+    else if (statoAttuale === 'Staff') nuovoStato = 'Olli';
+    else nuovoStato = ''; 
+
+    if (nuovoStato === 'Staff') {
+      btnEl.className = 'btn-pulizia staff';
+      btnEl.innerHTML = '<i class="fa-solid fa-sparkles"></i> Staff Fissato';
+    } else if (nuovoStato === 'Olli') {
+      btnEl.className = 'btn-pulizia olli';
+      btnEl.innerHTML = '<i class="fa-solid fa-hand-sparkles"></i> Tocca a te';
+    } else {
+      btnEl.className = 'btn-pulizia ko';
+      btnEl.innerHTML = '<i class="fa-solid fa-broom"></i> Fissa Pulizia';
     }
     
-    function formattaData(str) {
-      if (!str) return '';
-      var p = str.split('-');
-      if (p.length!==3) return str;
-      return p[2] + ' ' + MESI_CORTI[parseInt(p[1],10)-1] + ' ' + p[0];
-    }
-    function formattaMese(str) {
-      if (!str) return '';
-      var p = str.split('-');
-      if (p.length!==3) return str;
-      return MESI_LUNGHI[parseInt(p[1],10)-1] + ' ' + p[0];
-    }
-    function giorniDiff(d1, d2) {
-      var ms = new Date(d2).getTime() - new Date(d1).getTime();
-      return Math.round(ms / (1000*60*60*24));
-    }
-    function isPassato(co) {
-      return new Date(co).getTime() < new Date().setHours(0,0,0,0);
-    }
-    function fmtEuro(num) {
-      return '€ ' + parseFloat(num).toFixed(2).replace('.', ',');
-    }
+    btnEl.setAttribute('onclick', "clickPulizia('" + dataOut + "', '" + (nuovoStato || 'none') + "', '" + ospitiAttesi + "', this)");
 
-    function htmlEsiti(res) {
-      if (!res.dettagli || res.dettagli.length === 0) return '';
-      var righe = res.dettagli.map(d => {
-        var ico = d.ok ? 'fa-check' : 'fa-xmark';
-        var cls = d.ok ? 'ok' : 'ko';
-        return '<div class="aw-riga ' + cls + '"><i class="fa-solid ' + ico + '"></i><div class="aw-nome">' + esc(d.nome) + '</div><div class="aw-stato">' + esc(d.messaggio) + '</div></div>';
-      }).join('');
-      var clsHead = res.ok ? 'aw-head ok' : 'aw-head ko';
-      var icoHead = res.ok ? 'fa-circle-check' : 'fa-triangle-exclamation';
-      return '<div class="' + clsHead + '"><i class="fa-solid ' + icoHead + '"></i> ' + esc(res.messaggio || '') + '</div>' + righe;
+    var trovato = false;
+    for (var p = 0; p < window._pulizieConfermate.length; p++) {
+      if (window._pulizieConfermate[p].data === dataOut) {
+        window._pulizieConfermate[p].stato = nuovoStato;
+        trovato = true;
+        break;
+      }
     }
+    if (!trovato && nuovoStato !== '') window._pulizieConfermate.push({ data: dataOut, stato: nuovoStato });
 
-    function controllaQuestura(riga, nome) {
-      var btnCheck = document.getElementById('aw-check-' + riga);
-      var boxEsiti = document.getElementById('aw-esiti-' + riga);
-      btnCheck.disabled = true;
-      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifica...';
-      boxEsiti.innerHTML = ''; boxEsiti.className = 'aw-esiti';
-      google.script.run.withSuccessHandler(function(res) {
+    chiamaAPI('impostaPuliziaFissata', { dataStr: dataOut, stato: nuovoStato, ospitiAttesi: ospitiAttesi })
+      .then(res => { if (res && res.sessioneScaduta) mostraLogin(); })
+      .catch(err => { mostraToast("â ï¸ Errore salvataggio rete"); });
+  }
+
+  function chiediEliminaBlocco(checkIn, checkOut, titolo) {
+    _bloccoDaEliminare = { checkIn: checkIn, checkOut: checkOut, titolo: titolo };
+    
+    document.getElementById('testoElimina').innerHTML = "Vuoi eliminare il blocco <b>" + esc(titolo) + "</b>?<br>VerrÃ  rimosso anche dal calendario Google.";
+    document.getElementById('btnConfermaElimina').disabled = false;
+    document.getElementById('btnConfermaElimina').innerHTML = '<i class="fa-solid fa-trash-can"></i> Elimina';
+    
+    document.getElementById('modalElimina').classList.add('show');
+  }
+
+  function eseguiEliminazione() {
+    if (!_bloccoDaEliminare) return;
+    
+    document.getElementById('btnConfermaElimina').disabled = true;
+    document.getElementById('btnConfermaElimina').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Eliminazione...';
+    
+    chiamaAPI('eliminaEventoCalendario', { checkIn: _bloccoDaEliminare.checkIn, checkOut: _bloccoDaEliminare.checkOut, titolo: _bloccoDaEliminare.titolo })
+      .then(res => {
+        chiudiModale('modalElimina');
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
-        btnCheck.innerHTML = '<i class="fa-solid fa-rotate"></i> Ricontrolla';
-        btnCheck.disabled = false;
-        if (res) {
-          boxEsiti.innerHTML = htmlEsiti(res);
-          boxEsiti.className = 'aw-esiti ' + (res.ok ? 'tutto-ok' : 'con-errori');
-          var btnInvio = document.getElementById('aw-invio-' + riga);
-          if (btnInvio) btnInvio.disabled = !res.ok;
+        if(res.ok) { 
+          mostraToast("â Blocco eliminato con successo!"); 
+          setTimeout(ricaricaCalendario, 800);
+        } else { 
+          mostraToast("â ï¸ Errore: " + res.errore); 
         }
-      }).controllaAlloggiatiWebRiga(riga, nome);
+      })
+      .catch(() => {
+        chiudiModale('modalElimina');
+        mostraToast("â ï¸ Errore di connessione a Google");
+      });
+  }
+
+  function chiudiModale(id) { 
+    document.getElementById(id).classList.remove('show'); 
+    
+    if(id === 'modalDocumento') {
+      setTimeout(function() { 
+        var iframe = document.getElementById('iframeDocumento');
+        if(iframe) iframe.src = ''; 
+      }, 300);
+    }
+  }
+
+  function chiudiModaleClickEsterno(e, id) { 
+    if (e.target === document.getElementById(id)) {
+      chiudiModale(id); 
+    }
+  }
+
+  function apriDocumento(url) {
+    document.getElementById('iframeDocumento').src = url;
+    document.getElementById('modalDocumento').classList.add('show');
+  }
+
+  function apriModaleOspiti(checkIn, checkOut, ospitiAttuali) {
+    _ospitiAttivi = { checkIn: checkIn, checkOut: checkOut };
+    var num = (ospitiAttuali !== '?' && ospitiAttuali) ? ospitiAttuali : '2';
+    document.getElementById('selectCambiaOspiti').value = num;
+    document.getElementById('btnSalvaOspiti').disabled = false;
+    document.getElementById('btnSalvaOspiti').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Aggiorna';
+    document.getElementById('modalOspiti').classList.add('show');
+  }
+
+  function salvaModificaOspiti() {
+    if (!_ospitiAttivi) return;
+    var nuovoNumero = document.getElementById('selectCambiaOspiti').value;
+    
+    document.getElementById('btnSalvaOspiti').disabled = true;
+    document.getElementById('btnSalvaOspiti').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvo...';
+    
+    chiamaAPI('salvaOspitiApp', { checkInStr: _ospitiAttivi.checkIn, checkOutStr: _ospitiAttivi.checkOut, nuovoNumero: nuovoNumero })
+      .then(res => {
+        chiudiModale('modalOspiti');
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        mostraToast("â Numero ospiti aggiornato!");
+        ricaricaCalendario();
+      })
+      .catch(() => {
+        chiudiModale('modalOspiti');
+        mostraToast("â ï¸ Errore salvataggio");
+      });
+  }
+
+  function apriModaleNuovoBlocco() {
+    document.getElementById('nuovoNome').value = '';
+    document.getElementById('nuovoNome').style.borderColor = '';
+    document.getElementById('nuovoIn').value = '';
+    document.getElementById('nuovoIn').style.borderColor = '';
+    document.getElementById('nuovoOut').value = '';
+    document.getElementById('nuovoOut').style.borderColor = '';
+    document.getElementById('nuovoOspiti').value = '2';
+    document.getElementById('btnSalvaNuovoBlocco').disabled = false;
+    document.getElementById('btnSalvaNuovoBlocco').innerHTML = '<i class="fa-solid fa-calendar-plus"></i> Crea Blocco';
+    document.getElementById('modalNuovoBlocco').classList.add('show');
+  }
+
+  function inviaNuovoBlocco() {
+    var nome = document.getElementById('nuovoNome').value.trim();
+    var din  = document.getElementById('nuovoIn').value;
+    var dout = document.getElementById('nuovoOut').value;
+    var osp  = document.getElementById('nuovoOspiti').value;
+    var errore = false;
+
+    if (!nome) { document.getElementById('nuovoNome').style.borderColor = 'var(--danger)'; errore=true; }
+    if (!din)  { document.getElementById('nuovoIn').style.borderColor = 'var(--danger)'; errore=true; }
+    if (!dout) { document.getElementById('nuovoOut').style.borderColor = 'var(--danger)'; errore=true; }
+    
+    if (errore) {
+      setTimeout(function() { 
+        document.getElementById('nuovoNome').style.borderColor = '';
+        document.getElementById('nuovoIn').style.borderColor = '';
+        document.getElementById('nuovoOut').style.borderColor = '';
+      }, 1500);
+      return;
     }
 
-    function inviaQuestura(riga, ci, onDone) {
-      var btnInvio = document.getElementById('aw-invio-' + riga);
-      if (btnInvio) { btnInvio.disabled = true; btnInvio.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corso...'; }
-      mostraToast('Invio a AlloggiatiWeb in corso...');
-      google.script.run.withSuccessHandler(function(res) {
+    if (new Date(din) >= new Date(dout)) {
+      mostraToast("â ï¸ Il Check-out deve essere dopo il Check-in!");
+      return;
+    }
+
+    document.getElementById('btnSalvaNuovoBlocco').disabled = true;
+    document.getElementById('btnSalvaNuovoBlocco').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creo sul calendario...';
+
+    var strIn = formattaDataPerGoogle(din);
+    var strOut = formattaDataPerGoogle(dout);
+
+    chiamaAPI('creaBloccoCalendario', { strIn: strIn, strOut: strOut, nome: nome, osp: osp })
+      .then(res => {
+        chiudiModale('modalNuovoBlocco');
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        if(res.ok) {
+          mostraToast("â Blocco aggiunto al Calendario!");
+          setTimeout(ricaricaCalendario, 800);
+        } else {
+          mostraToast("â ï¸ Errore: " + res.errore);
+        }
+      })
+      .catch(() => {
+        chiudiModale('modalNuovoBlocco');
+        mostraToast("â ï¸ Errore di connessione a Google");
+      });
+  }
+
+  function apriModaleNomeEsistente(checkIn, checkOut, notti) {
+    _bloccoAttivo = { checkIn: checkIn, checkOut: checkOut };
+    document.getElementById('modalSubEsistente').textContent = checkIn + ' â ' + checkOut + '  Â·  ' + notti + ' notti';
+    document.getElementById('modalInputNome').value = '';
+    document.getElementById('btnSalvaNome').disabled = false;
+    document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salva';
+    document.getElementById('modalNomeEsistente').classList.add('show');
+    setTimeout(function() { document.getElementById('modalInputNome').focus(); }, 350);
+  }
+
+  function salvaNameEsistente() {
+    if (!_bloccoAttivo) return;
+    var nome = document.getElementById('modalInputNome').value.trim();
+    if (!nome) { document.getElementById('modalInputNome').style.borderColor = 'var(--danger)'; setTimeout(function() { document.getElementById('modalInputNome').style.borderColor = ''; }, 1200); return; }
+    
+    document.getElementById('btnSalvaNome').disabled = true; 
+    document.getElementById('btnSalvaNome').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvoâ¦';
+    
+    chiamaAPI('salvaNomeBlocco', { checkIn: _bloccoAttivo.checkIn, checkOut: _bloccoAttivo.checkOut, nome: nome })
+      .then(res => { 
+        chiudiModale('modalNomeEsistente'); 
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        mostraToast(res.ok ? 'â Salvato: ' + nome : 'â ï¸ Errore: ' + (res.errore || '')); 
+        if (res.ok) setTimeout(ricaricaCalendario, 800); 
+      })
+      .catch(() => { 
+        chiudiModale('modalNomeEsistente'); 
+        mostraToast('â ï¸ Errore di rete'); 
+      });
+  }
+
+  var _questuraAttiva = null; 
+
+  function awHtmlEsiti(res) {
+    var righe = (res.dettagli || []).map(function(d) {
+      if (d.ok) {
+        return '<div class="aw-riga ok"><i class="fa-solid fa-circle-check"></i>' +
+               '<span class="aw-nome">' + esc(d.ospite) + '</span>' +
+               '<span class="aw-stato">Valida</span></div>';
+      }
+      return '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i>' +
+             '<span class="aw-nome">' + esc(d.ospite) + '</span>' +
+             '<span class="aw-stato">' + esc(d.errore || 'Errore') + '</span></div>';
+    }).join('');
+    var clsHead = res.ok ? 'aw-head ok' : 'aw-head ko';
+    var icoHead = res.ok ? 'fa-circle-check' : 'fa-triangle-exclamation';
+    return '<div class="' + clsHead + '"><i class="fa-solid ' + icoHead + '"></i> ' + esc(res.messaggio || '') + '</div>' + righe;
+  }
+
+  function controllaQuestura(riga, nome) {
+    var btnCheck = document.getElementById('aw-check-' + riga);
+    var boxEsiti = document.getElementById('aw-esiti-' + riga);
+    var slotInvio = document.getElementById('aw-invio-' + riga);
+
+    if (btnCheck) {
+      btnCheck.disabled = true;
+      btnCheck.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Controllo in corsoâ¦';
+    }
+    if (slotInvio) slotInvio.innerHTML = ''; 
+    if (boxEsiti) { boxEsiti.style.display = 'none'; boxEsiti.innerHTML = ''; }
+
+    chiamaAPI('controllaRigaAlloggiati', { riga: riga })
+      .then(res => {
+        if (res && res.sessioneScaduta) { mostraLogin(); return; }
+        if (btnCheck) {
+          btnCheck.disabled = false;
+          btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Ricontrolla schedine';
+        }
+        if (boxEsiti && res) {
+          boxEsiti.className = 'aw-esiti ' + (res.ok ? 'tutto-ok' : 'con-errori');
+          boxEsiti.innerHTML = awHtmlEsiti(res);
+          boxEsiti.style.display = 'block';
+        }
+        if (res && res.ok && slotInvio) {
+          var nomeJs = (nome || '').replace(/'/g, "\\'");
+          slotInvio.innerHTML =
+            '<button class="btn-questura" id="aw-btn-' + riga + '" onclick="inviaQuestura(' + riga + ', \'' + nomeJs + '\')">' +
+            '<i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>';
+          mostraToast('â Schedine valide: puoi inviare');
+        } else {
+          mostraToast('â ï¸ Ci sono errori da correggere');
+        }
+      })
+      .catch(err => {
+        if (btnCheck) {
+          btnCheck.disabled = false;
+          btnCheck.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Riprova controllo';
+        }
+        if (boxEsiti) {
+          boxEsiti.className = 'aw-esiti con-errori';
+          boxEsiti.innerHTML = '<div class="aw-head ko"><i class="fa-solid fa-triangle-exclamation"></i> Errore di connessione</div>' +
+            '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">' + esc(err && err.message || 'Rete assente') + '</span></div>';
+          boxEsiti.style.display = 'block';
+        }
+        mostraToast('â ï¸ Errore di rete');
+      });
+  }
+
+  function inviaQuestura(riga, nome) {
+    _questuraAttiva = { riga: riga, nome: nome };
+    document.getElementById('testoQuestura').innerHTML =
+      'Le schedine di <b>' + esc(nome) + '</b> sono state verificate e risultano valide.<br><br>' +
+      'Confermi l\'<b>invio definitivo</b> alla Questura? I dati verranno acquisiti ufficialmente.';
+    document.getElementById('btnConfermaQuestura').disabled = false;
+    document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia ora';
+    document.getElementById('modalQuestura').classList.add('show');
+  }
+
+  function confermaInvioQuestura() {
+    if (!_questuraAttiva) return;
+    var riga = _questuraAttiva.riga;
+    document.getElementById('btnConfermaQuestura').disabled = true;
+    document.getElementById('btnConfermaQuestura').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corsoâ¦';
+    eseguiInvioQuestura(riga, function() { chiudiModale('modalQuestura'); });
+  }
+
+  function eseguiInvioQuestura(riga, onDone) {
+    var btn = document.getElementById('aw-btn-' + riga);
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Invio in corsoâ¦';
+    }
+
+    chiamaAPI('inviaRigaAdAlloggiati', { riga: riga })
+      .then(res => {
         if (onDone) onDone();
         if (res && res.sessioneScaduta) { mostraLogin(); return; }
         if (res && res.ok) {
-          mostraToast('✅ ' + (res.messaggio || 'Schedine inviate alla Questura!'));
+          mostraToast('â ' + (res.messaggio || 'Schedine inviate alla Questura!'));
           var badge = document.getElementById('aw-badge-' + riga);
-          if (badge) { badge.className = 'badge badge-censito'; badge.innerText = 'CENSITO AW'; }
-          if (btnInvio) btnInvio.style.display = 'none';
-          var btnCheck = document.getElementById('aw-check-' + riga);
-          if (btnCheck) btnCheck.style.display = 'none';
-          var boxEsiti = document.getElementById('aw-esiti-' + riga);
-          if (boxEsiti) { boxEsiti.innerHTML = '<div class="aw-head ok"><i class="fa-solid fa-check-double"></i> Inviato il ' + esc(res.dataInvio) + '</div>'; boxEsiti.className = 'aw-esiti tutto-ok'; }
-        } else {
-          mostraToast('❌ Errore invio: ' + (res ? res.messaggio : 'Sconosciuto'));
-          if (btnInvio) { btnInvio.disabled = false; btnInvio.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Ritenta Invio Questura'; }
-        }
-      }).inviaAlloggiatiWebRiga(riga, ci);
-    }
-
-    function rigaSub(pern, pers, notti) {
-      if(!pern || pern==='0.00') return '';
-      return '<div class="widget-sub"><i class="fa-solid fa-bed"></i> ' + fmtEuro(pern) + ' pernott. &middot; <i class="fa-solid fa-users"></i> ' + pers + ' pax &middot; <i class="fa-solid fa-moon"></i> ' + notti + ' notti</div>';
-    }
-    function rigaAirbnb(abb) {
-      if(!abb || abb==='0.00') return '';
-      return '<div class="widget-airbnb"><i class="fa-brands fa-airbnb"></i> ' + fmtEuro(abb) + ' già trattenuti</div>';
-    }
-
-    function calcolaTasse(pres) {
-      var box = document.getElementById('tasse-box');
-      if (!pres || pres.length === 0) { box.innerHTML=''; return; }
-
-      var oggi = new Date();
-      var meseCorr = oggi.getMonth() + 1;
-      var mesePrec = meseCorr - 1; if (mesePrec === 0) mesePrec = 12;
-
-      var totCorr = 0, pernCorr = 0, persCorr = 0, nottiCorr = 0, abbCorr = 0;
-      var totPrec = 0, pernPrec = 0, persPrec = 0, nottiPrec = 0, abbPrec = 0;
-
-      pres.forEach(function(c) {
-        if(c.tipo === 'Blocco privato') return;
-        var mCI = parseInt(c.checkIn.split('-')[1], 10);
-        var tn = parseFloat(c.tassaSoggiorno || 0);
-        var tp = parseFloat(c.costoPernottamento || 0);
-        var px = parseInt(c.ospiti || 0, 10);
-        var nt = giorniDiff(c.checkIn, c.checkOut);
-        var ta = parseFloat(c.tassaAirbnb || 0);
-
-        if (mCI === meseCorr) {
-          totCorr += tn; pernCorr += tp; persCorr += px; nottiCorr += nt; abbCorr += ta;
-        } else if (mCI === mesePrec) {
-          totPrec += tn; pernPrec += tp; persPrec += px; nottiPrec += nt; abbPrec += ta;
-        }
-      });
-
-      var h = '';
-      if (totPrec > 0) {
-        var alertClass = (oggi.getDate() >= 15) ? 'alert' : '';
-        h += '<div class="widget-box ' + alertClass + '" onclick="google.script.host.open(\'https://sit.comune.fi.it/bess_fi/default.aspx\')">'
-           + '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking &middot; Da pagare ' + MESI_LUNGHI[mesePrec-1] + '</div>'
-           + '<div class="widget-value">' + fmtEuro(totPrec) + '</div>'
-           + rigaSub(pernPrec, persPrec, nottiPrec)
-           + rigaAirbnb(abbPrec)
-           + '</div>';
-      }
-      if (totCorr > 0 || (totPrec === 0 && totCorr === 0)) {
-        h += '<div class="widget-box">'
-           + '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking &middot; Provvisorio ' + MESI_LUNGHI[meseCorr-1] + '</div>'
-           + '<div class="widget-value">' + fmtEuro(totCorr) + '</div>'
-           + rigaSub(pernCorr, persCorr, nottiCorr)
-           + rigaAirbnb(abbCorr)
-           + '</div>';
-      }
-      box.innerHTML = '<div id="tax-widget">' + h + '</div>';
-    }
-
-    function renderPresenze(pres) {
-      calcolaTasse(pres);
-      var wrap = document.getElementById('listaPresenze');
-      wrap.innerHTML = '';
-      if (!pres || pres.length === 0) {
-        wrap.innerHTML = '<div class="empty-state"><i class="fa-regular fa-folder-open"></i><p>Nessun ospite trovato.</p></div>';
-        return;
-      }
-      
-      pres.forEach(function(c, idx) {
-        if (c.tipo === 'Blocco privato') return;
-        var p = isPassato(c.checkOut);
-        var card = document.createElement('div');
-        card.className = 'card' + (p ? ' is-passato' : '');
-
-        var bdg = '';
-        if (c.tipo === 'Airbnb') bdg += '<span class="badge badge-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb</span>';
-        else if (c.tipo.indexOf('Booking') !== -1) bdg += '<span class="badge badge-booking"><i class="fa-solid fa-hotel"></i> Booking</span>';
-        else bdg += '<span class="badge badge-altro">' + esc(c.tipo) + '</span>';
-
-        if (p) bdg += '<span class="badge badge-passato">Passato</span>';
-        else if (c.awStatus === 'CENSITO') bdg += '<span class="badge badge-censito" id="aw-badge-'+c.riga+'">Censito AW</span>';
-        else bdg += '<span class="badge badge-dainviare" id="aw-badge-'+c.riga+'">Da Inviare AW</span>';
-
-        var nNotti = giorniDiff(c.checkIn, c.checkOut);
-        var lnkPort = '';
-        if (c.codicePrenotazione) {
-          if (c.tipo === 'Airbnb') lnkPort = '<a href="https://www.airbnb.it/hosting/reservations/details/' + esc(c.codicePrenotazione) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
-          else if (c.tipo.indexOf('Booking') !== -1) lnkPort = '<a href="https://admin.booking.com/hotel/hoteladmin/extranet_ng/manage/booking.html?res_id=' + esc(c.codicePrenotazione) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
-        }
-
-        var numOspitiText = c.ospiti ? c.ospiti : '?';
-        var ospitiBadge = '<span class="ospiti-badge" onclick="apriModaleOspiti(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(numOspitiText) + '\')"><i class="fa-solid fa-pen"></i></span>';
-
-        var hd = '<div class="card-top">'
-               + '<div class="guest-name">' + esc(c.ospitePrincipale) + lnkPort + '</div>'
-               + '<div class="badges">' + bdg + '</div>'
-               + '</div>';
-
-        var dt = '<div class="details-grid">'
-               + '<div class="detail-item"><i class="fa-solid fa-calendar-check"></i> <b>In:</b> ' + formattaData(c.checkIn) + '</div>'
-               + '<div class="detail-item"><i class="fa-solid fa-calendar-xmark"></i> <b>Out:</b> ' + formattaData(c.checkOut) + ' (' + nNotti + ' notti)</div>'
-               + '<div class="detail-item"><i class="fa-solid fa-users"></i> <b>Ospiti:</b> ' + numOspitiText + ospitiBadge + '</div>'
-               + '<div class="detail-item ' + (c.tassaSoggiorno > 0 ? '' : 'red') + '"><i class="fa-solid fa-coins"></i> <b>Tassa:</b> ' + (c.tassaSoggiorno ? fmtEuro(c.tassaSoggiorno) : 'Manca') + '</div>'
-               + '<div class="detail-item" style="grid-column:1/-1;"><i class="fa-solid fa-bed"></i> <b>Pernottamento:</b> ' + (c.costoPernottamento ? fmtEuro(c.costoPernottamento) : 'Manca') + '</div>'
-               + '</div>';
-
-        var idPan = 'ospiti-' + idx;
-        var pan = '<div id="' + idPan + '" class="ospiti-panel">';
-
-        // CONTROLLI QUESTURA
-        if (!p && c.awStatus !== 'CENSITO') {
-          pan += '<div class="aw-azioni">'
-               + '<button class="btn-controlla" id="aw-check-'+c.riga+'" onclick="controllaQuestura('+c.riga+', \''+esc(c.ospitePrincipale)+'\')"><i class="fa-solid fa-shield-halved"></i> Controlla Documenti x Questura</button>'
-               + '<div id="aw-esiti-'+c.riga+'" class="aw-esiti"></div>'
-               + '<button class="btn-questura" id="aw-invio-'+c.riga+'" style="display:none" onclick="inviaQuestura('+c.riga+', \''+esc(c.checkIn)+'\')"><i class="fa-solid fa-paper-plane"></i> Invia a Questura</button>'
-               + '</div>';
-        }
-
-        pan += '<div class="ospiti-lista">';
-        if (c.dettaglioOspiti && c.dettaglioOspiti.length > 0) {
-          c.dettaglioOspiti.forEach(function(o) {
-            var iconDoc = o.haDoc ? '<i class="fa-solid fa-check"></i> Doc OK' : '<i class="fa-solid fa-xmark"></i> No Doc';
-            var clsDoc = o.haDoc ? 'doc-ok' : 'doc-missing';
-            
-            var linkPrev = o.linkDoc ? esc(o.linkDoc).replace(/\/view.*/, '/preview') : '';
-            var btnDoc = o.linkDoc 
-              ? '<button onclick="apriDocumento(\'' + linkPrev + '\')" class="btn-doc-mini"><i class="fa-solid fa-id-card"></i> Vedi Documento</button>'
-              : '<div class="btn-doc-mini no-doc"><i class="fa-solid fa-id-card"></i> Doc Assente</div>';
-
-            pan += '<div class="ospite-card">'
-                 + '<div class="ospite-header">'
-                 + '<div class="ospite-avatar">' + esc(o.nome.charAt(0).toUpperCase()) + '</div>'
-                 + '<div class="ospite-nome">' + esc(o.nome) + ' <span class="ospite-ruolo">(' + esc(o.ruolo) + ')</span></div>'
-                 + '<div class="doc-status ' + clsDoc + '">' + iconDoc + '</div>'
-                 + '</div>'
-                 + '<div class="ospite-info">'
-                 + '<div class="ospite-field"><span class="label">Nato il</span><span class="value ' + (o.dataNascita ? '' : 'empty') + '">' + (o.dataNascita ? esc(o.dataNascita) : 'Manca') + '</span></div>'
-                 + '<div class="ospite-field"><span class="label">A</span><span class="value ' + (o.luogoNascita ? '' : 'empty') + '">' + (o.luogoNascita ? esc(o.luogoNascita) : 'Manca') + '</span></div>'
-                 + '<div class="ospite-field"><span class="label">Residenza</span><span class="value ' + (o.residenza ? '' : 'empty') + '">' + (o.residenza ? esc(o.residenza) : 'Manca') + '</span></div>'
-                 + '<div class="ospite-field"><span class="label">Cittadinanza</span><span class="value ' + (o.cittadinanza ? '' : 'empty') + '">' + (o.cittadinanza ? esc(o.cittadinanza) : 'Manca') + '</span></div>'
-                 + '<div class="ospite-field"><span class="label">Tipo Doc</span><span class="value ' + (o.tipoDoc ? '' : 'empty') + '">' + (o.tipoDoc ? esc(o.tipoDoc) : 'Manca') + '</span></div>'
-                 + '<div class="ospite-field"><span class="label">Numero Doc</span><span class="value ' + (o.numDoc ? '' : 'empty') + '">' + (o.numDoc ? esc(o.numDoc) : 'Manca') + '</span></div>'
-                 + '</div>'
-                 + btnDoc
-                 + '</div>';
-          });
-        } else {
-          pan += '<div style="font-size:12.5px; color:var(--text-muted); text-align:center; padding:10px;">Nessun ospite compilato nel check-in online.</div>';
-        }
-        pan += '</div></div>'; // chiude panel
-
-        var btnToggle = '<button class="btn-dettagli" onclick="toggleDettagli(\'' + idPan + '\', this)">'
-                      + '<span>Mostra ospiti e documenti</span>'
-                      + '<i class="fa-solid fa-chevron-down arrow"></i>'
-                      + '</button>';
-
-        card.innerHTML = hd + dt + btnToggle + pan;
-        wrap.appendChild(card);
-      });
-    }
-
-    function apriModaleBlocco() {
-      document.getElementById('bloccoInizio').value = '';
-      document.getElementById('bloccoFine').value = '';
-      document.getElementById('bloccoNote').value = '';
-      apriModale('modalBlocco');
-    }
-    
-    function salvaBlocco() {
-      var i = document.getElementById('bloccoInizio').value;
-      var f = document.getElementById('bloccoFine').value;
-      var n = document.getElementById('bloccoNote').value;
-      if (!i || !f) { alert('Inserisci data inizio e fine.'); return; }
-      if (new Date(f) <= new Date(i)) { alert('La fine deve essere dopo l\'inizio.'); return; }
-
-      var btn = document.getElementById('btnSalvaBlocco');
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-      btn.disabled = true;
-
-      google.script.run.withSuccessHandler(function(res) {
-        btn.innerHTML = 'Salva Blocco'; btn.disabled = false;
-        if (res && res.sessioneScaduta) { chiudiModale('modalBlocco'); mostraLogin(); return; }
-        chiudiModale('modalBlocco');
-        mostraToast('Blocco aggiunto con successo!');
-        eseguiRefresh();
-      }).aggiungiBloccoPrivato(i, f, n);
-    }
-
-    function eliminaBlocco(riga) {
-      if (!confirm('Eliminare questo blocco privato?')) return;
-      mostraToast('Eliminazione in corso...');
-      google.script.run.withSuccessHandler(function(res) {
-        if(res && res.sessioneScaduta) { mostraLogin(); return; }
-        mostraToast('Blocco eliminato!');
-        eseguiRefresh();
-      }).eliminaBloccoPrivato(riga);
-    }
-
-    function renderCalendario(cal) {
-      var wrap = document.getElementById('listaCalendario');
-      wrap.innerHTML = '';
-      if (!cal || cal.length === 0) {
-        wrap.innerHTML = '<div class="empty-state"><i class="fa-regular fa-calendar-xmark"></i><p>Nessun evento futuro.</p></div>';
-        return;
-      }
-      
-      cal.forEach(function(c) {
-        var clsType = 'type-altro';
-        var chip = '';
-        if (c.tipo === 'Airbnb') { clsType = 'type-airbnb'; chip = '<span class="cal-chip chip-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb</span>'; }
-        else if (c.tipo.indexOf('Booking') !== -1) { clsType = 'type-booking'; chip = '<span class="cal-chip chip-booking"><i class="fa-solid fa-hotel"></i> Booking</span>'; }
-        else if (c.tipo === 'Blocco privato') { clsType = 'type-privato'; chip = '<span class="cal-chip chip-privato"><i class="fa-solid fa-lock"></i> Privato</span>'; }
-
-        var inP = c.checkIn.split('-');
-        var outP = c.checkOut.split('-');
-        
-        var mCI = MESI_CORTI[parseInt(inP[1],10)-1];
-        var mCO = MESI_CORTI[parseInt(outP[1],10)-1];
-        
-        var sameMonth = (mCI === mCO);
-
-        var dataHtml = '';
-        if (sameMonth) {
-          dataHtml = '<div class="cal-dline"><span class="cal-day">' + parseInt(inP[2],10) + '</span><span class="cal-arrow-v"><i class="fa-solid fa-arrow-right-long"></i></span><span class="cal-day cal-day-out">' + parseInt(outP[2],10) + '</span></div>'
-                   + '<div class="cal-month">' + mCI + '</div>';
-        } else {
-          dataHtml = '<div class="cal-dline"><span class="cal-day">' + parseInt(inP[2],10) + '</span> <span class="cal-month">' + mCI + '</span></div>'
-                   + '<div class="cal-arrow-v"><i class="fa-solid fa-arrow-down"></i></div>'
-                   + '<div class="cal-dline"><span class="cal-day cal-day-out">' + parseInt(outP[2],10) + '</span> <span class="cal-month cal-month-out">' + mCO + '</span></div>';
-        }
-
-        var ttl = c.tipo === 'Blocco privato' 
-          ? (c.ospitePrincipale || 'Blocco Host') 
-          : esc(c.ospitePrincipale);
-
-        var foot = '';
-        if (c.tipo !== 'Blocco privato') {
-          var nNotti = giorniDiff(c.checkIn, c.checkOut);
-          var numOspitiText = c.ospiti ? c.ospiti : '?';
-          foot = '<span><i class="fa-solid fa-moon"></i> ' + nNotti + ' notti</span>'
-               + '<span class="cal-divider"></span>'
-               + '<span><i class="fa-solid fa-users"></i> ' + numOspitiText + ' pax</span>';
-               
-          var btnLabel = 'Da pulire', btnCls = 'ko';
-          for (var p = 0; p < window._pulizieConfermate.length; p++) {
-            if (window._pulizieConfermate[p].data === c.checkOut) {
-              btnCls = window._pulizieConfermate[p].stato;
-              if (btnCls === 'staff') btnLabel = 'Fatta Staff';
-              else if (btnCls === 'host') btnLabel = 'Fatta Host';
-              break;
-            }
+          if (badge) {
+            badge.className = 'badge badge-censito';
+            badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Censito';
           }
-          var btnClick = "togglePulizia('" + c.checkOut + "', '" + btnCls + "', '" + numOspitiText + "', this)";
-          foot += '<span class="cal-divider"></span><span><button class="btn-pulizia ' + btnCls + '" onclick="' + btnClick + '">' + btnLabel + '</button></span>';
-
+          var box = document.getElementById('aw-box-' + riga);
+          if (box) box.innerHTML = '<div class="aw-esiti tutto-ok"><div class="aw-head ok"><i class="fa-solid fa-circle-check"></i> ' + esc(res.messaggio || 'Censito con successo') + '</div></div>';
         } else {
-          if (c.note) foot = '<span><i class="fa-solid fa-circle-info"></i> ' + esc(c.note) + '</span>';
+          if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia a Questura'; }
+          mostraToast('â ï¸ Invio non riuscito');
+          var boxEsiti = document.getElementById('aw-esiti-' + riga);
+          if (boxEsiti && res) {
+            var lista = (res.errori || []).map(function(e) { return '<div class="aw-riga ko"><i class="fa-solid fa-circle-xmark"></i><span class="aw-stato">Ospite ' + e.riga + ': ' + esc(e.errore || '') + '</span></div>'; }).join('');
+            boxEsiti.className = 'aw-esiti con-errori';
+            boxEsiti.innerHTML = '<div class="aw-head ko"><i class="fa-solid fa-triangle-exclamation"></i> ' + esc(res.messaggio || 'Invio non riuscito') + '</div>' + lista;
+            boxEsiti.style.display = 'block';
+          }
         }
-
-        var trash = '';
-        if (c.tipo === 'Blocco privato') {
-          trash = '<button class="btn-trash" onclick="eliminaBlocco('+c.riga+')"><i class="fa-solid fa-trash-can"></i></button>';
-        }
-
-        var card = document.createElement('div');
-        card.className = 'cal-card ' + clsType;
-        card.innerHTML = '<div class="cal-date">' + dataHtml + '</div>'
-                       + '<div class="cal-body">'
-                       + '<div>' + chip + '</div>'
-                       + '<div class="cal-title">' + ttl + '</div>'
-                       + (foot ? '<div class="cal-footer">' + foot + '</div>' : '')
-                       + '</div>'
-                       + trash;
-        wrap.appendChild(card);
+      })
+      .catch(err => {
+        if (onDone) onDone();
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Invia a Questura'; }
+        mostraToast('â ï¸ Errore di rete');
       });
+  }
+
+  function renderOspite(o, numero, isCapo) {
+    var docOk   = !!(o.linkDoc);
+    var hDoc    = docOk ? 'doc-ok'      : 'doc-missing';
+    var iDoc    = docOk ? 'fa-check-circle' : 'fa-circle-xmark';
+    var tDoc    = docOk ? 'Doc. ricevuto'   : 'Mancante';
+
+    var stringaResidenza = (o.resComune && o.resStato) ? o.resComune + ' (' + o.resStato + ')' : (o.resComune || o.resStato || '');
+    var stringaRilascio  = (o.docComune && o.docStato) ? o.docComune + ' (' + o.docStato + ')' : (o.docComune || o.docStato || '');
+
+    var campi = [
+      { label: 'Data di nascita', value: o.dataNascita  },
+      { label: 'Luogo Nascita',   value: o.luogoNascita },
+      { label: 'Cittadinanza',    value: o.cittadinanza },
+      { label: 'Residenza',       value: stringaResidenza },
+      { label: 'Sesso',           value: o.sesso        },
+      { label: 'Tipo doc.',       value: o.tipoDoc      },
+      { label: 'NÂ° documento',    value: o.numeroDoc    },
+      { label: 'Rilascio doc.',   value: stringaRilascio }
+    ];
+
+    var fieldsHtml = campi.map(function(c) {
+      var v = c.value || '';
+      return '<div class="ospite-field"><span class="label">' + esc(c.label) + '</span><span class="value' + (!v ? ' empty' : '') + '">' + (v ? esc(v) : 'â') + '</span></div>';
+    }).join('');
+
+    var linkPrev = o.linkDoc ? esc(o.linkDoc).replace(/\/view.*/, '/preview') : '';
+    
+    var btnDoc = o.linkDoc 
+      ? '<button onclick="apriDocumento(\'' + linkPrev + '\')" class="btn-doc-mini" style="border:none; cursor:pointer;"><i class="fa-solid fa-id-card"></i> Vedi documento</button>' 
+      : '<div class="btn-doc-mini no-doc"><i class="fa-solid fa-circle-xmark"></i> Documento non ricevuto</div>';
+
+    return '<div class="ospite-card"><div class="ospite-header"><div class="ospite-avatar">' + esc(iniziali(o.nome, o.cognome)) + '</div><div style="flex:1;min-width:0;"><div class="ospite-nome">' + esc(o.nome) + ' ' + esc(o.cognome) + '</div><div class="ospite-ruolo">' + (isCapo ? 'Capogruppo' : 'Ospite ' + numero) + '</div></div><span class="doc-status ' + hDoc + '"><i class="fa-solid ' + iDoc + '"></i> ' + tDoc + '</span></div><div class="ospite-info">' + fieldsHtml + '</div>' + btnDoc + '</div>';
+  }
+
+  function renderPresenze(presenze) {
+    var el = document.getElementById('listaPresenze');
+    var oggi = new Date();
+    var meseCorr = oggi.getMonth(); var annoCorr = oggi.getFullYear();
+    var mesePrec = meseCorr - 1; var annoPrec = annoCorr;
+    if (mesePrec < 0) { mesePrec = 11; annoPrec--; }
+
+    _dettagliTassePrec = [];
+    _dettagliTasseCorr = [];
+
+    var totCorr = 0; var totPrec = 0;
+    var persCorr = 0; var nottiCorr = 0; var persPrec = 0; var nottiPrec = 0;
+    var pernCorr = 0; var pernPrec = 0;
+    var abbCorr = { tassa: 0, pers: 0, notti: 0 };
+    var abbPrec = { tassa: 0, pers: 0, notti: 0 };
+    var annoVersare = 0; var annoAirbnb = 0; var annoPers = 0; var annoNotti = 0;
+
+    function fmtEuro(n) { return 'â¬ ' + n.toFixed(2).replace('.', ','); }
+    function rigaSub(pern, pers, notti) {
+      return '<div class="widget-sub"><span><i class="fa-solid fa-bed"></i> ' + pern + (pern === 1 ? ' pernottamento' : ' pernottamenti') + ' tassabili</span></div>' +
+             '<div class="widget-sub" style="margin-top:3px;"><span><i class="fa-solid fa-user"></i> ' + pers + (pers === 1 ? ' ospite' : ' ospiti') + '</span><span><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span></div>';
     }
 
-    function datiIniziali(data) {
-      document.getElementById('loading').style.display = 'none';
-      if (data && data.sessioneScaduta) {
-        mostraLogin();
-        return;
-      }
-      if (data && data.errore) {
-        document.getElementById('listaPresenze').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><p>' + data.errore + '</p></div>';
-        return;
-      }
-      window._pulizieConfermate = data.pulizie || [];
-      renderPresenze(data.presenze);
-      renderCalendario(data.calendario);
+    function rigaAirbnb(dati) {
+      if (!dati || (dati.tassa === 0 && dati.pers === 0 && dati.notti === 0)) return '';
+      return '<div class="widget-airbnb"><span><i class="fa-brands fa-airbnb"></i> ' + fmtEuro(dati.tassa) + '</span>' +
+             '<span><i class="fa-solid fa-user"></i> ' + dati.pers + '</span>' +
+             '<span><i class="fa-solid fa-moon"></i> ' + dati.notti + '</span></div>';
+    }
+    function aggiornaPillAnnuale(anno, versare, airbnb, pers, notti) {
+      document.getElementById('lblTotale').textContent = 'Tasse annuali ' + anno;
+      document.getElementById('valTotale').textContent = fmtEuro(versare + airbnb);
+      document.getElementById('pillSplit').innerHTML =
+        '<span class="pill-chip chip-booking"><i class="fa-solid fa-hotel"></i> Booking ' + fmtEuro(versare) + '</span>' +
+        '<span class="pill-chip chip-airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb ' + fmtEuro(airbnb) + '</span>' +
+        '<span class="pill-chip"><i class="fa-solid fa-user"></i> ' + pers + '</span>' +
+        '<span class="pill-chip"><i class="fa-solid fa-moon"></i> ' + notti + (notti === 1 ? ' notte' : ' notti') + '</span>';
     }
 
-    // AVVIO
-    google.script.run.withSuccessHandler(datiIniziali).withFailureHandler(function(err){
-      document.getElementById('loading').style.display = 'none';
-      mostraToast('Errore connessione server.');
-    }).getDati();
+    if (!presenze || presenze.length === 0) {
+      el.innerHTML = '<div class="empty"><i class="fa-solid fa-inbox"></i><p>Nessun check-in trovato.</p></div>';
+      aggiornaPillAnnuale(annoCorr, 0, 0, 0, 0);
+      document.getElementById('tax-widget').innerHTML =
+        '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Da pagare ' + MESI_LUNGHI[mesePrec] + '</div><div class="widget-value">â¬ 0,00</div></div>' +
+        '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')"><div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Accumulo ' + MESI_LUNGHI[meseCorr] + '</div><div class="widget-value">â¬ 0,00</div></div>';
+      return;
+    }
 
-  </script>
+    var html = [];
+    presenze.forEach(function(p, idx) {
+      var nPersone = parseInt(p.ospitiConteggio) || (p.ospiti ? p.ospiti.length : 0);
+      var nNotti   = parseInt(p.notti) || 0;
+      var pagantiCard = parseInt(p.paganti) || 0;
+      var pernCard    = pagantiCard * nNotti;
+      var tipo = tipoPortale(p.portale);
+      var isAirbnb  = (tipo === 'airbnb');
+      var isBooking = (tipo === 'booking');
+
+      var ospiti = p.ospiti || [];
+      var nomeCapo = ospiti.length > 0 ? (ospiti[0].nome + ' ' + ospiti[0].cognome).trim() : ((p.nomiOspiti && p.nomiOspiti[0]) ? p.nomiOspiti[0] : 'Ospite');
+
+      var dataInizio = parsingData(p.data);
+      if (dataInizio) {
+        var m = dataInizio.getMonth(); var a = dataInizio.getFullYear();
+        
+        var dettaglioObj = { nome: nomeCapo, portale: p.portale, isAirbnb: isAirbnb, paganti: pagantiCard, notti: nNotti, pernottamenti: pernCard, tassa: (p.tassa || 0), tassaTeorica: (p.tassaTeorica || 0) };
+
+        if (a === annoCorr) {
+          if (isAirbnb) { annoAirbnb += (p.tassaTeorica || 0); annoPers += nPersone; annoNotti += nNotti; }
+          else if (isBooking) { annoVersare += (p.tassa || 0); annoPers += nPersone; annoNotti += nNotti; }
+        }
+        if (m === meseCorr && a === annoCorr) {
+          if (isAirbnb) { abbCorr.tassa += (p.tassaTeorica || 0); abbCorr.pers += nPersone; abbCorr.notti += nNotti; _dettagliTasseCorr.push(dettaglioObj); }
+          else if (isBooking) { totCorr += (p.tassa || 0); persCorr += nPersone; nottiCorr += nNotti; pernCorr += pernCard; _dettagliTasseCorr.push(dettaglioObj); }
+        }
+        if (m === mesePrec && a === annoPrec) {
+          if (isAirbnb) { abbPrec.tassa += (p.tassaTeorica || 0); abbPrec.pers += nPersone; abbPrec.notti += nNotti; _dettagliTassePrec.push(dettaglioObj); }
+          else if (isBooking) { totPrec += (p.tassa || 0); persPrec += nPersone; nottiPrec += nNotti; pernPrec += pernCard; _dettagliTassePrec.push(dettaglioObj); }
+        }
+      }
+
+      var bc = tipo === 'airbnb' ? 'badge-airbnb' : tipo === 'booking' ? 'badge-booking' : 'badge-altro';
+      var dataFine = new Date(dataInizio.getTime());
+      dataFine.setDate(dataFine.getDate() + parseInt(p.notti || 0)); dataFine.setHours(10, 0, 0, 0);
+      var passato = oggi > dataFine;
+      var badgePass = passato ? '<span class="badge badge-passato"><i class="fa-solid fa-clock-rotate-left"></i> Passato</span>' : '';
+
+      var badgeAlloggiati = ''; var awBlocco = '';
+      if (p.alloggiati) {
+        badgeAlloggiati = '<span class="badge badge-censito" id="aw-badge-' + p.riga + '"><i class="fa-solid fa-circle-check"></i> Censito</span>';
+      } else if (!passato) {
+        badgeAlloggiati = '<span class="badge badge-dainviare" id="aw-badge-' + p.riga + '"><i class="fa-solid fa-hourglass-half"></i> Da inviare</span>';
+        var nomeJs = esc(nomeCapo).replace(/'/g, "\\'");
+        awBlocco = '<div class="aw-azioni" id="aw-box-' + p.riga + '"><button class="btn-controlla" id="aw-check-' + p.riga + '" onclick="controllaQuestura(' + p.riga + ', \'' + nomeJs + '\')"><i class="fa-solid fa-magnifying-glass"></i> Controlla schedine</button><div class="aw-esiti" id="aw-esiti-' + p.riga + '" style="display:none;"></div><div id="aw-invio-' + p.riga + '"></div></div>';
+      }
+
+      var docRicevuti = ospiti.filter(function(o) { return o.linkDoc; }).length;
+      var totOspiti = ospiti.length;
+      var docLabel = totOspiti > 0 ? docRicevuti + '/' + totOspiti + ' doc' : '';
+      var docColor = (totOspiti > 0 && docRicevuti === totOspiti) ? 'color:var(--success)' : 'color:var(--danger)';
+      var labelBtn = totOspiti > 1 ? 'Vedi ' + totOspiti + ' ospiti' : 'Vedi dettagli ospite';
+      var ospitiHtml = ospiti.map(function(o, gi) { return renderOspite(o, gi + 1, gi === 0); }).join('');
+      var docCounterHtml = totOspiti > 0 ? ' <span style="' + docColor + ';font-size:11px;margin-left:4px;">(' + docLabel + ')</span>' : '';
+
+      var calcTassaHtml = '';
+
+      html.push('<div class="card' + (passato ? ' is-passato' : '') + '"><div class="card-top"><div class="guest-name">' + esc(nomeCapo) + '</div><div class="badges">' + badgePass + badgeAlloggiati + '<span class="badge ' + bc + '">' + esc(p.portale) + '</span></div></div><div class="details-grid"><div class="detail-item"><i class="fa-solid fa-calendar-day"></i>' + esc(p.data) + '</div><div class="detail-item"><i class="fa-solid fa-moon"></i>' + p.notti + ' notti</div><div class="detail-item"><i class="fa-solid fa-user-plus"></i>' + (p.ospitiConteggio || totOspiti) + ' ospiti</div><div class="detail-item red"><i class="fa-solid fa-coins"></i>â¬ ' + (p.tassa||0).toFixed(2) + '</div></div>' + calcTassaHtml + '<button class="btn-dettagli" id="btn-det-' + idx + '"onclick="toggleDettagli(' + idx + ')"><span><i class="fa-solid fa-users" style="margin-right:6px;"></i>' + esc(labelBtn) + docCounterHtml + '</span><i class="fa-solid fa-chevron-down arrow"></i></button><div class="ospiti-panel" id="panel-' + idx + '"><div class="ospiti-lista">' + ospitiHtml + '</div></div>' + awBlocco + '</div>');
+    });
+
+    el.innerHTML = html.join('');
+
+    aggiornaPillAnnuale(annoCorr, annoVersare, annoAirbnb, annoPers, annoNotti);
+    
+    document.getElementById('tax-widget').innerHTML =
+      '<div class="widget-box alert" onclick="apriDettaglioTasse(\'prec\')">' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Da pagare ' + MESI_LUNGHI[mesePrec] + '</div>' +
+        '<div class="widget-value">' + fmtEuro(totPrec) + '</div>' +
+        rigaSub(pernPrec, persPrec, nottiPrec) +
+        rigaAirbnb(abbPrec) +
+      '</div>' +
+      '<div class="widget-box" onclick="apriDettaglioTasse(\'corr\')">' +
+        '<div class="widget-label"><i class="fa-solid fa-hotel"></i> Booking Â· Accumulo ' + MESI_LUNGHI[meseCorr] + '</div>' +
+        '<div class="widget-value">' + fmtEuro(totCorr) + '</div>' +
+        rigaSub(pernCorr, persCorr, nottiCorr) +
+        rigaAirbnb(abbCorr) +
+      '</div>';
+  }
+
+  function renderCalendario(calendario) {
+    var el = document.getElementById('listaCalendario');
+    if (!calendario || calendario.length === 0) {
+      el.innerHTML = '<div class="empty"><i class="fa-solid fa-calendar-xmark"></i><p>Nessuna prenotazione futura.</p></div>';
+      return;
+    }
+
+    var html = [];
+    var ultimoMese = null;
+
+    calendario.forEach(function(c) {
+      var parti = (c.checkIn || '').split('/');
+      var giorno = parti[0] || '??';
+      var mIdx = parti[1] ? parseInt(parti[1]) - 1 : 0;
+      var anno = parti[2] || '';
+      var chiave = anno + '-' + mIdx;
+      var tipo = tipoPortale(c.portale);
+      var isPriv = tipo === 'privato';
+      var partiOut = (c.checkOut || '').split('/');
+      var giornoOut = partiOut[0] || '??';
+      var mIdxOut = partiOut[1] ? parseInt(partiOut[1]) - 1 : mIdx;
+      var rangeGg = giorno + 'â' + giornoOut;
+
+      var dateHtml;
+      if (mIdx === mIdxOut) {
+        dateHtml = '<div class="cal-day">' + esc(rangeGg) + '</div><div class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</div>';
+      } else {
+        dateHtml = '<div class="cal-dline"><span class="cal-day">' + giorno + '</span><span class="cal-month">' + (MESI_BREVI[mIdx]||'') + '</span></div>' +
+                   '<div class="cal-arrow-v">â</div>' +
+                   '<div class="cal-dline"><span class="cal-day cal-day-out">' + giornoOut + '</span><span class="cal-month cal-month-out">' + (MESI_BREVI[mIdxOut]||'') + '</span></div>';
+      }
+
+      if (chiave !== ultimoMese) {
+        html.push('<div class="month-sep">' + (MESI_LUNGHI[mIdx]||'') + ' ' + anno + '</div>');
+        ultimoMese = chiave;
+      }
+
+      var titolo = esc(c.titolo || '');
+      if (!isPriv) {
+        var tUp = (c.titolo || '').toUpperCase().trim();
+        if (tUp === '' || tUp === 'RESERVED') titolo = 'Prenotazione ' + esc(c.portale);
+      }
+
+      var portalLabel = isPriv ? 'Blocco privato' : esc(c.portale);
+      var chipCls = 'chip-' + tipo;
+      var iconCls = isPriv ? 'fa-solid fa-lock' : tipo === 'airbnb' ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel';
+
+      var btnNome = '';
+      if (isPriv && !c.haNome) {
+        btnNome = '<button class="btn-nome" onclick="apriModaleNomeEsistente(\'' + esc(c.checkIn) + '\',\'' + esc(c.checkOut) + '\',' + (c.notti||0) + ')"><i class="fa-solid fa-tag"></i> Dai un nomeâ¦</button>';
+      }
+
+      var btnLink = '';
+      if (c.url) btnLink = '<a href="' + esc(c.url) + '" target="_blank" class="btn-link-portale" title="Apri su Airbnb/Booking"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>';
+
+      var numOspitiText = c.ospiti ? c.ospiti : '?';
+      var ospitiBadge = '<span class="ospiti-badge" onclick="apriModaleOspiti(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(numOspitiText) + '\')" title="Modifica ospiti"><i class="fa-solid fa-users"></i> ' + esc(numOspitiText) + '</span>';
+
+      var statoPulizia = 'none';
+      for (var pz = 0; pz < window._pulizieConfermate.length; pz++) {
+        if (window._pulizieConfermate[pz].data === c.checkOut) {
+          statoPulizia = window._pulizieConfermate[pz].stato || 'none';
+          break;
+        }
+      }
+
+      var pulClass = 'ko'; var pulIcon = 'fa-solid fa-broom'; var pulText = 'Fissa Pulizia';
+      if (statoPulizia === 'Staff') { pulClass = 'staff'; pulIcon = 'fa-solid fa-sparkles'; pulText = 'Staff Fissato'; }
+      else if (statoPulizia === 'Olli') { pulClass = 'olli'; pulIcon = 'fa-solid fa-hand-sparkles'; pulText = 'Tocca a te'; }
+
+      var btnPulizia = '<button class="btn-pulizia ' + pulClass + '" onclick="clickPulizia(\'' + esc(c.checkOut) + '\', \'' + statoPulizia + '\', \'' + esc(numOspitiText) + '\', this)"><i class="' + pulIcon + '"></i> ' + pulText + '</button>';
+
+      var btnElimina = isPriv ? '<button class="btn-trash" onclick="chiediEliminaBlocco(\'' + esc(c.checkIn) + '\', \'' + esc(c.checkOut) + '\', \'' + esc(c.titolo) + '\')" title="Elimina blocco"><i class="fa-solid fa-trash-can"></i></button>' : '';
+
+      html.push('<div class="cal-card type-' + tipo + '"><div class="cal-date">' + dateHtml + '</div><div class="cal-divider"></div><div class="cal-body"><span class="cal-chip ' + chipCls + '"><i class="' + iconCls + '"></i> ' + portalLabel + '</span><div class="cal-title">' + titolo + btnLink + ospitiBadge + '</div><div class="cal-footer"><span><i class="fa-solid fa-moon"></i>' + (c.notti||0) + ' notti</span><span><i class="fa-solid fa-right-from-bracket"></i>Out: ' + esc(c.checkOut) + '</span>' + btnPulizia + btnElimina + '</div>' + btnNome + '</div></div>');
+    });
+
+    el.innerHTML = html.join('');
+  }
+
+  function mostraToast(msg) { 
+    var t = document.getElementById('toast'); 
+    t.textContent = msg; 
+    t.classList.add('show'); 
+    setTimeout(function() { t.classList.remove('show'); }, 2800); 
+  }
+
+  function ricaricaCalendario() {
+    chiamaAPI('getAppData')
+      .then(data => {
+        if (data && data.sessioneScaduta) { mostraLogin(); return; }
+        if (data.errore) { mostraToast("â ï¸ Errore: " + data.errore); return; }
+        window._pulizieConfermate = data.pulizie || [];
+        renderCalendario(data.calendario);
+      })
+      .catch(err => mostraToast("â ï¸ Errore di rete: " + (err.message || "")));
+  }
+
+  window.onload = function() {
+    document.getElementById('loading').style.display = 'none';
+  };
+
+  function avviaApp() {
+    document.getElementById('loading').style.display = 'flex';
+    
+    chiamaAPI('getAppData')
+      .then(data => {
+        document.getElementById('loading').style.display = 'none';
+        if (data && data.sessioneScaduta) { mostraLogin(); return; }
+        if (data.errore) {
+          var msg = '<div class="error-box"><b>â ï¸ Errore di sistema</b>' + esc(data.errore) + '</div>';
+          document.getElementById('listaPresenze').innerHTML = msg; document.getElementById('listaCalendario').innerHTML = msg;
+          return;
+        }
+        window._pulizieConfermate = data.pulizie || [];
+        renderPresenze(data.presenze);
+        renderCalendario(data.calendario);
+      })
+      .catch(err => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('listaPresenze').innerHTML = '<div class="error-box"><b>â ï¸ Errore di connessione</b>' + esc(err.message) + '</div>';
+      });
+  }
+
+ function apriDettaglioTasse(tipoMese) {
+  var lista = (tipoMese === 'prec') ? _dettagliTassePrec : _dettagliTasseCorr;
+  document.getElementById('titoloModalTasse').innerHTML = (tipoMese === 'prec') ? '<i class="fa-solid fa-calendar-minus" style="color:var(--danger)"></i> Mese Scorso' : '<i class="fa-solid fa-calendar-day" style="color:var(--lilla)"></i> Mese Corrente';
+
+  var html = '';
+  var booking = { ospiti: 0, pern: 0, totale: 0 };
+  var airbnb = { ospiti: 0, pern: 0, totale: 0 };
+
+  if (lista.length === 0) {
+    html = '<div class="empty" style="padding: 30px;"><p>Nessun check-in in questo mese.</p></div>';
+  } else {
+    html += '<table style="width:100%; border-collapse: collapse; font-size: 13px;">';
+    lista.forEach(function(item) {
+      var isAbnb = item.isAirbnb;
+
+      if (isAbnb) {
+        airbnb.ospiti += item.paganti;
+        airbnb.pern += item.pernottamenti;
+        airbnb.totale += (item.tassaTeorica || 0);
+      } else {
+        booking.ospiti += item.paganti;
+        booking.pern += item.pernottamenti;
+        booking.totale += item.tassa;
+      }
+
+      var tassaRiga = isAbnb ? (item.tassaTeorica || 0) : (item.tassa || 0);
+
+      html += '<tr style="border-bottom: 1px solid var(--border);' + (isAbnb ? ' background: #faf9fe;' : '') + '">';
+      html += '<td style="padding: 12px 10px;"><b>' + esc(item.nome) + '</b><br><span style="font-size:11px; font-weight:600;"><i class="' + (isAbnb ? 'fa-brands fa-airbnb' : 'fa-solid fa-hotel') + '"></i> ' + esc(item.portale) + '</span></td>';
+      html += '<td style="padding: 12px 10px; text-align:center;">' + item.paganti + ' paganti<br>Ã ' + item.notti + ' notti<br><b>=' + item.pernottamenti + ' pern.</b></td>';
+      html += '<td style="padding: 12px 10px; text-align:right; font-weight:bold;">â¬ ' + tassaRiga.toFixed(2) + '</td>';
+      html += '</tr>';
+    });
+    html += '</table>';
+
+    function creaBox(titolo, dati, colore, labelTotale) {
+      var s = '<div style="margin: 15px 0; padding: 15px; border-radius: 12px; border: 1.5px dashed ' + colore + '; color: ' + colore + '; background: #fffcfc;">';
+      s += '<div style="font-size:11px; font-weight:800; margin-bottom:8px; text-transform:uppercase;">' + titolo + '</div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Totale Ospiti Paganti:</span> <b>' + dati.ospiti + '</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Pernottamenti Tassabili:</span> <b>' + dati.pern + '</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; margin-bottom: 4px;"><span>Tariffa applicata:</span> <b>â¬ 6,00</b></div>';
+      s += '<div style="display:flex; justify-content:space-between; border-top:1px solid ' + colore + '; padding-top:8px; margin-top:8px;"><span>' + (labelTotale || 'Totale da versare:') + '</span> <b style="font-size: 18px;">â¬ ' + dati.totale.toFixed(2).replace('.', ',') + '</b></div>';
+      s += '</div>';
+      return s;
+    }
+
+    html += creaBox('Dati per il Portale: BOOKING', booking, '#003580');
+    html += creaBox('Dati per il Portale: AIRBNB', airbnb, '#ff5a5f', 'GiÃ  pagato da Airbnb:');
+  }
+
+  document.getElementById('listaDettaglioTasse').innerHTML = html;
+  document.getElementById('modalDettaglioTasse').classList.add('show');
+}
+
+  function eseguiRefresh(onComplete) {
+    chiamaAPI('getAppData')
+      .then(data => {
+        if (data && data.sessioneScaduta) { if (onComplete) onComplete(); mostraLogin(); return; }
+        if (data && !data.errore) {
+          window._pulizieConfermate = data.pulizie || [];
+          renderPresenze(data.presenze);
+          renderCalendario(data.calendario);
+          mostraToast('â Aggiornato');
+        } else if (data && data.errore) { mostraToast('â ï¸ ' + data.errore); }
+        if (onComplete) onComplete();
+      }).catch(err => {
+        mostraToast('â ï¸ Errore di rete');
+        if (onComplete) onComplete();
+      });
+  }
+
+  (function() {
+    var indicator = document.getElementById('ptrIndicator'); var icon = document.getElementById('ptrIcon');
+    if (!indicator || !icon) return;
+    var SOGLIA = 70; var MAX = 120; var startY = 0; var dist = 0; var pulling = false; var refreshing = false;
+
+    function inCima() { return (window.pageYOffset || document.documentElement.scrollTop || 0) <= 0; }
+    function bloccato() { if (document.querySelector('.modal-overlay.show')) return true; var ov = document.getElementById('loginOverlay'); if (ov && ov.style.display !== 'none') return true; return false; }
+    function disegna(d) { var p = d < SOGLIA ? d : SOGLIA + (d - SOGLIA) * 0.4; if (p > MAX) p = MAX; indicator.style.transform = 'translate(-50%,' + (p * 0.6) + 'px)'; indicator.style.opacity = Math.min(1, d / SOGLIA); icon.style.transform = 'rotate(' + (d * 2.6) + 'deg)'; if (d >= SOGLIA) indicator.classList.add('ready'); else indicator.classList.remove('ready'); }
+    function nascondi(animato) { indicator.style.transition = animato ? 'transform .3s ease, opacity .3s ease' : 'none'; indicator.style.transform = 'translate(-50%,-64px)'; indicator.style.opacity = '0'; indicator.classList.remove('ready', 'spinning'); icon.style.transform = ''; }
+    function aggiorna() { refreshing = true; indicator.style.transition = 'transform .3s ease, opacity .3s ease'; indicator.style.transform = 'translate(-50%,42px)'; indicator.style.opacity = '1'; indicator.classList.remove('ready'); indicator.classList.add('spinning'); eseguiRefresh(function() { refreshing = false; nascondi(true); }); }
+
+    document.addEventListener('touchstart', function(e) { if (refreshing) return; if (!inCima() || bloccato()) { pulling = false; return; } startY = e.touches[0].clientY; dist = 0; pulling = true; indicator.style.transition = 'none'; }, { passive: true });
+    document.addEventListener('touchmove', function(e) { if (refreshing || !pulling) return; if (!inCima()) { pulling = false; nascondi(false); return; } dist = e.touches[0].clientY - startY; if (dist > 0) { e.preventDefault(); disegna(dist); } else { dist = 0; indicator.style.opacity = '0'; } }, { passive: false });
+    function fine() { if (refreshing || !pulling) return; pulling = false; if (dist >= SOGLIA) aggiorna(); else nascondi(true); }
+    document.addEventListener('touchend', fine); document.addEventListener('touchcancel', fine);
+  })();
+</script>
+
 </body>
 </html>
